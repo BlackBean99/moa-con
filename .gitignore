@@ -60,3 +60,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Local scripts and environments
+start-script.sh
+start.py
+path/to/venv/
+.env*
