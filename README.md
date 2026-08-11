@@ -28,3 +28,22 @@ streaming response.
 Codex Pro/ChatGPT authentication is separate from an OpenAI API key. Do not
 put the Pro credential in `.env.local`; authenticate the CLI with `codex login`.
 `.env.local` is ignored by Git.
+
+## GifticonCollector iOS scaffold
+
+The native iOS scaffold lives in `GifticonCollector/` and targets iOS 17+ with
+Swift 6, SwiftUI, Photos/PhotosUI, Vision, SwiftData, and BackgroundTasks.
+
+```sh
+xcodegen generate
+xcodebuild -project GifticonCollector.xcodeproj \
+  -scheme GifticonCollector \
+  -sdk iphonesimulator \
+  -configuration Debug \
+  CODE_SIGNING_ALLOWED=NO build
+```
+
+The app performs OCR, barcode detection, classification, parsing, and storage
+on-device. See `PrivacyPolicy.md` for the privacy and pre-release verification
+checklist. Brand dictionaries, incremental scan checkpoints, and the real
+device accuracy benchmark remain explicit TODOs for the PoC phase.

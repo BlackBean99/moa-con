@@ -1,0 +1,41 @@
+name: GifticonCollector
+options:
+  bundleIdPrefix: com.yourteam
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    DEVELOPMENT_TEAM: ""
+    TARGETED_DEVICE_FAMILY: "1,2"
+    SUPPORTS_MACCATALYST: false
+targets:
+  GifticonCollector:
+    type: application
+    platform: iOS
+    sources:
+      - path: GifticonCollector
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourteam.gifticoncollector
+        PRODUCT_NAME: GifticonCollector
+        INFOPLIST_FILE: GifticonCollector/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: GifticonCollector/Resources/GifticonCollector.entitlements
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: false
+    scheme:
+      testTargets:
+        - GifticonCollectorTests
+  GifticonCollectorTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: GifticonCollectorTests
+    dependencies:
+      - target: GifticonCollector
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourteam.gifticoncollector.tests
+        GENERATE_INFOPLIST_FILE: true
