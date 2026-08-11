@@ -47,3 +47,6 @@ The app performs OCR, barcode detection, classification, parsing, and storage
 on-device. See `PrivacyPolicy.md` for the privacy and pre-release verification
 checklist. Brand dictionaries, incremental scan checkpoints, and the real
 device accuracy benchmark remain explicit TODOs for the PoC phase.
+
+실제 iPhone 연결·서명·설치와 기능 검증 절차는
+[`docs/DEVICE_TESTING.md`](docs/DEVICE_TESTING.md)를 참고하세요.
