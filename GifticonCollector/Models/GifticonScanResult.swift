@@ -12,5 +12,6 @@ struct ParsedGifticon: Sendable, Equatable {
     let title: String
     let barcodeNumber: String?
     let expiryDate: Date?
+    let amount: Double?
     let confidence: Double
 }

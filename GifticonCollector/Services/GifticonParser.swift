@@ -4,6 +4,9 @@ struct GifticonParser: Sendable {
     private let classifier = GifticonClassifier()
 
     func parse(text: String, barcodeValues: [String]) -> ParsedGifticon? {
+        guard let rawBarcode = barcodeValues.first else { return nil }
+        let barcode = Self.normalizeBarcode(rawBarcode)
+        guard !barcode.isEmpty else { return nil }
         let classification = classifier.classify(text: text, barcodeValues: barcodeValues)
         guard classification.isLikelyGifticon else { return nil }
 
@@ -11,15 +14,20 @@ struct GifticonParser: Sendable {
         let brand = parseBrand(from: lines)
         let title = parseTitle(from: lines, excluding: brand)
         let expiryDate = parseExpiryDate(from: text)
-        let barcode = barcodeValues.first ?? parseBarcode(from: text)
+        let amount = parseAmount(from: text)
 
         return ParsedGifticon(
             brand: brand,
             title: title,
             barcodeNumber: barcode,
             expiryDate: expiryDate,
+            amount: amount,
             confidence: classification.confidence
         )
+    }
+
+    static func normalizeBarcode(_ value: String) -> String {
+        value.filter { $0.isLetter || $0.isNumber }
     }
 
     private func parseBrand(from lines: [String]) -> String {
@@ -35,10 +43,11 @@ struct GifticonParser: Sendable {
         } ?? "상품명 미상"
     }
 
-    private func parseBarcode(from text: String) -> String? {
-        // Keep this parser compatible with Swift Regex toolchains that lack lookbehind.
-        let digitRuns = text.split(whereSeparator: { !$0.isNumber }).map(String.init)
-        return digitRuns.first(where: { (8...20).contains($0.count) })
+    private func parseAmount(from text: String) -> Double? {
+        let pattern = #"(?:₩|￦)?\s?([0-9]{1,3}(?:,[0-9]{3})*)\s?원"#
+        guard let match = text.range(of: pattern, options: .regularExpression) else { return nil }
+        let raw = String(text[match]).filter { $0.isNumber }
+        return Double(raw)
     }
 
     private func parseExpiryDate(from text: String) -> Date? {

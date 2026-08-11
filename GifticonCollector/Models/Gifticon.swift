@@ -10,6 +10,9 @@ final class Gifticon {
     var expiryDate: Date?
     var assetLocalIdentifier: String
     var isUsed: Bool
+    var originalAmount: Double?
+    var remainingAmount: Double?
+    var allowsPartialRedemption: Bool
     var createdAt: Date
 
     init(
@@ -20,6 +23,9 @@ final class Gifticon {
         expiryDate: Date? = nil,
         assetLocalIdentifier: String,
         isUsed: Bool = false,
+        originalAmount: Double? = nil,
+        remainingAmount: Double? = nil,
+        allowsPartialRedemption: Bool = false,
         createdAt: Date = .now
     ) {
         self.id = id
@@ -29,6 +35,9 @@ final class Gifticon {
         self.expiryDate = expiryDate
         self.assetLocalIdentifier = assetLocalIdentifier
         self.isUsed = isUsed
+        self.originalAmount = originalAmount
+        self.remainingAmount = remainingAmount ?? originalAmount
+        self.allowsPartialRedemption = allowsPartialRedemption
         self.createdAt = createdAt
     }
 }

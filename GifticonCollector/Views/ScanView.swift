@@ -19,8 +19,13 @@ struct ScanView: View {
                 if viewModel.isScanning {
                     ProgressView(value: Double(viewModel.processedCount), total: Double(max(viewModel.totalCount, 1)))
                         .padding(.horizontal)
-                    Text("사진을 분석하고 있어요… \(viewModel.processedCount)/\(viewModel.totalCount)")
+                    Text("바코드 후보를 찾거나 OCR 중이에요… \(viewModel.processedCount)/\(viewModel.totalCount)")
                         .foregroundStyle(.secondary)
+                    if viewModel.candidateCount > 0 {
+                        Text("OCR 대상 후보 \(viewModel.candidateCount)장")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 } else {
                     Image(systemName: "wand.and.stars")
                         .font(.system(size: 48))

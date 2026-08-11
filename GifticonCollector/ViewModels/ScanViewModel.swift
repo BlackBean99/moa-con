@@ -7,6 +7,7 @@ final class ScanViewModel: ObservableObject {
     @Published private(set) var isScanning = false
     @Published private(set) var processedCount = 0
     @Published private(set) var totalCount = 0
+    @Published private(set) var candidateCount = 0
     @Published var errorMessage: String?
 
     private let photoLibraryService: PhotoLibraryService
@@ -14,10 +15,12 @@ final class ScanViewModel: ObservableObject {
     private let classifier = GifticonClassifier()
     private let parser = GifticonParser()
     private let persistenceService: PersistenceService
+    private let candidateService: BarcodeCandidateService
 
     init(photoLibraryService: PhotoLibraryService, modelContext: ModelContext) {
         self.photoLibraryService = photoLibraryService
         persistenceService = PersistenceService(modelContext: modelContext)
+        candidateService = BarcodeCandidateService(photoLibraryService: photoLibraryService)
     }
 
     func scanAll() async {
@@ -28,14 +31,22 @@ final class ScanViewModel: ObservableObject {
         let assets = photoLibraryService.fetchImageAssets()
         totalCount = assets.count
 
-        for index in 0..<assets.count {
+        let candidates = await candidateService.findCandidates(in: assets) { [weak self] processed in
+            self?.processedCount = processed
+        }
+        candidateCount = candidates.count
+        processedCount = 0
+        totalCount = candidates.count
+
+        for index in 0..<candidates.count {
             if Task.isCancelled { break }
-            let asset = assets.object(at: index)
+            let candidate = candidates[index]
+            let asset = candidate.asset
             do {
                 let image = try await photoLibraryService.loadCGImage(for: asset)
-                let result = try await ocrService.recognize(from: image)
-                if classifier.classify(text: result.text, barcodeValues: result.barcodeValues).isLikelyGifticon,
-                   let parsed = parser.parse(text: result.text, barcodeValues: result.barcodeValues) {
+                let text = try await ocrService.recognizeText(from: image)
+                if classifier.classify(text: text, barcodeValues: candidate.barcodeValues).isLikelyGifticon,
+                   let parsed = parser.parse(text: text, barcodeValues: candidate.barcodeValues) {
                     _ = try persistenceService.save(parsed: parsed, assetLocalIdentifier: asset.localIdentifier)
                 }
             } catch {

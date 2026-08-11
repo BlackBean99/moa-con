@@ -26,7 +26,11 @@ struct GifticonListView: View {
                     .listRowBackground(Color.clear)
                 } else {
                     ForEach(gifticons) { gifticon in
-                        GifticonRow(gifticon: gifticon)
+                        NavigationLink {
+                            GifticonDetailView(gifticon: gifticon)
+                        } label: {
+                            GifticonRow(gifticon: gifticon)
+                        }
                     }
                 }
             }

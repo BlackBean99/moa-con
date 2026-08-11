@@ -68,8 +68,13 @@ struct ManualImportView: View {
                 return
             }
 
-            let result = try await ocrService.recognize(from: cgImage)
-            guard let parsed = parser.parse(text: result.text, barcodeValues: result.barcodeValues) else {
+            let barcodes = try await ocrService.detectBarcodes(from: cgImage)
+            guard !barcodes.isEmpty else {
+                message = "바코드가 있는 기프트콘 사진만 등록할 수 있습니다."
+                return
+            }
+            let text = try await ocrService.recognizeText(from: cgImage)
+            guard let parsed = parser.parse(text: text, barcodeValues: barcodes) else {
                 message = "기프트콘으로 인식할 수 있는 정보를 찾지 못했습니다."
                 return
             }
@@ -79,7 +84,7 @@ struct ManualImportView: View {
                 parsed: parsed,
                 assetLocalIdentifier: "manual-\(UUID().uuidString)"
             )
-            message = "기프트콘을 등록했습니다."
+            message = "기프트콘을 등록했습니다. 같은 바코드가 있으면 기존 항목을 유지합니다."
         } catch {
             message = "사진 인식에 실패했습니다. 다시 시도해 주세요."
         }

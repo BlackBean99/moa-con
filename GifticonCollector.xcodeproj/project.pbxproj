@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */; };
 		6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */; };
 		6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76E830C949E75CD825CA9FE /* ScanView.swift */; };
 		7DEF808C9B685081765FC140 /* ManualImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */; };
@@ -18,11 +19,13 @@
 		AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C352498F8FF331235689437E /* GifticonScanResult.swift */; };
 		B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */; };
 		B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF0DFA3A74621034ED948A3 /* Gifticon.swift */; };
+		C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */; };
 		CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7412033B11880B1F583F9DB /* GifticonListView.swift */; };
 		D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */; };
 		DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */; };
 		E43750D18182F895A28F377A /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AE6FDBF8010523D57E0A /* OCRService.swift */; };
 		ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */; };
+		F52844AF34EFD16E92F40719 /* GifticonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,12 +42,14 @@
 		04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualImportView.swift; sourceTree = "<group>"; };
 		0A46BB7805092E24433C319F /* GifticonCollector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GifticonCollector.entitlements; sourceTree = "<group>"; };
 		0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeCandidateService.swift; sourceTree = "<group>"; };
 		27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParserTests.swift; sourceTree = "<group>"; };
 		2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4B8BE3222307D08BACF3805F /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParser.swift; sourceTree = "<group>"; };
 		5912A0AF3C58423CDE40C371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6F3D718BA1374A70A74C1F87 /* GifticonCollectorTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceServiceTests.swift; sourceTree = "<group>"; };
 		9732AE6FDBF8010523D57E0A /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		9DFAFC65C12D591D9163EACE /* GifticonCollector.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GifticonCollector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7412033B11880B1F583F9DB /* GifticonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonListView.swift; sourceTree = "<group>"; };
@@ -53,6 +58,7 @@
 		CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonCollectorApp.swift; sourceTree = "<group>"; };
 		DD6DCD723D19633CA221238B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonDetailView.swift; sourceTree = "<group>"; };
 		F76E830C949E75CD825CA9FE /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundScanCoordinator.swift; sourceTree = "<group>"; };
 		FBF0DFA3A74621034ED948A3 /* Gifticon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gifticon.swift; sourceTree = "<group>"; };
@@ -72,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */,
+				7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */,
 			);
 			path = GifticonCollectorTests;
 			sourceTree = "<group>";
@@ -88,6 +95,7 @@
 		6E4AED3AB4CCE9B289180FB3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */,
 				A7412033B11880B1F583F9DB /* GifticonListView.swift */,
 				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
 				2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */,
@@ -126,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */,
+				0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */,
 				AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */,
 				4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */,
 				9732AE6FDBF8010523D57E0A /* OCRService.swift */,
@@ -205,10 +214,10 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					582CF7C2E9AE23003F3C463D = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 2N2W3H99B2;
 					};
 					E63A7FFCC5A000E71773AC35 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 2N2W3H99B2;
 					};
 				};
 			};
@@ -238,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9932CE142B101A65394DDD04 /* GifticonParserTests.swift in Sources */,
+				C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,9 +257,11 @@
 			files = (
 				A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */,
 				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
+				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
 				B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */,
 				6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */,
 				AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */,
+				F52844AF34EFD16E92F40719 /* GifticonDetailView.swift in Sources */,
 				CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */,
 				AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */,
 				AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */,
@@ -309,7 +321,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2N2W3H99B2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -375,7 +387,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2N2W3H99B2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

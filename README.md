@@ -50,3 +50,6 @@ device accuracy benchmark remain explicit TODOs for the PoC phase.
 
 실제 iPhone 연결·서명·설치와 기능 검증 절차는
 [`docs/DEVICE_TESTING.md`](docs/DEVICE_TESTING.md)를 참고하세요.
+
+바코드 우선 선별, 중복 방지, 잔액 추적의 결정 배경은
+[`docs/decisions/0001-barcode-first-archive.md`](docs/decisions/0001-barcode-first-archive.md)에 기록되어 있습니다.
