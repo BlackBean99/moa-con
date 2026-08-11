@@ -22,6 +22,7 @@ struct RootView: View {
         }
         .task {
             photoLibraryService.refreshAuthorizationStatus()
+            await SharedImportService(modelContext: modelContext).processPending()
         }
     }
 }

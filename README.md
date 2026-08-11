@@ -53,3 +53,6 @@ device accuracy benchmark remain explicit TODOs for the PoC phase.
 
 바코드 우선 선별, 중복 방지, 잔액 추적의 결정 배경은
 [`docs/decisions/0001-barcode-first-archive.md`](docs/decisions/0001-barcode-first-archive.md)에 기록되어 있습니다.
+
+문자 첨부 이미지의 명시적 공유 가져오기 절차는
+[`docs/MESSAGE_ATTACHMENT_IMPORT.md`](docs/MESSAGE_ATTACHMENT_IMPORT.md)를 참고하세요.

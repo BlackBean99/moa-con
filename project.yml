@@ -25,6 +25,8 @@ targets:
         CODE_SIGN_ENTITLEMENTS: GifticonCollector/Resources/GifticonCollector.entitlements
         SWIFT_STRICT_CONCURRENCY: complete
         GENERATE_INFOPLIST_FILE: false
+    dependencies:
+      - target: GifticonCollectorShare
     scheme:
       testTargets:
         - GifticonCollectorTests
@@ -39,3 +41,16 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.yourteam.gifticoncollector.tests
         GENERATE_INFOPLIST_FILE: true
+  GifticonCollectorShare:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: GifticonCollectorShare
+      - path: GifticonCollector/Services/SharedImageInbox.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourteam.gifticoncollector.share
+        INFOPLIST_FILE: GifticonCollectorShare/Info.plist
+        CODE_SIGN_ENTITLEMENTS: GifticonCollector/Resources/GifticonCollectorShare.entitlements
+        SWIFT_VERSION: 6.0
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"

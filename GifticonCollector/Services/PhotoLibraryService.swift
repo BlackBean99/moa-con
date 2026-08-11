@@ -67,6 +67,13 @@ final class PhotoLibraryService: NSObject, ObservableObject {
     func loadUIImage(for asset: PHAsset, targetSize: CGSize) async throws -> UIImage {
         UIImage(cgImage: try await loadCGImage(for: asset, targetSize: targetSize))
     }
+
+    func loadSharedUIImage(filename: String) throws -> UIImage {
+        guard let url = SharedImageInbox.url(for: filename), let image = UIImage(contentsOfFile: url.path) else {
+            throw PhotoLibraryError.imageUnavailable
+        }
+        return image
+    }
 }
 
 extension PhotoLibraryService: PHPhotoLibraryChangeObserver {

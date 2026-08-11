@@ -187,6 +187,10 @@ private struct GifticonPhotoView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .clipped()
         .task {
+            if gifticon.assetLocalIdentifier.hasPrefix("shared:") {
+                image = try? photoLibraryService.loadSharedUIImage(filename: String(gifticon.assetLocalIdentifier.dropFirst("shared:".count)))
+                return
+            }
             guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [gifticon.assetLocalIdentifier], options: nil).firstObject else { return }
             image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: size * 3, height: size * 3))
         }

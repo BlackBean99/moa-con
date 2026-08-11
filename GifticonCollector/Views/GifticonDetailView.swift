@@ -154,6 +154,10 @@ private struct GifticonHeroImage: View {
         .frame(maxWidth: .infinity, minHeight: 220, maxHeight: 360)
         .background(Color(uiColor: .secondarySystemBackground))
         .task {
+            if gifticon.assetLocalIdentifier.hasPrefix("shared:") {
+                image = try? photoLibraryService.loadSharedUIImage(filename: String(gifticon.assetLocalIdentifier.dropFirst("shared:".count)))
+                return
+            }
             guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [gifticon.assetLocalIdentifier], options: nil).firstObject else { return }
             image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: 1_200, height: 1_200))
         }
