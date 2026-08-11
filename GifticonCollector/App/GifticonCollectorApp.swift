@@ -11,8 +11,10 @@ struct GifticonCollectorApp: App {
 
     init() {
         do {
-            modelContainer = try ModelContainer(for: Gifticon.self)
+            let container = try ModelContainer(for: Gifticon.self)
+            modelContainer = container
             modelContainerError = nil
+            appDelegate.backgroundScanCoordinator.configure(modelContainer: container)
         } catch {
             // Do not terminate the process during launch. A store can fail to open after a
             // schema change or when the device store is temporarily unavailable.

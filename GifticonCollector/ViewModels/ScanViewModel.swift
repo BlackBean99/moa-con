@@ -38,6 +38,7 @@ final class ScanViewModel: ObservableObject {
         processedCount = 0
         totalCount = candidates.count
 
+        var savedCount = 0
         for index in 0..<candidates.count {
             if Task.isCancelled { break }
             let candidate = candidates[index]
@@ -47,7 +48,8 @@ final class ScanViewModel: ObservableObject {
                 let text = try await ocrService.recognizeText(from: image)
                 if classifier.classify(text: text, barcodeValues: candidate.barcodeValues).isLikelyGifticon,
                    let parsed = parser.parse(text: text, barcodeValues: candidate.barcodeValues) {
-                    _ = try persistenceService.save(parsed: parsed, assetLocalIdentifier: asset.localIdentifier)
+                    let saved = try persistenceService.save(parsed: parsed, assetLocalIdentifier: asset.localIdentifier)
+                    if saved.createdAt.timeIntervalSinceNow > -2 { savedCount += 1 }
                 }
             } catch {
                 // One unreadable asset should not abort a full-library scan.
@@ -56,5 +58,6 @@ final class ScanViewModel: ObservableObject {
             processedCount = index + 1
         }
         isScanning = false
+        NotificationService.postScanCompleted(count: savedCount)
     }
 }

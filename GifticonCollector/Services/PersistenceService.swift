@@ -41,6 +41,11 @@ final class PersistenceService {
         try modelContext.save()
     }
 
+    func delete(_ gifticon: Gifticon) throws {
+        modelContext.delete(gifticon)
+        try modelContext.save()
+    }
+
     func setPartialRedemption(_ enabled: Bool, for gifticon: Gifticon) throws {
         gifticon.allowsPartialRedemption = enabled
         if !enabled, let originalAmount = gifticon.originalAmount {

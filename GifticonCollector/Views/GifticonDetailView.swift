@@ -1,15 +1,24 @@
 import SwiftData
 import SwiftUI
+import Photos
+import UIKit
 
 struct GifticonDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     let gifticon: Gifticon
+    let photoLibraryService: PhotoLibraryService
     @State private var initialAmountText = ""
     @State private var deductionText = ""
     @State private var errorMessage: String?
 
     var body: some View {
         Form {
+            Section {
+                GifticonHeroImage(gifticon: gifticon, photoLibraryService: photoLibraryService)
+                    .frame(maxWidth: .infinity)
+                    .listRowInsets(EdgeInsets())
+            }
             Section("기프트콘 정보") {
                 infoRow("브랜드", gifticon.brand)
                 infoRow("상품", gifticon.title)
@@ -58,6 +67,17 @@ struct GifticonDetailView: View {
                     }
                 }
                 .foregroundStyle(gifticon.isUsed ? .orange : .green)
+            }
+
+            Section {
+                Button("기프트콘 삭제", role: .destructive) {
+                    do {
+                        try PersistenceService(modelContext: modelContext).delete(gifticon)
+                        dismiss()
+                    } catch {
+                        errorMessage = "기프트콘을 삭제하지 못했습니다."
+                    }
+                }
             }
 
             if let errorMessage {
@@ -115,5 +135,28 @@ struct GifticonDetailView: View {
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+}
+
+private struct GifticonHeroImage: View {
+    let gifticon: Gifticon
+    let photoLibraryService: PhotoLibraryService
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image {
+                Image(uiImage: image).resizable().scaledToFit()
+            } else {
+                ContentUnavailableView("사진을 불러오는 중", systemImage: "photo")
+            }
+        }
+        .frame(maxWidth: .infinity, minHeight: 220, maxHeight: 360)
+        .background(Color(uiColor: .secondarySystemBackground))
+        .task {
+            guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [gifticon.assetLocalIdentifier], options: nil).firstObject else { return }
+            image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: 1_200, height: 1_200))
+        }
+        .accessibilityLabel("\(gifticon.brand) 기프트콘 원본 사진")
     }
 }

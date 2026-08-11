@@ -63,6 +63,10 @@ final class PhotoLibraryService: NSObject, ObservableObject {
             }
         }
     }
+
+    func loadUIImage(for asset: PHAsset, targetSize: CGSize) async throws -> UIImage {
+        UIImage(cgImage: try await loadCGImage(for: asset, targetSize: targetSize))
+    }
 }
 
 extension PhotoLibraryService: PHPhotoLibraryChangeObserver {

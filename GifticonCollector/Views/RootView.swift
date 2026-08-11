@@ -11,7 +11,7 @@ struct RootView: View {
         Group {
             switch photoLibraryService.authorizationStatus {
             case .authorized, .limited:
-                GifticonListView(photoLibraryService: photoLibraryService)
+                GifticonListView(photoLibraryService: photoLibraryService, modelContext: modelContext)
             case .notDetermined:
                 PermissionPreflightView(photoLibraryService: photoLibraryService)
             case .denied, .restricted:

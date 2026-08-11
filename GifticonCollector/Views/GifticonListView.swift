@@ -6,11 +6,21 @@ struct GifticonListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Gifticon.createdAt, order: .reverse) private var gifticons: [Gifticon]
     @ObservedObject var photoLibraryService: PhotoLibraryService
-    @State private var isShowingScan = false
+    @StateObject private var scanViewModel: ScanViewModel
+
+    init(photoLibraryService: PhotoLibraryService, modelContext: ModelContext) {
+        self.photoLibraryService = photoLibraryService
+        _scanViewModel = StateObject(wrappedValue: ScanViewModel(photoLibraryService: photoLibraryService, modelContext: modelContext))
+    }
 
     var body: some View {
         NavigationStack {
             List {
+                if scanViewModel.isScanning {
+                    ScanProgressBanner(viewModel: scanViewModel)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                }
                 if photoLibraryService.authorizationStatus == .limited {
                     LimitedAccessBanner(photoLibraryService: photoLibraryService)
                         .listRowInsets(EdgeInsets())
@@ -27,9 +37,16 @@ struct GifticonListView: View {
                 } else {
                     ForEach(gifticons) { gifticon in
                         NavigationLink {
-                            GifticonDetailView(gifticon: gifticon)
+                            GifticonDetailView(gifticon: gifticon, photoLibraryService: photoLibraryService)
                         } label: {
-                            GifticonRow(gifticon: gifticon)
+                            GifticonRow(gifticon: gifticon, photoLibraryService: photoLibraryService)
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                try? PersistenceService(modelContext: modelContext).delete(gifticon)
+                            } label: {
+                                Label("삭제", systemImage: "trash")
+                            }
                         }
                     }
                 }
@@ -38,16 +55,31 @@ struct GifticonListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        isShowingScan = true
+                        Task { await scanViewModel.scanAll() }
                     } label: {
                         Label("스캔", systemImage: "wand.and.stars")
                     }
                 }
             }
-            .sheet(isPresented: $isShowingScan) {
-                ScanView(photoLibraryService: photoLibraryService, modelContext: modelContext)
-            }
         }
+    }
+}
+
+private struct ScanProgressBanner: View {
+    @ObservedObject var viewModel: ScanViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("사진을 백그라운드에서 검색 중이에요", systemImage: "sparkle.magnifyingglass")
+                .font(.subheadline.weight(.semibold))
+            ProgressView(value: Double(viewModel.processedCount), total: Double(max(viewModel.totalCount, 1)))
+            Text("화면을 계속 사용할 수 있습니다 · \(viewModel.processedCount)/\(viewModel.totalCount)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.horizontal)
     }
 }
 
@@ -107,13 +139,11 @@ private struct LimitedLibraryPickerPresenter: UIViewControllerRepresentable {
 private struct GifticonRow: View {
     @Environment(\.modelContext) private var modelContext
     let gifticon: Gifticon
+    let photoLibraryService: PhotoLibraryService
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: gifticon.isUsed ? "checkmark.circle.fill" : "gift.fill")
-                .foregroundStyle(gifticon.isUsed ? .green : .orange)
-                .font(.title2)
-                .accessibilityHidden(true)
+            GifticonPhotoView(gifticon: gifticon, photoLibraryService: photoLibraryService, size: 72)
             VStack(alignment: .leading, spacing: 4) {
                 Text(gifticon.brand).font(.headline)
                 Text(gifticon.title).foregroundStyle(.secondary)
@@ -138,5 +168,28 @@ private struct GifticonRow: View {
             .accessibilityLabel(gifticon.isUsed ? "사용 처리 취소" : "사용 완료 처리")
         }
         .padding(.vertical, 4)
+    }
+}
+
+private struct GifticonPhotoView: View {
+    let gifticon: Gifticon
+    let photoLibraryService: PhotoLibraryService
+    let size: CGFloat
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image { Image(uiImage: image).resizable().scaledToFill() }
+            else { Image(systemName: "gift.fill").foregroundStyle(.orange) }
+        }
+        .frame(width: size, height: size)
+        .background(.quaternary)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .clipped()
+        .task {
+            guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [gifticon.assetLocalIdentifier], options: nil).firstObject else { return }
+            image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: size * 3, height: size * 3))
+        }
+        .accessibilityLabel("\(gifticon.brand) 기프트콘 이미지")
     }
 }

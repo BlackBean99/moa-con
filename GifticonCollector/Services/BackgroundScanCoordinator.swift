@@ -1,14 +1,20 @@
 import BackgroundTasks
 import Foundation
+import SwiftData
 
 @MainActor
 final class BackgroundScanCoordinator {
     static let taskIdentifier = "com.yourteam.gifticoncollector.scan"
 
     private let photoLibraryService: PhotoLibraryService
+    private var modelContainer: ModelContainer?
 
     init(photoLibraryService: PhotoLibraryService) {
         self.photoLibraryService = photoLibraryService
+    }
+
+    func configure(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
     }
 
     func registerBackgroundTask() {
@@ -40,9 +46,17 @@ final class BackgroundScanCoordinator {
 
         Task { @MainActor [weak self] in
             guard let self else { return }
-            _ = photoLibraryService.fetchImageAssets()
-            // TODO: Scan only assets changed since the last successful checkpoint.
-            task.setTaskCompleted(success: true)
+            guard let modelContainer else {
+                task.setTaskCompleted(success: false)
+                return
+            }
+
+            let viewModel = ScanViewModel(
+                photoLibraryService: photoLibraryService,
+                modelContext: modelContainer.mainContext
+            )
+            await viewModel.scanAll()
+            task.setTaskCompleted(success: viewModel.errorMessage == nil)
             self.scheduleProcessingTask()
         }
     }
