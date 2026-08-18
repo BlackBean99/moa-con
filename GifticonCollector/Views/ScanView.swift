@@ -19,6 +19,10 @@ struct ScanView: View {
                 if viewModel.isScanning {
                     ProgressView(value: Double(viewModel.processedCount), total: Double(max(viewModel.totalCount, 1)))
                         .padding(.horizontal)
+                    ClayIcon(systemName: "sparkle.magnifyingglass", color: ClayTheme.butter, size: 76)
+                    Text("사진을 살펴보고 있어요")
+                        .font(.title2.bold())
+                        .foregroundStyle(ClayTheme.ink)
                     Text("바코드 후보를 찾거나 OCR 중이에요… \(viewModel.processedCount)/\(viewModel.totalCount)")
                         .foregroundStyle(.secondary)
                     if viewModel.candidateCount > 0 {
@@ -27,15 +31,13 @@ struct ScanView: View {
                             .foregroundStyle(.secondary)
                     }
                 } else {
-                    Image(systemName: "wand.and.stars")
-                        .font(.system(size: 48))
-                        .foregroundStyle(.tint)
+                    ClayIcon(systemName: "wand.and.stars", color: ClayTheme.lilac, size: 86)
                     Text("사진 라이브러리에서 기프티콘을 찾아 등록합니다.")
                         .multilineTextAlignment(.center)
                     Button("전체 사진 스캔 시작") {
                         Task { await viewModel.scanAll() }
                     }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(ClayPrimaryButtonStyle())
                 }
                 if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
@@ -45,6 +47,7 @@ struct ScanView: View {
                 Spacer()
             }
             .padding(24)
+            .background(ClayTheme.canvas.ignoresSafeArea())
             .navigationTitle("기프티콘 스캔")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

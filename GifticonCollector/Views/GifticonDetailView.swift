@@ -18,6 +18,7 @@ struct GifticonDetailView: View {
                 GifticonHeroImage(gifticon: gifticon, photoLibraryService: photoLibraryService)
                     .frame(maxWidth: .infinity)
                     .listRowInsets(EdgeInsets())
+                    .clayCard(ClayTheme.lilac, radius: 28)
             }
             Section("기프트콘 정보") {
                 infoRow("브랜드", gifticon.brand)
@@ -84,6 +85,9 @@ struct GifticonDetailView: View {
                 Section { Text(errorMessage).foregroundStyle(.red) }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(ClayTheme.canvas)
+        .tint(ClayTheme.coral)
         .navigationTitle(gifticon.brand)
         .navigationBarTitleDisplayMode(.inline)
     }

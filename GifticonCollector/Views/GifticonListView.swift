@@ -51,14 +51,19 @@ struct GifticonListView: View {
                     }
                 }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(ClayTheme.canvas)
             .navigationTitle("내 기프티콘")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         Task { await scanViewModel.scanAll() }
                     } label: {
-                        Label("스캔", systemImage: "wand.and.stars")
+                        ClayIcon(systemName: "wand.and.stars", color: ClayTheme.butter, size: 38)
                     }
+                    .accessibilityLabel("사진에서 기프트콘 찾기")
                 }
             }
         }
@@ -78,7 +83,7 @@ private struct ScanProgressBanner: View {
                 .foregroundStyle(.secondary)
         }
         .padding()
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .clayCard(ClayTheme.butter, radius: 22)
         .padding(.horizontal)
     }
 }
@@ -162,12 +167,14 @@ private struct GifticonRow: View {
                     // TODO: Present a user-visible persistence error.
                 }
             } label: {
-                Image(systemName: gifticon.isUsed ? "arrow.uturn.backward" : "checkmark")
+                ClayIcon(systemName: gifticon.isUsed ? "arrow.uturn.backward" : "checkmark", color: gifticon.isUsed ? ClayTheme.mint : ClayTheme.butter, size: 38)
             }
             .buttonStyle(.borderless)
             .accessibilityLabel(gifticon.isUsed ? "사용 처리 취소" : "사용 완료 처리")
         }
-        .padding(.vertical, 4)
+        .padding(12)
+        .clayCard(gifticon.isUsed ? ClayTheme.mint.opacity(0.55) : .white, radius: 22)
+        .padding(.vertical, 5)
     }
 }
 

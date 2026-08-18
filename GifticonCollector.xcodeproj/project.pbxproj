@@ -25,6 +25,7 @@
 		AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C352498F8FF331235689437E /* GifticonScanResult.swift */; };
 		B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */; };
 		B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF0DFA3A74621034ED948A3 /* Gifticon.swift */; };
+		BD3CE4FAAFF7DFD5104C7B8B /* ClayDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB19E590961065596AD63B /* ClayDesignSystem.swift */; };
 		C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */; };
 		CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7412033B11880B1F583F9DB /* GifticonListView.swift */; };
 		D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */; };
@@ -84,6 +85,7 @@
 		9732AE6FDBF8010523D57E0A /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		977774149CCAD1F707AD8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9DFAFC65C12D591D9163EACE /* GifticonCollector.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GifticonCollector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5BB19E590961065596AD63B /* ClayDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClayDesignSystem.swift; sourceTree = "<group>"; };
 		A7412033B11880B1F583F9DB /* GifticonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonListView.swift; sourceTree = "<group>"; };
 		AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = GifticonCollectorShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonClassifier.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		6E4AED3AB4CCE9B289180FB3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A5BB19E590961065596AD63B /* ClayDesignSystem.swift */,
 				E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */,
 				A7412033B11880B1F583F9DB /* GifticonListView.swift */,
 				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
@@ -339,6 +342,7 @@
 				A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */,
 				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
 				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
+				BD3CE4FAAFF7DFD5104C7B8B /* ClayDesignSystem.swift in Sources */,
 				B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */,
 				6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */,
 				AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */,

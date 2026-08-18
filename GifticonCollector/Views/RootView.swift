@@ -33,10 +33,7 @@ struct PermissionPreflightView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Image(systemName: "photo.on.rectangle.angled")
-                .font(.system(size: 52))
-                .foregroundStyle(.tint)
-                .accessibilityHidden(true)
+            ClayIcon(systemName: "photo.on.rectangle.angled", color: ClayTheme.mint, size: 92)
             Text("기프티콘을 자동으로 찾아드려요")
                 .font(.title.bold())
                 .multilineTextAlignment(.center)
@@ -53,10 +50,11 @@ struct PermissionPreflightView: View {
                 Text("사진 접근 허용")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(ClayPrimaryButtonStyle())
             .disabled(isRequesting)
             .accessibilityHint("기프트콘 이미지를 자동으로 인식하기 위해 사진 라이브러리 접근 권한을 요청합니다")
         }
         .padding(24)
+        .background(ClayTheme.canvas.ignoresSafeArea())
     }
 }

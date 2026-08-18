@@ -15,12 +15,10 @@ struct ManualImportView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: "photo.badge.exclamationmark")
-                .font(.system(size: 48))
-                .foregroundStyle(.orange)
-                .accessibilityHidden(true)
+            ClayIcon(systemName: "photo.badge.exclamationmark", color: ClayTheme.butter, size: 74)
             Text("사진 접근이 제한되어 있어요")
                 .font(.title2.bold())
+                .foregroundStyle(ClayTheme.ink)
             Text("사진을 전체 공개하지 않아도 한 장씩 선택해 기프트콘을 등록할 수 있습니다.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
@@ -28,7 +26,7 @@ struct ManualImportView: View {
                 Label("사진 한 장 선택", systemImage: "photo")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(ClayPrimaryButtonStyle(color: ClayTheme.coral))
             .disabled(isImporting)
             .onChange(of: selectedItem) { _, newItem in
                 guard let newItem else { return }
@@ -50,6 +48,7 @@ struct ManualImportView: View {
             }
         }
         .padding(24)
+        .background(ClayTheme.canvas.ignoresSafeArea())
     }
 
     private func importSinglePhoto(_ item: PhotosPickerItem) async {
