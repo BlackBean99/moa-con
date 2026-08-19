@@ -1,0 +1,665 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		52AB8C350750AB47E7F9FC62 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
+		55A592E15B559B51DF078BE2 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
+		5D180D983FBB6747AE8960F5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094395273C8D67873CF7C96C /* ShareViewController.swift */; };
+		5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */; };
+		6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */; };
+		6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76E830C949E75CD825CA9FE /* ScanView.swift */; };
+		7DEF808C9B685081765FC140 /* ManualImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */; };
+		8937B11D83EF6DEEBB147FF1 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8BE3222307D08BACF3805F /* PersistenceService.swift */; };
+		902BF725BC5FA12170C5043F /* SharedImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD5FA03B2E081507074A7C5 /* SharedImportService.swift */; };
+		9932CE142B101A65394DDD04 /* GifticonParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */; };
+		9E77E665D01106D665431898 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BA66C88E206FA187653C5 /* NotificationService.swift */; };
+		A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6DCD723D19633CA221238B /* AppDelegate.swift */; };
+		AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */; };
+		AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */; };
+		AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C352498F8FF331235689437E /* GifticonScanResult.swift */; };
+		B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */; };
+		B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF0DFA3A74621034ED948A3 /* Gifticon.swift */; };
+		BD3CE4FAAFF7DFD5104C7B8B /* ClayDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB19E590961065596AD63B /* ClayDesignSystem.swift */; };
+		C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */; };
+		CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7412033B11880B1F583F9DB /* GifticonListView.swift */; };
+		D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */; };
+		DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */; };
+		E43750D18182F895A28F377A /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AE6FDBF8010523D57E0A /* OCRService.swift */; };
+		ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */; };
+		F52844AF34EFD16E92F40719 /* GifticonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3D47C651F68513218E490BF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF200EB0CC1B3D80A2EC75A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E63A7FFCC5A000E71773AC35;
+			remoteInfo = GifticonCollector;
+		};
+		A1CD557D52DD0A0D5C946034 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF200EB0CC1B3D80A2EC75A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 358B8BC2A44FF1C006F06081;
+			remoteInfo = GifticonCollectorShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5E5274DBA5880F48AF4CFA2D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualImportView.swift; sourceTree = "<group>"; };
+		094395273C8D67873CF7C96C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		0A46BB7805092E24433C319F /* GifticonCollector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GifticonCollector.entitlements; sourceTree = "<group>"; };
+		0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeCandidateService.swift; sourceTree = "<group>"; };
+		126A2C16EA9A55158170C6B1 /* GifticonCollectorShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GifticonCollectorShare.entitlements; sourceTree = "<group>"; };
+		186BA66C88E206FA187653C5 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedImageInbox.swift; sourceTree = "<group>"; };
+		27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParserTests.swift; sourceTree = "<group>"; };
+		2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		4B8BE3222307D08BACF3805F /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParser.swift; sourceTree = "<group>"; };
+		5912A0AF3C58423CDE40C371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6F3D718BA1374A70A74C1F87 /* GifticonCollectorTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceServiceTests.swift; sourceTree = "<group>"; };
+		9732AE6FDBF8010523D57E0A /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
+		977774149CCAD1F707AD8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9DFAFC65C12D591D9163EACE /* GifticonCollector.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GifticonCollector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5BB19E590961065596AD63B /* ClayDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClayDesignSystem.swift; sourceTree = "<group>"; };
+		A7412033B11880B1F583F9DB /* GifticonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonListView.swift; sourceTree = "<group>"; };
+		AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = GifticonCollectorShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonClassifier.swift; sourceTree = "<group>"; };
+		C352498F8FF331235689437E /* GifticonScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonScanResult.swift; sourceTree = "<group>"; };
+		CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
+		D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonCollectorApp.swift; sourceTree = "<group>"; };
+		DD6DCD723D19633CA221238B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonDetailView.swift; sourceTree = "<group>"; };
+		F76E830C949E75CD825CA9FE /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
+		FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundScanCoordinator.swift; sourceTree = "<group>"; };
+		FBF0DFA3A74621034ED948A3 /* Gifticon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gifticon.swift; sourceTree = "<group>"; };
+		FDD5FA03B2E081507074A7C5 /* SharedImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedImportService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0328E51A0AB582AA69138E2F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0A46BB7805092E24433C319F /* GifticonCollector.entitlements */,
+				126A2C16EA9A55158170C6B1 /* GifticonCollectorShare.entitlements */,
+				5912A0AF3C58423CDE40C371 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		287CD71458704D65876E6F51 /* GifticonCollectorTests */ = {
+			isa = PBXGroup;
+			children = (
+				27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */,
+				7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */,
+			);
+			path = GifticonCollectorTests;
+			sourceTree = "<group>";
+		};
+		5C2E114541912E5AE13B5A17 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DD6DCD723D19633CA221238B /* AppDelegate.swift */,
+				D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		6E4AED3AB4CCE9B289180FB3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A5BB19E590961065596AD63B /* ClayDesignSystem.swift */,
+				E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */,
+				A7412033B11880B1F583F9DB /* GifticonListView.swift */,
+				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
+				2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */,
+				F76E830C949E75CD825CA9FE /* ScanView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7CEA77B9F8CBD0E9CAF13770 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9DFAFC65C12D591D9163EACE /* GifticonCollector.app */,
+				AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */,
+				6F3D718BA1374A70A74C1F87 /* GifticonCollectorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		96334287D54F74CD605435CA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B8E7661CEDFA08E02AEF5081 /* GifticonCollectorShare */ = {
+			isa = PBXGroup;
+			children = (
+				977774149CCAD1F707AD8DB9 /* Info.plist */,
+				094395273C8D67873CF7C96C /* ShareViewController.swift */,
+			);
+			path = GifticonCollectorShare;
+			sourceTree = "<group>";
+		};
+		CABA252BCAE7897748E5FDD4 = {
+			isa = PBXGroup;
+			children = (
+				E5356B642D4FB48950ABB5E0 /* GifticonCollector */,
+				B8E7661CEDFA08E02AEF5081 /* GifticonCollectorShare */,
+				287CD71458704D65876E6F51 /* GifticonCollectorTests */,
+				7CEA77B9F8CBD0E9CAF13770 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E2811CE5FE0EBA5ABC65D858 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */,
+				0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */,
+				AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */,
+				4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */,
+				186BA66C88E206FA187653C5 /* NotificationService.swift */,
+				9732AE6FDBF8010523D57E0A /* OCRService.swift */,
+				4B8BE3222307D08BACF3805F /* PersistenceService.swift */,
+				0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */,
+				20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */,
+				FDD5FA03B2E081507074A7C5 /* SharedImportService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E5356B642D4FB48950ABB5E0 /* GifticonCollector */ = {
+			isa = PBXGroup;
+			children = (
+				5C2E114541912E5AE13B5A17 /* App */,
+				FB88979818BBAC2F2A284999 /* Models */,
+				0328E51A0AB582AA69138E2F /* Resources */,
+				E2811CE5FE0EBA5ABC65D858 /* Services */,
+				96334287D54F74CD605435CA /* ViewModels */,
+				6E4AED3AB4CCE9B289180FB3 /* Views */,
+			);
+			path = GifticonCollector;
+			sourceTree = "<group>";
+		};
+		FB88979818BBAC2F2A284999 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FBF0DFA3A74621034ED948A3 /* Gifticon.swift */,
+				C352498F8FF331235689437E /* GifticonScanResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		358B8BC2A44FF1C006F06081 /* GifticonCollectorShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C4012F3C2EA21BBE54D9AF5 /* Build configuration list for PBXNativeTarget "GifticonCollectorShare" */;
+			buildPhases = (
+				431BEFE19FF8FBFB313BBB49 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GifticonCollectorShare;
+			packageProductDependencies = (
+			);
+			productName = GifticonCollectorShare;
+			productReference = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		582CF7C2E9AE23003F3C463D /* GifticonCollectorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 508A13F23F36C1E85297DA72 /* Build configuration list for PBXNativeTarget "GifticonCollectorTests" */;
+			buildPhases = (
+				634524DA19568A28773128C8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				142F77E6AC7166E82810EB7A /* PBXTargetDependency */,
+			);
+			name = GifticonCollectorTests;
+			packageProductDependencies = (
+			);
+			productName = GifticonCollectorTests;
+			productReference = 6F3D718BA1374A70A74C1F87 /* GifticonCollectorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E63A7FFCC5A000E71773AC35 /* GifticonCollector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7FB8BC2FF0B3983F7AFE4899 /* Build configuration list for PBXNativeTarget "GifticonCollector" */;
+			buildPhases = (
+				6FCF587369E706B3314D2A5F /* Sources */,
+				5E5274DBA5880F48AF4CFA2D /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52FAAF36BAA7F554354C1252 /* PBXTargetDependency */,
+			);
+			name = GifticonCollector;
+			packageProductDependencies = (
+			);
+			productName = GifticonCollector;
+			productReference = 9DFAFC65C12D591D9163EACE /* GifticonCollector.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BF200EB0CC1B3D80A2EC75A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					358B8BC2A44FF1C006F06081 = {
+						DevelopmentTeam = 2N2W3H99B2;
+					};
+					582CF7C2E9AE23003F3C463D = {
+						DevelopmentTeam = 2N2W3H99B2;
+					};
+					E63A7FFCC5A000E71773AC35 = {
+						DevelopmentTeam = 2N2W3H99B2;
+					};
+				};
+			};
+			buildConfigurationList = 558279F8AE249CF04D17A7C1 /* Build configuration list for PBXProject "GifticonCollector" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CABA252BCAE7897748E5FDD4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E63A7FFCC5A000E71773AC35 /* GifticonCollector */,
+				358B8BC2A44FF1C006F06081 /* GifticonCollectorShare */,
+				582CF7C2E9AE23003F3C463D /* GifticonCollectorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		431BEFE19FF8FBFB313BBB49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D180D983FBB6747AE8960F5 /* ShareViewController.swift in Sources */,
+				55A592E15B559B51DF078BE2 /* SharedImageInbox.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		634524DA19568A28773128C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9932CE142B101A65394DDD04 /* GifticonParserTests.swift in Sources */,
+				C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FCF587369E706B3314D2A5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */,
+				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
+				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
+				BD3CE4FAAFF7DFD5104C7B8B /* ClayDesignSystem.swift in Sources */,
+				B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */,
+				6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */,
+				AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */,
+				F52844AF34EFD16E92F40719 /* GifticonDetailView.swift in Sources */,
+				CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */,
+				AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */,
+				AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */,
+				7DEF808C9B685081765FC140 /* ManualImportView.swift in Sources */,
+				9E77E665D01106D665431898 /* NotificationService.swift in Sources */,
+				E43750D18182F895A28F377A /* OCRService.swift in Sources */,
+				8937B11D83EF6DEEBB147FF1 /* PersistenceService.swift in Sources */,
+				D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */,
+				ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */,
+				6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */,
+				B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */,
+				52AB8C350750AB47E7F9FC62 /* SharedImageInbox.swift in Sources */,
+				902BF725BC5FA12170C5043F /* SharedImportService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		142F77E6AC7166E82810EB7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E63A7FFCC5A000E71773AC35 /* GifticonCollector */;
+			targetProxy = 3D47C651F68513218E490BF7 /* PBXContainerItemProxy */;
+		};
+		52FAAF36BAA7F554354C1252 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 358B8BC2A44FF1C006F06081 /* GifticonCollectorShare */;
+			targetProxy = A1CD557D52DD0A0D5C946034 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		013E8D50837B9BEDDA27207F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2N2W3H99B2;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		11DD2673B60E470BE16D7BD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2N2W3H99B2;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2DA4337089DF4BD94C7C4236 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollector.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = GifticonCollector/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector;
+				PRODUCT_NAME = GifticonCollector;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		38FA45D4CC7257ED81DF2082 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
+				PRODUCT_NAME = GifticonCollectorShare;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		87F33954907EF528862514BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollector.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = GifticonCollector/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector;
+				PRODUCT_NAME = GifticonCollector;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ACC561CF79CAAA603FE8EB5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GifticonCollector.app/GifticonCollector";
+			};
+			name = Release;
+		};
+		C4E2B67F58F8B49DBE3629FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
+				PRODUCT_NAME = GifticonCollectorShare;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FEF4D2B7605E4D1CDF399DA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GifticonCollector.app/GifticonCollector";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C4012F3C2EA21BBE54D9AF5 /* Build configuration list for PBXNativeTarget "GifticonCollectorShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4E2B67F58F8B49DBE3629FA /* Debug */,
+				38FA45D4CC7257ED81DF2082 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		508A13F23F36C1E85297DA72 /* Build configuration list for PBXNativeTarget "GifticonCollectorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEF4D2B7605E4D1CDF399DA8 /* Debug */,
+				ACC561CF79CAAA603FE8EB5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		558279F8AE249CF04D17A7C1 /* Build configuration list for PBXProject "GifticonCollector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				013E8D50837B9BEDDA27207F /* Debug */,
+				11DD2673B60E470BE16D7BD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7FB8BC2FF0B3983F7AFE4899 /* Build configuration list for PBXNativeTarget "GifticonCollector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87F33954907EF528862514BA /* Debug */,
+				2DA4337089DF4BD94C7C4236 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BF200EB0CC1B3D80A2EC75A5 /* Project object */;
+}
