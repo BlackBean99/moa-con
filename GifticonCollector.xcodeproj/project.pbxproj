@@ -528,6 +528,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -535,7 +536,9 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
+				PRODUCT_NAME = GifticonCollectorShare;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -583,6 +586,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -590,7 +594,9 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
+				PRODUCT_NAME = GifticonCollectorShare;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
