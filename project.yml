@@ -50,6 +50,9 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.yourteam.gifticoncollector.share
+        PRODUCT_NAME: GifticonCollectorShare
+        MARKETING_VERSION: "0.1"
+        CURRENT_PROJECT_VERSION: "1"
         INFOPLIST_FILE: GifticonCollectorShare/Info.plist
         CODE_SIGN_ENTITLEMENTS: GifticonCollector/Resources/GifticonCollectorShare.entitlements
         SWIFT_VERSION: 6.0
