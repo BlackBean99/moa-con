@@ -18,8 +18,8 @@
 
 - 단위 테스트를 단계별로 확장해 31개 통과. 돈의 의미/후보/차감 복원/파일 실패·원본·중단 복구/날짜 경계와 50개 알림 제한을 검증.
 - 최초 전체 41개 중 알림 UI 하나 실패. 실패 캡처는 Settings였고 무조건 app.tap()이 중앙의 시스템 설정 버튼을 눌렀다. SpringBoard 권한 허용 버튼만 처리해 전체 41개 통과.
-- T12 추가 전체 실행에서는 이전 테스트 원본이 복구 큐에 쌓여 빈 큐/큰 글자 검증 실패. DEBUG --ui-testing 원본 저장소를 프로세스별로 격리했다. 최종 42개 재검증 진행 중: /tmp/moacon-release-isolated.xcresult.
-- Release Archive와 Simulator Release 빌드 성공. 앱/확장 1.0(5), 최종 Archive에 PrivacyInfo.xcprivacy 포함 확인.
+- T12 추가 전체 실행에서는 이전 테스트 원본이 복구 큐에 쌓여 빈 큐/큰 글자 검증 실패. DEBUG --ui-testing 원본 저장소를 프로세스별로 격리했다. 최종 42개(단위 31 + UI 11) 전체 통과, 실패/스킵 0: /tmp/moacon-release-isolated.xcresult.
+- Release Archive와 Simulator Release 빌드·설치·실행 성공. 실제 Release 보관함 화면도 확인. 앱/확장 1.0(5), 최종 Archive에 PrivacyInfo.xcprivacy 포함 확인.
 - 실제 iPhone 설치 성공. 1.0 잠금 해제 후 실행 성공. 최종 T12 포함 설치 후 재실행은 기기 자동 잠금으로 거부돼 다시 해제를 요청했다.
 - 새 iPad/Pro Max Simulator에서 앱 프로세스 생성 지연/실패. 기본 Settings 실행도 완료되지 않았다. 추가 기기 종료 후 iPhone 실행은 회복됐지만 원인은 확정하지 않았다. 정상 iPad 앱 화면/제출 스크린샷으로 취급하지 않는다.
 - App Store export 실제 실패: 현재 Team의 iOS App Store profile 생성 권한 부족 및 앱/확장 배포 프로파일 없음. export.log. destination=export였으며 업로드하지 않았다.
@@ -29,7 +29,7 @@
 
 ## Git 전달
 
-T01 5e82854, T02 6668505, T03 5c771a5, T05 bd9f9da, T04 d6d21a6, T06 01a1c30, T07 956181d, T08 b2e3289, T12 64ee00b. 나머지 제출 준비/검증 자료는 별도 커밋으로 전달한다. 브랜치는 feature/release-readiness이며 main에 병합하지 않는다.
+T01 5e82854, T02 6668505, T03 5c771a5, T05 bd9f9da, T04 d6d21a6, T06 01a1c30, T07 956181d, T08 b2e3289, T12 64ee00b. 제출 준비/검증 자료: 4848d3a. Draft PR https://github.com/BlackBean99/moa-con/pull/2 . Task integrity CI 성공. 최종 결과 갱신 커밋은 Git 로그에서 확인한다. 브랜치는 feature/release-readiness이며 main에 병합하지 않는다.
 
 ## 제한과 다음 조건
 
