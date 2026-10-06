@@ -66,7 +66,7 @@
 
 **Status:** done
 **Depends:** T02
-**Acceptance:** 새 쿠폰 원본 복사 후 등록; 기존 Photos 참조 복사; 권한 상실 시 원본 누락 복구
+**Acceptance:** 새 쿠폰 원본 복사 후 등록; 기존 Photos 참조 복사; 권한 상실 시 복사본 조회와 누락 복구 안내
 **Verify:** archive persistence 테스트 + scan build
 **Files:** Services/PhotoLibraryService.swift, ViewModels/ScanViewModel.swift, Services/SharedImportService.swift
 **Evidence:** docs/qa/T07-originals.md
@@ -84,8 +84,8 @@
 
 ## T09: 출시 후보 회귀와 네이티브 배포
 
-**Status:** planned
-**Depends:** T04,T06,T07,T08
+**Status:** active
+**Depends:** T04,T06,T07,T08,T12
 **Acceptance:** 전체 자동 테스트 통과; iPhone/iPad QA 증거; Release Archive와 로컬 설치
 **Verify:** xcodebuild test/archive; deploy-local; 결과 bundle
 **Files:** Tests/*, UITests/*, scripts/*, project.yml
@@ -110,4 +110,14 @@
 **Verify:** 공개 URL HTTP 확인; Xcode Validate 결과; Connect 미제출 상태
 **Files:** 운영 정보/계정 상태, docs/release/*
 **Evidence:** —
+**Reason:** —
+
+## T12: 중단된 원본 파일 저장 복구
+
+**Status:** done
+**Depends:** T06,T07
+**Acceptance:** 파일 보관 후 DB 저장 전에 중단돼도 다음 실행에서 복구 목록 표시; 등록된 원본은 이동하지 않음; 반복 복구 안전
+**Verify:** unreferenced archive 반례 테스트 + 전체 회귀
+**Files:** Services/SharedImageInbox.swift, Services/SharedImportService.swift, Services/PersistenceService.swift
+**Evidence:** docs/qa/T12-interrupted-save.md
 **Reason:** —

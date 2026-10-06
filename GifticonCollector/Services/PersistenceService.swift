@@ -18,6 +18,12 @@ final class PersistenceService {
         return try !modelContext.fetch(descriptor).isEmpty
     }
 
+    func referencedOriginalFilenames() throws -> Set<String> {
+        Set(try modelContext.fetch(FetchDescriptor<Gifticon>()).compactMap { item in
+            item.assetLocalIdentifier.hasPrefix("shared:") ? String(item.assetLocalIdentifier.dropFirst(7)) : nil
+        })
+    }
+
     func save(parsed: ParsedGifticon, assetLocalIdentifier: String, sourcePhotoIdentifier: String? = nil) throws -> Gifticon {
         if let sourcePhotoIdentifier, let existing = try item(forPhoto: sourcePhotoIdentifier) { return existing }
         let barcode = parsed.barcodeNumber

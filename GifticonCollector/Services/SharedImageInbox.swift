@@ -52,6 +52,16 @@ enum SharedImageInbox {
     static func pendingFiles() throws -> [URL] { try files() }
     static func failedFiles() throws -> [URL] { try files(in: "Failed") }
 
+    // Recover the crash window between archiving a file and committing its DB reference.
+    static func recoverUnreferencedArchives(referenced: Set<String>) throws -> Int {
+        var count = 0
+        for file in try files(in: "Saved") where !referenced.contains(file.lastPathComponent) {
+            try markFailed(file, message: "보관을 완료하지 못한 사진입니다. 재시도하거나 직접 입력해 주세요.")
+            count += 1
+        }
+        return count
+    }
+
     static func remove(_ url: URL) throws {
         try FileManager.default.removeItem(at: url)
         try? FileManager.default.removeItem(at: url.appendingPathExtension("json"))

@@ -30,7 +30,12 @@ final class SharedImportService {
         defer { Self.processing = false }
         var summary = SharedImportSummary()
         let files: [URL]
-        do { files = try SharedImageInbox.pendingFiles() }
+        do {
+            // Fetch must succeed before any archive can be considered unreferenced.
+            let referenced = try persistenceService.referencedOriginalFilenames()
+            summary.failed += try SharedImageInbox.recoverUnreferencedArchives(referenced: referenced)
+            files = try SharedImageInbox.pendingFiles()
+        }
         catch { summary.storageError = "가져오기 대기 목록을 열지 못했어요."; return summary }
         for file in files {
             if Task.isCancelled { break }
@@ -56,7 +61,7 @@ final class SharedImportService {
             } catch {
                 if let source = SharedImageInbox.url(for: file.lastPathComponent) {
                     do { try SharedImageInbox.markFailed(source, message: "사진을 가져오지 못했어요. 재시도하거나 직접 입력해 주세요.") }
-                    catch { summary.storageError = "가져오기 상태를 저장하지 못했어요. 원본은 대기 목록에 남아 있습니다." }
+                    catch { summary.storageError = "가져오기 상태를 저장하지 못했어요. 원본 파일은 보존됩니다. 저장 공간을 확보한 뒤 다시 시도해 주세요." }
                 }
                 summary.failed += 1
             }

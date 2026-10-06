@@ -173,6 +173,30 @@ final class PersistenceServiceTests: XCTestCase {
         XCTAssertNil(SharedImageInbox.url(for: "../private.jpg"))
     }
 
+    func testInterruptedFileCommitRecoversOnlyUnreferencedOriginal() async throws {
+        let keep = try SharedImageInbox.enqueue(imageData: Data([7, 8]))
+        let orphan = try SharedImageInbox.enqueue(imageData: Data([9, 10]))
+        try SharedImageInbox.archive(XCTUnwrap(SharedImageInbox.url(for: keep)))
+        try SharedImageInbox.archive(XCTUnwrap(SharedImageInbox.url(for: orphan)))
+        defer {
+            for filename in [keep, orphan] { if let url = SharedImageInbox.url(for: filename) { try? SharedImageInbox.remove(url) } }
+        }
+        let container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let service = PersistenceService(modelContext: container.mainContext)
+        _ = try service.save(parsed: ParsedGifticon(brand: "테스트", title: "보존", barcodeNumber: "ARCHIVE-KEEP", expiryDate: nil, amount: nil, confidence: 0.9), assetLocalIdentifier: "shared:\(keep)")
+        let referenced = try service.referencedOriginalFilenames()
+        XCTAssertEqual(referenced, [keep])
+        let otherFiles = Set(try SharedImageInbox.files(in: "Saved").map(\.lastPathComponent)).subtracting([orphan, keep])
+        let protected = referenced.union(otherFiles)
+        let recovered = try SharedImageInbox.recoverUnreferencedArchives(referenced: protected)
+        XCTAssertEqual(recovered, 1)
+        XCTAssertEqual(SharedImageInbox.url(for: keep)?.deletingLastPathComponent().lastPathComponent, "Saved")
+        let failed = try XCTUnwrap(SharedImageInbox.url(for: orphan))
+        XCTAssertEqual(failed.deletingLastPathComponent().lastPathComponent, "Failed")
+        XCTAssertEqual(try Data(contentsOf: failed), Data([9, 10]))
+        XCTAssertEqual(try SharedImageInbox.recoverUnreferencedArchives(referenced: protected), 0)
+    }
+
     func testDeletePreservesSharedOriginalUntilLastReferenceAndPreventsRescan() throws {
         let previous = UserDefaults.standard.stringArray(forKey: "scan.ignoredBarcodes")
         defer { UserDefaults.standard.set(previous, forKey: "scan.ignoredBarcodes") }
