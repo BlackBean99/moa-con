@@ -110,7 +110,7 @@
 **Verify:** 공개 URL HTTP 확인; Xcode Validate 결과; Connect 미제출 상태
 **Files:** 운영 정보/계정 상태, docs/release/*
 **Evidence:** docs/APP_STORE_READINESS.md
-**Reason:** 운영자·지원·공개 정책 URL·심사 연락처 미설정; 현재 Team의 App Store profile 생성 권한 부족으로 export 실패, Connect/Validate 미확인
+**Reason:** 지원 이메일 반영; 운영자명·공개 정책/지원 URL·심사 연락처 미설정; App Store profile 생성 권한 부족, Connect/Validate 미확인
 
 ## T12: 중단된 원본 파일 저장 복구
 

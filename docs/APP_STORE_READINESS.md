@@ -23,7 +23,7 @@
 - 최초 전체 실행의 알림 UI 실패는 권한용 무조건 화면 중앙 탭이 Settings를 연 문제였다. SpringBoard 권한 버튼만 처리하도록 수정한 뒤 예약 1 → 취소 0을 포함해 전체 재검증했다.
 - 최종 Release Archive 성공: `artifacts/release/Moacon-Device-1.0.xcarchive`. Apple Development 서명과 공유 확장. App Store Validate 완료와 구분한다.
 - Simulator Release 빌드·설치·실행 성공과 실제 보관함 화면 확인. ZIP: `artifacts/release/Moacon-Simulator-1.0.zip`.
-- 실제 iPhone 16 Pro 설치 성공. T12 이전 1.0 빌드는 잠금 해제 후 devicectl 실행 성공. 최종 T12 포함 빌드도 설치됐으나 재실행은 자동 잠금으로 거부돼 미확인. 화면별 과업과 매장 판독을 모두 검증했다는 의미는 아니다.
+- 실제 iPhone 16 Pro 설치 성공. T12 이전 1.0 빌드는 잠금 해제 후 devicectl 실행 성공. T12 포함 빌드 설치 후 자동 잠금으로 실행이 거부됐다. 사용자 잠금 해제 이후에는 기기가 unavailable로 연결되지 않아 실행 미확인. 지원 이메일 반영 최신 Archive는 준비됐지만 실기기 설치는 연결 복구 후 진행한다. 화면별 과업과 매장 판독을 모두 검증했다는 의미는 아니다.
 - App Store export 실제 시도 실패: 현재 서명 Team은 iOS App Store 프로파일 생성 권한이 없고 앱/확장 배포 프로파일도 없다. `artifacts/release/export.log`.
 - [상세 검증·반증 기록](qa/T09-release.md). 원본 작업 폴더의 기존 Xcode 미커밋 변경은 보존했다.
 
@@ -32,7 +32,7 @@
 | 항목 | 현재 상태 | 완료 조건 |
 |---|---|---|
 | 배포 계정 | App Store profile 생성 권한 부족, 개발 서명만 가능 | 유효한 유료 팀/권한, 앱과 확장 배포 프로파일, 소유한 Bundle ID/App Group와 Connect 앱 등록, Organizer Validate 결과 |
-| 정책·지원 | 저장소 정책·앱 내 안내·조건부 문의 링크 준비. 실제 운영자/지원 이메일/공개 URL 미설정 | 운영자가 확인한 공개 HTTPS 정책·지원 페이지. 앱과 Connect 정보 일치, 실제 문의 응답 수단 |
+| 정책·지원 | 저장소 정책·앱 내 안내·조건부 문의 링크 준비. 지원 이메일 ymecca123@gmail.com 반영. 운영자명/공개 URL 미설정 | 운영자가 확인한 공개 HTTPS 정책·지원 페이지. 앱과 Connect 정보 일치, 실제 문의 응답 수단 |
 | 심사 연락처 | 비어 있음 | 이름/이메일/전화. 개인 정보는 Git 제외 metadata.local.json에 보관 |
 | 스토어 설정 | 한국/무료 초안, 소개/심사 노트 작성. Connect 입력 여부 미확인 | 국가·가격·연령 질문·App Privacy·수출 답변의 실제 등록과 권리 검토 |
 | 기기·호스트 QA | iPhone 자동 회귀 완료. 새 iPad Simulator 앱 프로세스 시작 지연/실패 | 정상 iPad에서 회전·분할·큰 글자·원본 확대·공유, 최소 지원 OS 검증. 사진 삭제/권한 변경/저장 공간 부족/iCloud 입력의 실제 기기 과업 |

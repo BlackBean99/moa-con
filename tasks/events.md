@@ -25,3 +25,4 @@
 - 2026-10-06T14:29:35+09:00 T09: blocked; docs/qa/T09-release.md
 - 2026-10-06T14:29:35+09:00 T10: blocked; docs/release/RELEASE_RUNBOOK.md
 - 2026-10-06T14:29:35+09:00 T11: blocked; docs/APP_STORE_READINESS.md
+- 2026-10-06T15:18:59+09:00 T11: blocked; docs/APP_STORE_READINESS.md
