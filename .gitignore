@@ -66,3 +66,6 @@ start-script.sh
 start.py
 path/to/venv/
 .env*
+
+# Local usability evidence and native release products
+artifacts/
