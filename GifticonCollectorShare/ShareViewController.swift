@@ -53,8 +53,13 @@ final class ShareViewController: UIViewController {
         guard index < queue.count else {
             close.isEnabled = true
             retry.isHidden = failures.isEmpty
-            status.text = queue.isEmpty && completed == 0 ? "공유할 사진이 없습니다." :
-                "저장 \(completed)장 · 실패 \(failures.count)장\n모아콘을 열어 쿠폰 정보를 확인해 주세요."
+            if queue.isEmpty && completed == 0 {
+                status.text = "공유할 사진이 없습니다."
+            } else {
+                let action = failures.isEmpty ? "모아콘을 열어 쿠폰 정보를 확인해 주세요." :
+                    "실패한 사진은 저장되지 않았습니다. 재시도하거나 닫은 후 원본을 다시 공유해 주세요."
+                status.text = "저장 \(completed)장 · 실패 \(failures.count)장\n" + action
+            }
             UIAccessibility.post(notification: .announcement, argument: status.text)
             return
         }
