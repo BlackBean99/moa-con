@@ -161,6 +161,9 @@ struct CouponImportEditor: View {
             dismiss()
         } catch {
             if let filename = createdFilename, let url = SharedImageInbox.url(for: filename) { try? SharedImageInbox.remove(url) }
+            if createdFilename == nil, let filename = source.sourceFilename, let url = SharedImageInbox.url(for: filename) {
+                try? SharedImageInbox.markFailed(url, message: "등록하지 못했어요. 다시 입력해 주세요.")
+            }
             self.error = error.localizedDescription
         }
     }

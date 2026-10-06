@@ -30,6 +30,7 @@
 		AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */; };
 		AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */; };
 		AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C352498F8FF331235689437E /* GifticonScanResult.swift */; };
+		AF5DDDE44BC4C4CFE78B5B33 /* ImportQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DD09168115BD34F51FA92D /* ImportQueueView.swift */; };
 		B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */; };
 		B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF0DFA3A74621034ED948A3 /* Gifticon.swift */; };
 		C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */; };
@@ -93,6 +94,7 @@
 		27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParserTests.swift; sourceTree = "<group>"; };
 		2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		30E00DE3333CDEA1380226E2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		31DD09168115BD34F51FA92D /* ImportQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportQueueView.swift; sourceTree = "<group>"; };
 		4B8BE3222307D08BACF3805F /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParser.swift; sourceTree = "<group>"; };
 		5912A0AF3C58423CDE40C371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */,
 				9A8E3435B0EBB387251A489B /* GifticonEditor.swift */,
 				A7412033B11880B1F583F9DB /* GifticonListView.swift */,
+				31DD09168115BD34F51FA92D /* ImportQueueView.swift */,
 				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
 				7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */,
 				30E00DE3333CDEA1380226E2 /* OnboardingView.swift */,
@@ -433,6 +436,7 @@
 				CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */,
 				AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */,
 				AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */,
+				AF5DDDE44BC4C4CFE78B5B33 /* ImportQueueView.swift in Sources */,
 				7DEF808C9B685081765FC140 /* ManualImportView.swift in Sources */,
 				743A0474E460B9FF92EF47BC /* MoaconDesignSystem.swift in Sources */,
 				9E77E665D01106D665431898 /* NotificationService.swift in Sources */,

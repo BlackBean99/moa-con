@@ -177,6 +177,26 @@ final class WalletFlowTests: XCTestCase {
     }
 
     @MainActor
+    func testFailedQueueCanBeRecoveredWithoutLosingOriginal() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--queue-testing", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 10))
+        app.buttons["더 보기"].tap(); app.buttons["가져오기 대기"].tap()
+        XCTAssertTrue(app.navigationBars["가져오기 대기"].waitForExistence(timeout: 5))
+        app.buttons["직접 입력"].firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["쿠폰 등록"].waitForExistence(timeout: 5))
+        app.textFields["브랜드"].tap(); app.textFields["브랜드"].typeText("복구카페")
+        app.textFields["상품명"].tap(); app.textFields["상품명"].typeText("대기 복구 쿠폰")
+        app.textFields["바코드 번호"].tap(); app.textFields["바코드 번호"].typeText("RECOVERED-123")
+        app.buttons["import.save"].tap()
+        XCTAssertTrue(app.staticTexts["대기 항목 없음"].waitForExistence(timeout: 5))
+        app.buttons["닫기"].tap(); app.staticTexts["대기 복구 쿠폰"].tap()
+        XCTAssertTrue(app.buttons["원본 크게 보기"].waitForExistence(timeout: 5))
+        capture("12-queue-recovered")
+    }
+
+    @MainActor
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name

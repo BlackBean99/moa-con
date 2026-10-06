@@ -72,8 +72,11 @@ struct ManualImportView: View {
         }
 
         do {
-            guard let data = try await item.loadTransferable(type: Data.self),
-                  let image = UIImage(data: data),
+            guard let data = try await item.loadTransferable(type: Data.self) else {
+                message = "선택한 사진을 읽을 수 없습니다."; return
+            }
+            try SharedImageInbox.validateImage(data)
+            guard let image = UIImage(data: data),
                   let cgImage = image.cgImage else {
                 message = "선택한 사진을 읽을 수 없습니다."
                 return

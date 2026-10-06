@@ -6,6 +6,7 @@ struct RootView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("onboarding.completed") private var hasCompletedOnboarding = false
+    @State private var importMessage: String?
     @StateObject private var photoLibraryService = PhotoLibraryService()
 
     init() {
@@ -37,7 +38,7 @@ struct RootView: View {
     var body: some View {
         Group {
             if hasCompletedOnboarding || bypassOnboarding {
-                GifticonListView(photoLibraryService: photoLibraryService, modelContext: modelContext)
+                GifticonListView(photoLibraryService: photoLibraryService, modelContext: modelContext, importMessage: importMessage)
             } else {
                 OnboardingView { hasCompletedOnboarding = true }
             }
@@ -52,6 +53,7 @@ struct RootView: View {
 
     private func refresh() async {
         photoLibraryService.refreshAuthorizationStatus()
-        await SharedImportService(modelContext: modelContext).processPending()
+        let result = await SharedImportService(modelContext: modelContext).processPending()
+        if let message = result.message { importMessage = message }
     }
 }

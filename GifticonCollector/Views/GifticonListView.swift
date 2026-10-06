@@ -10,7 +10,10 @@ struct GifticonListView: View {
     @ObservedObject var photoLibraryService: PhotoLibraryService
     @StateObject private var scanViewModel: ScanViewModel
 
-    init(photoLibraryService: PhotoLibraryService, modelContext: ModelContext) {
+    let importMessage: String?
+
+    init(photoLibraryService: PhotoLibraryService, modelContext: ModelContext, importMessage: String? = nil) {
+        self.importMessage = importMessage
         self.photoLibraryService = photoLibraryService
         _scanViewModel = StateObject(wrappedValue: ScanViewModel(photoLibraryService: photoLibraryService, modelContext: modelContext))
     }
@@ -20,6 +23,8 @@ struct GifticonListView: View {
     @State private var filter = WalletFilter.available
     @State private var showImport = false
     @State private var showPrivacy = false
+    @State private var showImportQueue = false
+    @State private var pendingImportCount = 0
     @State private var deletion: Gifticon?
     @State private var errorMessage: String?
     @State private var offerSettings = false
@@ -37,6 +42,10 @@ struct GifticonListView: View {
     var body: some View {
         NavigationStack {
             List {
+                if pendingImportCount > 0 {
+                    Button("가져오기 확인 \(pendingImportCount)개", systemImage: "tray") { showImportQueue = true }
+                }
+                if let importMessage { Text("최근 " + importMessage).font(.subheadline).foregroundStyle(.secondary) }
                 if filter != .review {
                     let reviewCount = gifticons.filter(\.needsReview).count
                     if reviewCount > 0 {
@@ -112,6 +121,7 @@ struct GifticonListView: View {
                                 }
                             }
                         }
+                        Button("가져오기 대기", systemImage: "tray") { showImportQueue = true }
                         Button("개인정보 처리", systemImage: "hand.raised") { showPrivacy = true }
                     } label: { Label("더 보기", systemImage: "ellipsis") }
                 }
@@ -120,6 +130,9 @@ struct GifticonListView: View {
                         .accessibilityIdentifier("wallet.add")
                 }
             }
+            .task { refreshImportCount() }
+            .onChange(of: importMessage) { _, _ in refreshImportCount() }
+            .sheet(isPresented: $showImportQueue, onDismiss: refreshImportCount) { ImportQueueView() }
             .sheet(isPresented: $showPrivacy) { PrivacyPolicyView() }
             .sheet(isPresented: $showImport) {
                 NavigationStack {
@@ -141,6 +154,10 @@ struct GifticonListView: View {
                 Button("확인", role: .cancel) { errorMessage = nil }
             } message: { Text(errorMessage ?? "") }
         }
+    }
+
+    private func refreshImportCount() {
+        pendingImportCount = ((try? SharedImageInbox.failedFiles().count) ?? 0) + ((try? SharedImageInbox.pendingFiles().count) ?? 0)
     }
 
     private func startScan() {

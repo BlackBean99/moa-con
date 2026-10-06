@@ -47,6 +47,10 @@ struct GifticonCollectorApp: App {
         }
         let filename = try SharedImageInbox.enqueue(imageData: image.jpegData(compressionQuality: 0.9)!)
         try SharedImageInbox.archive(SharedImageInbox.url(for: filename)!)
+        if ProcessInfo.processInfo.arguments.contains("--queue-testing") {
+            let failed = try SharedImageInbox.enqueue(imageData: image.jpegData(compressionQuality: 0.9)!)
+            try SharedImageInbox.markFailed(SharedImageInbox.url(for: failed)!, message: "바코드를 찾지 못했어요. 직접 입력할 수 있습니다.")
+        }
         let service = PersistenceService(modelContext: container.mainContext)
         for (barcode, brand, title, review, expiry) in [
             ("DEMO-A", "스타벅스", "아메리카노 Tall", false, Date.now.addingTimeInterval(3 * 86400)),
