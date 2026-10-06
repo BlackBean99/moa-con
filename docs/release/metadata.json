@@ -1,0 +1,38 @@
+{
+  "name": "모아콘",
+  "subtitle": "쿠폰을 한곳에",
+  "version": "1.0",
+  "build": "6",
+  "category": "Utilities",
+  "territories": [
+    "KR"
+  ],
+  "price": "free",
+  "operatorName": "",
+  "supportEmail": "ymecca123@gmail.com",
+  "privacyPolicyURL": "",
+  "supportURL": "",
+  "reviewContactName": "",
+  "reviewContactEmail": "",
+  "reviewContactPhone": "",
+  "appStoreConnectRecordVerified": false,
+  "distributionValidated": false,
+  "ageRatingQuestionnaireCompleted": false,
+  "appPrivacyCompleted": false,
+  "screenshots": {
+    "iPhone": [],
+    "iPad": []
+  },
+  "ads": {
+    "enabled": false,
+    "appID": "",
+    "bannerUnitID": "",
+    "publisherID": "",
+    "developerWebsiteURL": "",
+    "consentConfigured": false,
+    "privacyDisclosureReviewed": false,
+    "appAdsTxtVerified": false,
+    "appReadinessApproved": false,
+    "paymentAccountReady": false
+  }
+}

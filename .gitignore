@@ -66,3 +66,11 @@ start-script.sh
 start.py
 path/to/venv/
 .env*
+
+# Local usability evidence and native release products
+artifacts/
+
+# Private App Review contacts and local account validation
+docs/release/metadata.local.json
+
+__pycache__/

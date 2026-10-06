@@ -1,0 +1,39 @@
+# 과업 상태 변경 이력
+
+- 2026-10-06T12:44:52+09:00 T01: active; 저장소 과업 관리와 worktree
+- 2026-10-06T12:45:31+09:00 T01: done; docs/qa/T01-tracker.md
+- 2026-10-06T12:45:31+09:00 T02: active; 금액 의미와 후보 데이터
+- 2026-10-06T12:47:50+09:00 T02: done; docs/qa/T02-models.md
+- 2026-10-06T12:47:50+09:00 T03: active; 인식 실패 직접 등록
+- 2026-10-06T13:55:00+09:00 T03: done; docs/qa/T03-registration.md
+- 2026-10-06T13:55:00+09:00 T04: active; 기존 쿠폰 후보와 금액 수정
+- 2026-10-06T13:55:33+09:00 T05: active; 공유 저장 결과와 실패 큐
+- 2026-10-06T13:58:06+09:00 T05: done; docs/qa/T05-sharing.md
+- 2026-10-06T13:58:06+09:00 T06: active; 실패 큐 복구 화면
+- 2026-10-06T14:01:16+09:00 T04: done; docs/qa/T04-editor.md
+- 2026-10-06T14:01:16+09:00 T06: done; docs/qa/T06-queue.md
+- 2026-10-06T14:01:16+09:00 T07: active; 자동 찾기와 기존 원본 보존
+- 2026-10-06T14:04:36+09:00 T07: done; docs/qa/T07-originals.md
+- 2026-10-06T14:04:36+09:00 T08: active; 만료 알림 예약과 갱신
+- 2026-10-06T14:09:40+09:00 T08: done; docs/qa/T08-reminders.md
+- 2026-10-06T14:09:40+09:00 T09: active; 출시 후보 회귀와 네이티브 배포
+- 2026-10-06T14:26:52+09:00 T12: active; 중단된 원본 파일 저장 복구
+- 2026-10-06T14:28:08+09:00 T12: done; docs/qa/T12-interrupted-save.md
+- 2026-10-06T14:29:21+09:00 T09: blocked; 자동 회귀·Archive·iPhone 설치 완료; 정상 iPad/최소 OS/Photos 호스트와 권한·사진 삭제·저장 실패 실제 과업 검증 및 최종 기기 실행 확인 미완료
+- 2026-10-06T14:29:21+09:00 T10: blocked; 심사 자료 초안과 무효 입력 이미지 준비; T09 검증 및 제출 규격 iPhone/iPad 실제 화면 미완료
+- 2026-10-06T14:29:21+09:00 T11: blocked; 운영자·지원·공개 정책 URL·심사 연락처 미설정; 현재 Team의 App Store profile 생성 권한 부족으로 export 실패, Connect/Validate 미확인
+- 2026-10-06T14:29:35+09:00 T09: blocked; docs/qa/T09-release.md
+- 2026-10-06T14:29:35+09:00 T10: blocked; docs/release/RELEASE_RUNBOOK.md
+- 2026-10-06T14:29:35+09:00 T11: blocked; docs/APP_STORE_READINESS.md
+- 2026-10-06T15:18:59+09:00 T11: blocked; docs/APP_STORE_READINESS.md
+- 2026-10-06T17:40:12+09:00 T13: active; 광고 수익화 명세와 과업
+- 2026-10-06T17:40:12+09:00 T13: done; docs/AD_MONETIZATION.md
+- 2026-10-06T17:40:12+09:00 T14: active; 광고 SDK와 동의·설정 안전장치
+- 2026-10-07T01:03:18+09:00 T14: done; docs/qa/T14-ad-consent.md
+- 2026-10-07T01:03:18+09:00 T15: active; 보관함 배너와 실패 시 기능 유지
+- 2026-10-07T01:03:18+09:00 T16: active; 광고 개인정보와 출시 검사
+- 2026-10-07T01:03:18+09:00 T16: done; docs/qa/T16-ad-release-gates.md
+- 2026-10-07T01:30:00+09:00 T15: done; docs/qa/T15-wallet-ad.md
+- 2026-10-07T01:30:00+09:00 T17: active; 광고 후보 네이티브 검증과 로컬 배포
+- 2026-10-07T01:31:42+09:00 T17: blocked; docs/qa/T17-ads.md
+- 2026-10-07T01:31:42+09:00 T18: blocked; docs/qa/T16-ad-release-gates.md
