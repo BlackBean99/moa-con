@@ -23,7 +23,7 @@
 - 최초 전체 실행의 알림 UI 실패는 권한용 무조건 화면 중앙 탭이 Settings를 연 문제였다. SpringBoard 권한 버튼만 처리하도록 수정한 뒤 예약 1 → 취소 0을 포함해 전체 재검증했다.
 - 최종 Release Archive 성공: `artifacts/release/Moacon-Device-1.0.xcarchive`. Apple Development 서명과 공유 확장. App Store Validate 완료와 구분한다.
 - Simulator Release 빌드·설치·실행 성공과 실제 보관함 화면 확인. ZIP: `artifacts/release/Moacon-Simulator-1.0.zip`.
-- 실제 iPhone 16 Pro 설치 성공. T12 이전 1.0 빌드는 잠금 해제 후 devicectl 실행 성공. T12 포함 빌드 설치 후 자동 잠금으로 실행이 거부됐다. 사용자 잠금 해제 이후에는 기기가 unavailable로 연결되지 않아 실행 미확인. 지원 이메일 반영 최신 Archive는 준비됐지만 실기기 설치는 연결 복구 후 진행한다. 화면별 과업과 매장 판독을 모두 검증했다는 의미는 아니다.
+- 실제 iPhone 16 Pro 설치 성공. T12 이전 1.0 빌드는 잠금 해제 후 devicectl 실행 성공. 잠금/연결 문제 해소 후 지원 이메일을 반영한 최신 1.0(5) 빌드 설치·실행 성공. 실행 중인 앱 프로세스 PID 22206 확인(contact-device-install.log, contact-device-launch.log, contact-device-processes.log). 화면별 과업과 매장 판독을 모두 검증했다는 의미는 아니다.
 - App Store export 실제 시도 실패: 현재 서명 Team은 iOS App Store 프로파일 생성 권한이 없고 앱/확장 배포 프로파일도 없다. `artifacts/release/export.log`.
 - [상세 검증·반증 기록](qa/T09-release.md). 원본 작업 폴더의 기존 Xcode 미커밋 변경은 보존했다.
 

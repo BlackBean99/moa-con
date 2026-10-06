@@ -34,3 +34,7 @@ Implement: T02–T08 구현과 각 증거 기록, 전체 회귀 및 네이티브
 - Photos에 합성 입력을 넣고 Library 표시까지 확인했지만 CUA 클릭은 windowNotFound/noWindowsAvailable 오류로 완료하지 못했다. 확장의 실제 공유 진입/재시도 통과로 기록하지 않는다.
 
 - 마지막 공유 실패 문구 보완 후 Archive/Simulator Release 빌드 재성공. 최종 실기기 설치와 Simulator 실행(23910) 확인. delivery-archive.log, delivery-simulator-build.log, delivery-device-install.log, delivery-simulator-launch.log. 실기기 최종 화면 과업은 여전히 미확인.
+
+## 실기기 연결 복구 후 최신 빌드 확인
+
+2026-10-06 사용자 연결 확인 후 iPhone 16 Pro connected 상태 확인. 지원 이메일 반영 최신 1.0(5) Archive 앱 설치·실행 성공. devicectl info processes에서 앱 경로와 PID 22206 확인. contact-device-install.log, contact-device-launch.log, contact-device-processes.log. 이전 잠금/연결로 인한 설치·실행 차단은 해소됐다. 화면별 과업, 공유 호스트, 사진 삭제/권한 변경/저장 공간/iCloud, iPad/최소 OS 검증을 완료한 것으로 간주하지 않는다.

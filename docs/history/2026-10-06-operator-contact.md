@@ -11,3 +11,5 @@
 - 잠금 해제 직후 기존 UDID와 CoreDevice UUID로 실행 시도. 모두 CoreDeviceError 1011: 기기 찾기 실패. 목록에서 iPhone 16 Pro unavailable 확인. USB 연결·신뢰 확인을 비동기로 요청했고 현재 입력을 기다린다. 잠금 해제로 최종 실행 성공했다고 기록하지 않는다.
 
 작업: ../moa-con-release, feature/release-readiness. 원래 moa-con 폴더의 Xcode 프로젝트/스킴 미커밋 변경은 보존한다. 기존 Draft PR https://github.com/BlackBean99/moa-con/pull/2 에 전달한다. 커밋은 Git 로그에서 확인한다. 이메일을 보내거나 앱을 업로드/심사 제출하지 않았다.
+
+후속 연결 복구와 최신 빌드 실기기 설치·실행 성공은 2026-10-06-device-connected.md에 기록했다.
