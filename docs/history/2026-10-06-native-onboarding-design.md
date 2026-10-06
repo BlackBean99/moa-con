@@ -36,6 +36,6 @@ Apple의 공식 WWDC26/HIG와 링크의 독립적인 Apple 웹 분석을 구분�
 
 ## 커밋과 경계
 
-작업 브랜치 `fix/usability-review-local-release`. 커밋은 완료 후 기록. 기존 Xcode 업그레이드 변경은 사용자의 미커밋 변경으로 남긴다.
+작업 브랜치 `fix/usability-review-local-release`. 구현 커밋 `6892ff3` — `feat: adopt native design system and first-launch onboarding`. 기존 Xcode 업그레이드 변경은 사용자의 미커밋 변경으로 남긴다.
 
 Xcode 26.3 / SDK 26.2이며 27 SDK/런타임 검증을 완료했다고 주장하지 않는다. 실제 iPhone에서는 설치·프로세스 실행을 확인했으며 실쿠폰 스캐너 판독·VoiceOver 전체 탐색·장기 반복사용/브랜드 선호도는 미검증. 신규 모델 스키마 변경이나 데이터 삭제 없이 업데이트했다. 앱 삭제 대신 이전 코드를 다시 빌드/설치하는 방식으로 롤백하며 저장소와 원본은 먼저 보존한다.
