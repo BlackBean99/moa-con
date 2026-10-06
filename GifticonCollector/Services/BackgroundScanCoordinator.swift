@@ -40,11 +40,7 @@ final class BackgroundScanCoordinator {
     }
 
     private func handle(_ task: BGProcessingTask) {
-        task.expirationHandler = {
-            // TODO: Cancel the active scan task and persist partial progress.
-        }
-
-        Task { @MainActor [weak self] in
+        let worker = Task { @MainActor [weak self] in
             guard let self else { return }
             guard let modelContainer else {
                 task.setTaskCompleted(success: false)
@@ -56,8 +52,9 @@ final class BackgroundScanCoordinator {
                 modelContext: modelContainer.mainContext
             )
             await viewModel.scanAll()
-            task.setTaskCompleted(success: viewModel.errorMessage == nil)
+            task.setTaskCompleted(success: !Task.isCancelled && viewModel.errorMessage == nil)
             self.scheduleProcessingTask()
         }
+        task.expirationHandler = { worker.cancel() }
     }
 }

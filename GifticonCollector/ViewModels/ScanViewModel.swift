@@ -8,11 +8,12 @@ final class ScanViewModel: ObservableObject {
     @Published private(set) var processedCount = 0
     @Published private(set) var totalCount = 0
     @Published private(set) var candidateCount = 0
+    @Published private(set) var resultMessage: String?
+    @Published private(set) var phaseTitle = "사진에서 바코드 찾는 중"
     @Published var errorMessage: String?
 
     private let photoLibraryService: PhotoLibraryService
     private let ocrService = OCRService()
-    private let classifier = GifticonClassifier()
     private let parser = GifticonParser()
     private let persistenceService: PersistenceService
     private let candidateService: BarcodeCandidateService
@@ -25,8 +26,12 @@ final class ScanViewModel: ObservableObject {
 
     func scanAll() async {
         guard !isScanning else { return }
+        guard [.authorized, .limited].contains(photoLibraryService.authorizationStatus) else { return }
         isScanning = true
+        defer { isScanning = false }
         errorMessage = nil
+        resultMessage = nil
+        phaseTitle = "사진에서 바코드 찾는 중"
         processedCount = 0
         let assets = photoLibraryService.fetchImageAssets()
         totalCount = assets.count
@@ -34,11 +39,14 @@ final class ScanViewModel: ObservableObject {
         let candidates = await candidateService.findCandidates(in: assets) { [weak self] processed in
             self?.processedCount = processed
         }
+        phaseTitle = "쿠폰 정보 확인 중"
         candidateCount = candidates.count
         processedCount = 0
         totalCount = candidates.count
 
         var savedCount = 0
+        var reviewCount = 0
+        var duplicateCount = 0
         for index in 0..<candidates.count {
             if Task.isCancelled { break }
             let candidate = candidates[index]
@@ -46,10 +54,13 @@ final class ScanViewModel: ObservableObject {
             do {
                 let image = try await photoLibraryService.loadCGImage(for: asset)
                 let text = try await ocrService.recognizeText(from: image)
-                if classifier.classify(text: text, barcodeValues: candidate.barcodeValues).isLikelyGifticon,
-                   let parsed = parser.parse(text: text, barcodeValues: candidate.barcodeValues) {
-                    let saved = try persistenceService.save(parsed: parsed, assetLocalIdentifier: asset.localIdentifier)
-                    if saved.createdAt.timeIntervalSinceNow > -2 { savedCount += 1 }
+                if let parsed = parser.parse(text: text, barcodeValues: candidate.barcodeValues) {
+                    if persistenceService.isIgnoredByAutomaticScan(parsed.barcodeNumber ?? "") { processedCount = index + 1; continue }
+                    let existing = try persistenceService.contains(barcode: parsed.barcodeNumber ?? "")
+                    _ = try persistenceService.save(parsed: parsed, assetLocalIdentifier: asset.localIdentifier)
+                    if existing { duplicateCount += 1 }
+                    else if parsed.needsReview { reviewCount += 1 }
+                    else { savedCount += 1 }
                 }
             } catch {
                 // One unreadable asset should not abort a full-library scan.
@@ -57,7 +68,6 @@ final class ScanViewModel: ObservableObject {
             }
             processedCount = index + 1
         }
-        isScanning = false
-        NotificationService.postScanCompleted(count: savedCount)
+        resultMessage = (Task.isCancelled ? "검색 중단 · " : "검색 완료 · ") + "쿠폰 \(savedCount)개 추가 · 확인 필요 \(reviewCount)개 · 중복 \(duplicateCount)개"
     }
 }

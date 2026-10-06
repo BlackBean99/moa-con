@@ -27,13 +27,22 @@ struct GifticonParser: Sendable {
     }
 
     static func normalizeBarcode(_ value: String) -> String {
-        value.filter { $0.isLetter || $0.isNumber }
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.allSatisfy({ $0.isNumber || $0.isWhitespace || $0 == "-" }) {
+            return trimmed.filter(\.isNumber)
+        }
+        return trimmed
     }
 
     private func parseBrand(from lines: [String]) -> String {
         let brands = ["스타벅스", "투썸플레이스", "이디야", "메가커피", "컴포즈커피", "배스킨라빈스", "파리바게뜨", "뚜레쥬르", "올리브영", "교촌치킨", "BBQ", "BHC", "맥도날드", "CU", "GS25", "세븐일레븐"]
-        return brands.first { brand in lines.contains { $0.localizedCaseInsensitiveContains(brand) } }
-            ?? "브랜드 확인 필요"
+        if let known = brands.first(where: { brand in lines.contains { $0.localizedCaseInsensitiveContains(brand) } }) { return known }
+        for line in lines where line.contains("교환처") || line.contains("사용처") {
+            let value = line.replacingOccurrences(of: "교환처", with: "").replacingOccurrences(of: "사용처", with: "")
+                .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines.union(CharacterSet(charactersIn: ":：")))
+            if !value.isEmpty { return value }
+        }
+        return "브랜드 확인 필요"
     }
 
     private func parseTitle(from lines: [String], excluding brand: String) -> String {
@@ -59,27 +68,37 @@ struct GifticonParser: Sendable {
             #"20\d{2}\s?년\s?\d{1,2}\s?월\s?\d{1,2}\s?일"#
         ]
         let lines = text.components(separatedBy: .newlines)
-        let expiryLines = lines.filter { $0.contains("유효기간") || $0.contains("사용기한") }
-        let source = expiryLines.isEmpty ? "" : expiryLines.joined(separator: "\n")
+        var expiryLines: [String] = []
+        for (index, line) in lines.enumerated() where line.contains("유효기간") || line.contains("사용기한") || line.contains("유효기한") {
+            expiryLines.append(line)
+            if line.range(of: "20[0-9]{2}", options: .regularExpression) == nil, index + 1 < lines.count {
+                expiryLines.append(lines[index + 1])
+            }
+        }
+        let source = expiryLines.joined(separator: "\n")
         for pattern in patterns {
-            guard let range = source.range(of: pattern, options: .regularExpression) else { continue }
-            let raw = String(source[range])
-                .replacingOccurrences(of: "년", with: ".")
-                .replacingOccurrences(of: "월", with: ".")
-                .replacingOccurrences(of: "일", with: "")
-                .replacingOccurrences(of: "/", with: ".")
-                .replacingOccurrences(of: "-", with: ".")
-            let components = raw.split(separator: ".").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
-            guard components.count == 3 else { continue }
-            var date = DateComponents()
-            date.calendar = Calendar(identifier: .gregorian)
-            date.year = components[0]
-            date.month = components[1]
-            date.day = components[2]
-            guard let result = date.date else { continue }
-            let check = date.calendar!.dateComponents([.year, .month, .day], from: result)
-            guard check.year == date.year, check.month == date.month, check.day == date.day else { continue }
-            return result
+            guard let regex = try? NSRegularExpression(pattern: pattern) else { continue }
+            let matches = regex.matches(in: source, range: NSRange(source.startIndex..., in: source))
+            for match in matches.reversed() {
+                guard let range = Range(match.range, in: source) else { continue }
+                let raw = String(source[range])
+                    .replacingOccurrences(of: "년", with: ".")
+                    .replacingOccurrences(of: "월", with: ".")
+                    .replacingOccurrences(of: "일", with: "")
+                    .replacingOccurrences(of: "/", with: ".")
+                    .replacingOccurrences(of: "-", with: ".")
+                let components = raw.split(separator: ".").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+                guard components.count == 3 else { continue }
+                var date = DateComponents()
+                date.calendar = Calendar(identifier: .gregorian)
+                date.year = components[0]
+                date.month = components[1]
+                date.day = components[2]
+                guard let result = date.date else { continue }
+                let check = date.calendar!.dateComponents([.year, .month, .day], from: result)
+                guard check.year == date.year, check.month == date.month, check.day == date.day else { continue }
+                return result
+            }
         }
         return nil
     }

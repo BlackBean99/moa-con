@@ -4,7 +4,7 @@ import SwiftData
 @Model
 final class Gifticon {
     @Attribute(.unique) var barcodeNumber: String?
-    var needsReview: Bool = false
+    var needsReview: Bool = true
     var id: UUID
     var brand: String
     var title: String
@@ -18,6 +18,7 @@ final class Gifticon {
 
     init(
         id: UUID = UUID(),
+        needsReview: Bool = false,
         brand: String,
         title: String,
         barcodeNumber: String? = nil,
@@ -29,6 +30,7 @@ final class Gifticon {
         allowsPartialRedemption: Bool = false,
         createdAt: Date = .now
     ) {
+        self.needsReview = needsReview
         self.id = id
         self.brand = brand
         self.title = title

@@ -16,10 +16,10 @@ struct ManualImportView: View {
     var body: some View {
         VStack(spacing: 20) {
             ClayIcon(systemName: "photo.badge.exclamationmark", color: ClayTheme.butter, size: 74)
-            Text("사진 접근이 제한되어 있어요")
+            Text("사진으로 쿠폰 추가")
                 .font(.title2.bold())
                 .foregroundStyle(ClayTheme.ink)
-            Text("사진을 전체 공개하지 않아도 한 장씩 선택해 기프트콘을 등록할 수 있습니다.")
+            Text("한 장을 선택하면 이 기기에서 인식해요. 확실하지 않은 바코드는 확인 필요에 보관합니다.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
             PhotosPicker(selection: $selectedItem, matching: .images) {
@@ -79,11 +79,14 @@ struct ManualImportView: View {
             }
 
             let persistenceService = PersistenceService(modelContext: modelContext)
+            let filename = try SharedImageInbox.enqueue(imageData: data)
+            guard let storedURL = SharedImageInbox.url(for: filename) else { throw SharedImageInbox.InboxError.unavailable }
+            try SharedImageInbox.archive(storedURL)
             _ = try persistenceService.save(
                 parsed: parsed,
-                assetLocalIdentifier: "manual-\(UUID().uuidString)"
+                assetLocalIdentifier: "shared:\(filename)"
             )
-            message = "기프트콘을 등록했습니다. 같은 바코드가 있으면 기존 항목을 유지합니다."
+            message = parsed.needsReview ? "확인 필요에 보관했어요. 보관함에서 원본을 확인해 주세요." : "보관함에 추가했어요. 같은 바코드는 중복 저장하지 않습니다."
         } catch {
             message = "사진 인식에 실패했습니다. 다시 시도해 주세요."
         }

@@ -1,4 +1,6 @@
 import XCTest
+import UIKit
+import CoreImage
 @testable import GifticonCollector
 
 final class GifticonParserTests: XCTestCase {
@@ -62,5 +64,46 @@ final class GifticonParserTests: XCTestCase {
     func testInvalidExpiryDoesNotRollIntoNextMonth() {
         let result = GifticonParser().parse(text: "상품권\n유효기간 2026.02.31", barcodeValues: ["123"])
         XCTAssertNil(result?.expiryDate)
+    }
+    func testPreservesStructuredBarcodePayload() {
+        XCTAssertEqual(GifticonParser.normalizeBarcode(" https://example.com/a?b=1 "), "https://example.com/a?b=1")
+        XCTAssertNotEqual(GifticonParser.normalizeBarcode("ABC-123"), GifticonParser.normalizeBarcode("ABC123"))
+    }
+
+    @MainActor
+    func testVisionRecognizesRenderedCouponEndToEnd() async throws {
+        let filter = try XCTUnwrap(CIFilter(name: "CICode128BarcodeGenerator"))
+        filter.setValue(Data("123456789012".utf8), forKey: "inputMessage")
+        filter.setValue(20, forKey: "inputQuietSpace")
+        let output = try XCTUnwrap(filter.outputImage).transformed(by: CGAffineTransform(scaleX: 4, y: 6))
+        let barcode = try XCTUnwrap(CIContext().createCGImage(output, from: output.extent))
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1000, height: 1200), format: format)
+        let image = renderer.image { context in
+            UIColor.white.setFill()
+            context.fill(CGRect(x: 0, y: 0, width: 1000, height: 1200))
+            ("스타벅스\n아메리카노 Tall\n교환권\n5000원\n유효기간 2026.12.31" as NSString).draw(in: CGRect(x: 70, y: 80, width: 860, height: 600), withAttributes: [.font: UIFont.systemFont(ofSize: 48), .foregroundColor: UIColor.black])
+            context.cgContext.interpolationQuality = .none
+            UIImage(cgImage: barcode).draw(in: CGRect(x: 70, y: 750, width: barcode.width, height: barcode.height))
+        }
+        let attachment = XCTAttachment(image: image)
+        attachment.name = "Synthetic-Code128-Coupon"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+        let result = try await OCRService().recognize(from: XCTUnwrap(image.cgImage))
+        XCTAssertTrue(result.barcodeValues.contains("123456789012"), "Synthetic detections: \(result.barcodeValues)")
+        let parsed = try XCTUnwrap(GifticonParser().parse(text: result.text, barcodeValues: result.barcodeValues))
+        XCTAssertFalse(parsed.needsReview)
+        XCTAssertEqual(parsed.brand, "스타벅스")
+        XCTAssertEqual(parsed.amount, 5000)
+        XCTAssertNotNil(parsed.expiryDate)
+    }
+    func testExpiryRangeUsesLastDayAndFollowingLine() {
+        for expiry in ["유효기간 2026.01.01 ~ 2026.12.31", "유효기간\n2026.12.31"] {
+            let result = GifticonParser().parse(text: "교환처 동네카페\n상품권\n" + expiry, barcodeValues: ["123"])
+            XCTAssertEqual(result?.brand, "동네카페")
+            XCTAssertEqual(Calendar.current.component(.month, from: result!.expiryDate!), 12)
+        }
     }
 }
