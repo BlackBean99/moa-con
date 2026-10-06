@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10400000000000000000001 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A10400000000000000000002 /* PrivacyInfo.xcprivacy */; };
 		111C81740A5244E7A3D92611 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111C81740A5244E7A3D92610 /* OnboardingView.swift */; };
 		07A74A1007034CE024C58334 /* WalletFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */; };
 		146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -79,6 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A10400000000000000000002 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		111C81740A5244E7A3D92610 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		02CD008814EC588B16D927C8 /* GifticonCollectorUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualImportView.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		0328E51A0AB582AA69138E2F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A10400000000000000000002 /* PrivacyInfo.xcprivacy */,
 				EC4B3510AA4F94EE6A71F4CC /* Assets.xcassets */,
 				0A46BB7805092E24433C319F /* GifticonCollector.entitlements */,
 				126A2C16EA9A55158170C6B1 /* GifticonCollectorShare.entitlements */,
@@ -377,6 +380,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10400000000000000000001 /* PrivacyInfo.xcprivacy in Resources */,
 				C635043BC48B47A576E9892B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,7 +615,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -619,7 +623,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
 				PRODUCT_NAME = GifticonCollectorShare;
 				SDKROOT = iphoneos;
@@ -686,7 +690,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -694,7 +698,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
 				PRODUCT_NAME = GifticonCollectorShare;
 				SDKROOT = iphoneos;

@@ -19,6 +19,7 @@ struct GifticonListView: View {
     @State private var searchText = ""
     @State private var filter = WalletFilter.available
     @State private var showImport = false
+    @State private var showPrivacy = false
     @State private var deletion: Gifticon?
     @State private var errorMessage: String?
     @State private var offerSettings = false
@@ -111,6 +112,7 @@ struct GifticonListView: View {
                                 }
                             }
                         }
+                        Button("개인정보 처리", systemImage: "hand.raised") { showPrivacy = true }
                     } label: { Label("더 보기", systemImage: "ellipsis") }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -118,6 +120,7 @@ struct GifticonListView: View {
                         .accessibilityIdentifier("wallet.add")
                 }
             }
+            .sheet(isPresented: $showPrivacy) { PrivacyPolicyView() }
             .sheet(isPresented: $showImport) {
                 NavigationStack {
                     ManualImportView(photoLibraryService: photoLibraryService)
@@ -306,5 +309,33 @@ private struct GifticonPhotoView: View {
             image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: size * 3, height: size * 3))
         }
         .accessibilityLabel("\(gifticon.brand) 기프티콘 이미지")
+    }
+}
+
+
+private struct PrivacyPolicyView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("사진과 쿠폰") {
+                    Text("사진과 바코드는 기기에서 분석합니다. 앱이 사진이나 인식 결과를 외부 서버로 보내지 않습니다.")
+                    Text("자동 찾기로 등록한 원본은 사진 보관함에서 불러옵니다. 직접 선택하거나 공유한 이미지는 앱 보관함에 복사합니다.")
+                }
+                Section("권한") {
+                    Text("사진 접근은 자동 찾기를 선택할 때 요청합니다. 사진 접근을 허용하지 않아도 사진 한 장을 직접 선택할 수 있습니다. 알림 권한은 알림 설정을 선택할 때 요청합니다.")
+                }
+                Section("저장과 삭제") {
+                    Text("쿠폰 정보, 온보딩 완료 여부와 자동 찾기 제외 목록을 기기에 저장합니다. 삭제한 바코드는 자동 찾기에 다시 나타나지 않도록 제외 목록에 남습니다.")
+                    Text("쿠폰 삭제 시 다른 쿠폰이 쓰지 않는 복사본도 삭제합니다. 사진 보관함의 원본은 삭제하지 않습니다. 가져오기 실패 파일이나 파일 정리에 실패한 복사본은 남을 수 있습니다.")
+                    Text("앱 삭제 시 앱의 로컬 데이터도 제거됩니다. 기기 설정에 따라 앱 데이터가 시스템 백업에 포함될 수 있습니다. 앱 자체의 클라우드 동기화는 제공하지 않습니다.")
+                }
+                Section("기준일") { Text("2026년 10월 6일") }
+            }
+            .navigationTitle("개인정보 처리")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("닫기") { dismiss() } } }
+        }
     }
 }

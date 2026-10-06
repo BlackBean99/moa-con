@@ -122,6 +122,21 @@ final class WalletFlowTests: XCTestCase {
     }
 
     @MainActor
+    func testPrivacyPolicyIsAccessibleFromWallet() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
+        app.launch()
+        XCTAssertTrue(app.navigationBars["모아콘"].waitForExistence(timeout: 10))
+        app.buttons["더 보기"].tap()
+        app.buttons["개인정보 처리"].tap()
+        XCTAssertTrue(app.navigationBars["개인정보 처리"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["사진과 바코드는 기기에서 분석합니다. 앱이 사진이나 인식 결과를 외부 서버로 보내지 않습니다."].exists)
+        capture("09-privacy-policy")
+        app.buttons["닫기"].tap()
+        XCTAssertTrue(app.navigationBars["모아콘"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name

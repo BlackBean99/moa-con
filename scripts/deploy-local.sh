@@ -16,7 +16,7 @@ case "$mode" in
     product="$build_path/Build/Products/Release-iphonesimulator/GifticonCollector.app"
     xcrun simctl install "$simulator_id" "$product"
     xcrun simctl launch "$simulator_id" com.yourteam.gifticoncollector
-    ditto -c -k --keepParent "$product" artifacts/usability/Moacon-Simulator-0.3.zip
+    ditto -c -k --keepParent "$product" artifacts/usability/Moacon-Simulator-0.4.zip
     ;;
   --device)
     device_id="${2:-00008140-001809CA18A2201C}"

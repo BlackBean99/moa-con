@@ -46,20 +46,10 @@ struct CouponStatus: View {
 /// A pair of tickets repeats the app icon's mark without decorating every content row.
 struct MoaconMark: View {
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(MoaconTheme.accent.opacity(0.14))
-                .frame(width: 116, height: 88)
-                .rotationEffect(.degrees(-12))
-                .offset(x: -8, y: -10)
-            RoundedRectangle(cornerRadius: 20)
-                .fill(MoaconTheme.accent)
-                .frame(width: 116, height: 88)
-            Text("M")
-                .font(.system(size: 52, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
-        }
-        .frame(height: 144)
-        .accessibilityHidden(true)
+        Image("BrandMark")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 164, height: 164)
+            .accessibilityHidden(true)
     }
 }
