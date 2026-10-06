@@ -212,7 +212,10 @@ final class WalletFlowTests: XCTestCase {
             return false
         }
         toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
-        app.tap()
+        let systemAlert = XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.firstMatch
+        if systemAlert.waitForExistence(timeout: 2) {
+            for name in ["허용", "Allow"] where systemAlert.buttons[name].exists { systemAlert.buttons[name].tap(); break }
+        }
         XCTAssertTrue(app.staticTexts["예약된 알림 1개"].waitForExistence(timeout: 10))
         capture("13-expiry-scheduled")
         toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()

@@ -51,6 +51,9 @@ else:
         if not args.evidence or not (ROOT / args.evidence).exists(): parser.error('Provide an existing evidence file')
         changes['Evidence'] = args.evidence
     if status == 'blocked' and not args.reason: parser.error('Provide the blocking reason')
+    if status == 'blocked' and args.evidence:
+        if not (ROOT / args.evidence).exists(): parser.error('Evidence file does not exist')
+        changes['Evidence'] = args.evidence
     updated = block
     for field, value in changes.items():
         if '\n' in value: parser.error('Values must be one line')

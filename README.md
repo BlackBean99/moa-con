@@ -6,6 +6,25 @@
 
 [디자인 시스템](DESIGN.md) · [온보딩·디자인 RPI 검증](docs/DESIGN_REFACTOR_RPI.md) · [전문가 사용성 평가와 RPI 검증](docs/USABILITY_RPI.md) · [개인정보 처리 원칙](PrivacyPolicy.md)
 
+## 출시 과업 관리
+
+현재 작업은 `feature/release-readiness` 브랜치와 별도 `../moa-con-release` worktree에서 진행합니다. 원래 작업 폴더의 미커밋 Xcode 변경은 보존합니다.
+
+[과업 목록](tasks/todo.md) · [구현 계획](tasks/plan.md) · [심사 준비 판정](docs/APP_STORE_READINESS.md) · [제출 직전 절차](docs/release/RELEASE_RUNBOOK.md)
+
+```sh
+python3 scripts/tasks.py list
+python3 scripts/tasks.py next
+python3 scripts/tasks.py check
+python3 scripts/tasks.py start T09
+python3 scripts/tasks.py done T09 --evidence docs/qa/T09-release.md
+python3 scripts/release-check.py --strict
+```
+
+GitHub의 Task integrity 검사는 push/PR마다 의존 관계·증거 경로·관리 스크립트를 검사하고 제출 차단 상태를 보고합니다. 이 검사의 성공은 iOS 앱 테스트/서명/제출 승인을 뜻하지 않습니다.
+
+완료에는 검증 기록과 선행 과업 완료가 필요합니다. `block ID --reason "이유"`로 외부 조건을 기록하며, 미완료 상태를 제출 가능으로 처리하지 않습니다. 운영 정보는 `docs/release/metadata.json`에 입력한 뒤 `python3 scripts/configure-release.py`로 앱에 반영합니다. 제출 검사는 업로드하지 않습니다.
+
 로컬 Release 빌드·설치·실행:
 
 ```sh

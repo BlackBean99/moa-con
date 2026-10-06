@@ -1,0 +1,26 @@
+{
+  "name": "모아콘",
+  "subtitle": "쿠폰을 한곳에",
+  "version": "1.0",
+  "build": "5",
+  "category": "Utilities",
+  "territories": [
+    "KR"
+  ],
+  "price": "free",
+  "operatorName": "",
+  "supportEmail": "",
+  "privacyPolicyURL": "",
+  "supportURL": "",
+  "reviewContactName": "",
+  "reviewContactEmail": "",
+  "reviewContactPhone": "",
+  "appStoreConnectRecordVerified": false,
+  "distributionValidated": false,
+  "ageRatingQuestionnaireCompleted": false,
+  "appPrivacyCompleted": false,
+  "screenshots": {
+    "iPhone": [],
+    "iPad": []
+  }
+}

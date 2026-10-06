@@ -114,6 +114,14 @@ struct GifticonListView: View {
                             .disabled(scanViewModel.isScanning)
                         Button("알림 설정", systemImage: "bell") { showReminderSettings = true }
                         Button("가져오기 대기", systemImage: "tray") { showImportQueue = true }
+                        if let value = Bundle.main.object(forInfoDictionaryKey: "MoaconSupportURL") as? String,
+                           let url = URL(string: value), url.scheme == "https" {
+                            Link("고객지원", destination: url)
+                        }
+                        if let email = Bundle.main.object(forInfoDictionaryKey: "MoaconSupportEmail") as? String, !email.isEmpty,
+                           let url = URL(string: "mailto:" + email) {
+                            Link("문의", destination: url)
+                        }
                         Button("개인정보 처리", systemImage: "hand.raised") { showPrivacy = true }
                     } label: { Label("더 보기", systemImage: "ellipsis") }
                 }
@@ -329,16 +337,23 @@ private struct PrivacyPolicyView: View {
     var body: some View {
         NavigationStack {
             Form {
+                if let value = Bundle.main.object(forInfoDictionaryKey: "MoaconPrivacyPolicyURL") as? String,
+                   let url = URL(string: value), url.scheme == "https" {
+                    Section { Link("개인정보처리방침", destination: url) }
+                }
+                if let name = Bundle.main.object(forInfoDictionaryKey: "MoaconOperatorName") as? String, !name.isEmpty {
+                    Section("운영자") { Text(name) }
+                }
                 Section("사진과 쿠폰") {
                     Text("사진과 바코드는 기기에서 분석합니다. 앱이 사진이나 인식 결과를 외부 서버로 보내지 않습니다.")
-                    Text("자동 찾기로 등록한 원본은 사진 보관함에서 불러옵니다. 직접 선택하거나 공유한 이미지는 앱 보관함에 복사합니다.")
+                    Text("새로 등록한 쿠폰 이미지는 앱 보관함에 복사합니다. 기존 쿠폰 원본도 사진 접근이 가능할 때 복사합니다. 사진 보관함의 원본을 지우거나 사진 접근을 변경해도 복사본은 남습니다.")
                 }
                 Section("권한") {
                     Text("사진 접근은 자동 찾기를 선택할 때 요청합니다. 사진 접근을 허용하지 않아도 사진 한 장을 직접 선택할 수 있습니다. 알림 권한은 알림 설정을 선택할 때 요청합니다.")
                 }
                 Section("저장과 삭제") {
-                    Text("쿠폰 정보, 온보딩 완료 여부와 자동 찾기 제외 목록을 기기에 저장합니다. 삭제한 바코드는 자동 찾기에 다시 나타나지 않도록 제외 목록에 남습니다.")
-                    Text("쿠폰 삭제 시 다른 쿠폰이 쓰지 않는 복사본도 삭제합니다. 사진 보관함의 원본은 삭제하지 않습니다. 가져오기 실패 파일이나 파일 정리에 실패한 복사본은 남을 수 있습니다.")
+                    Text("쿠폰 정보, 온보딩 완료 여부, 알림 설정과 자동 찾기 제외 목록을 기기에 저장합니다. 삭제한 바코드는 자동 찾기에 다시 나타나지 않도록 제외 목록에 남습니다.")
+                    Text("쿠폰 삭제 시 다른 쿠폰이 쓰지 않는 복사본도 삭제합니다. 사진 보관함의 원본은 삭제하지 않습니다. 가져오기 실패 사진은 대기 목록에서 다시 입력하거나 삭제할 수 있습니다. 파일 정리에 실패한 복사본은 남을 수 있습니다.")
                     Text("앱 삭제 시 앱의 로컬 데이터도 제거됩니다. 기기 설정에 따라 앱 데이터가 시스템 백업에 포함될 수 있습니다. 앱 자체의 클라우드 동기화는 제공하지 않습니다.")
                 }
                 Section("기준일") { Text("2026년 10월 6일") }

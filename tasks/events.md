@@ -19,3 +19,9 @@
 - 2026-10-06T14:09:40+09:00 T09: active; 출시 후보 회귀와 네이티브 배포
 - 2026-10-06T14:26:52+09:00 T12: active; 중단된 원본 파일 저장 복구
 - 2026-10-06T14:28:08+09:00 T12: done; docs/qa/T12-interrupted-save.md
+- 2026-10-06T14:29:21+09:00 T09: blocked; 자동 회귀·Archive·iPhone 설치 완료; 정상 iPad/최소 OS/Photos 호스트와 권한·사진 삭제·저장 실패 실제 과업 검증 및 최종 기기 실행 확인 미완료
+- 2026-10-06T14:29:21+09:00 T10: blocked; 심사 자료 초안과 무효 입력 이미지 준비; T09 검증 및 제출 규격 iPhone/iPad 실제 화면 미완료
+- 2026-10-06T14:29:21+09:00 T11: blocked; 운영자·지원·공개 정책 URL·심사 연락처 미설정; 현재 Team의 App Store profile 생성 권한 부족으로 export 실패, Connect/Validate 미확인
+- 2026-10-06T14:29:35+09:00 T09: blocked; docs/qa/T09-release.md
+- 2026-10-06T14:29:35+09:00 T10: blocked; docs/release/RELEASE_RUNBOOK.md
+- 2026-10-06T14:29:35+09:00 T11: blocked; docs/APP_STORE_READINESS.md

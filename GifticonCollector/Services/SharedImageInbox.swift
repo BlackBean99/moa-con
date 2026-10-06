@@ -5,11 +5,15 @@ enum SharedImageInbox {
     static let appGroup = "group.com.yourteam.gifticoncollector"
     static let maximumBytes = 20 * 1024 * 1024
     private static let folder = "MessageAttachments"
+    #if DEBUG
+    // UI tests reset the in-memory DB on launch; give their files the same lifetime.
+    private static let uiTestSession = UUID().uuidString
+    #endif
 
     static var directoryURL: URL? {
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
-            return FileManager.default.temporaryDirectory.appendingPathComponent("MoaconUITestInbox", isDirectory: true)
+            return FileManager.default.temporaryDirectory.appendingPathComponent("MoaconUITestInbox/\(uiTestSession)", isDirectory: true)
         }
         #endif
         return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)?.appendingPathComponent(folder, isDirectory: true)

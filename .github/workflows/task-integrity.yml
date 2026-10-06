@@ -1,0 +1,28 @@
+name: Task integrity
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: task-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tracker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Validate task dependencies and evidence
+        run: python3 scripts/tasks.py check
+      - name: Compile repository management scripts
+        run: python3 -m py_compile scripts/tasks.py scripts/configure-release.py scripts/release-check.py
+      - name: Report submission blockers (not an app test or submission approval)
+        run: python3 scripts/release-check.py >> "$GITHUB_STEP_SUMMARY"

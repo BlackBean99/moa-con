@@ -84,33 +84,33 @@
 
 ## T09: 출시 후보 회귀와 네이티브 배포
 
-**Status:** active
+**Status:** blocked
 **Depends:** T04,T06,T07,T08,T12
 **Acceptance:** 전체 자동 테스트 통과; iPhone/iPad QA 증거; Release Archive와 로컬 설치
 **Verify:** xcodebuild test/archive; deploy-local; 결과 bundle
 **Files:** Tests/*, UITests/*, scripts/*, project.yml
-**Evidence:** —
-**Reason:** —
+**Evidence:** docs/qa/T09-release.md
+**Reason:** 전체 자동 회귀·Archive·iPhone 설치; iPad/최소 OS/Photos 호스트 및 권한·사진 삭제·저장 실패 실제 과업 검증 미완료
 
 ## T10: 심사 자료와 출시 절차
 
-**Status:** planned
+**Status:** blocked
 **Depends:** T09
 **Acceptance:** 소개/개인정보/지원/심사 노트/스크린샷 초안; 제출 gate 검증; 한계 명시
 **Verify:** release-check CLI; 자료 검토
 **Files:** docs/release/*, PrivacyPolicy.md, docs/APP_STORE_READINESS.md
-**Evidence:** —
-**Reason:** —
+**Evidence:** docs/release/RELEASE_RUNBOOK.md
+**Reason:** 심사 자료 초안과 무효 입력 이미지 준비; T09 검증 및 제출 규격 iPhone/iPad 실제 화면 미완료
 
 ## T11: 운영 정보와 App Store 배포 검증
 
-**Status:** planned
+**Status:** blocked
 **Depends:** T10
 **Acceptance:** 실제 공개 정책·지원 URL; 운영자/문의 정보; Connect 등록/배포 Validate 확인
 **Verify:** 공개 URL HTTP 확인; Xcode Validate 결과; Connect 미제출 상태
 **Files:** 운영 정보/계정 상태, docs/release/*
-**Evidence:** —
-**Reason:** —
+**Evidence:** docs/APP_STORE_READINESS.md
+**Reason:** 운영자·지원·공개 정책 URL·심사 연락처 미설정; 현재 Team의 App Store profile 생성 권한 부족으로 export 실패, Connect/Validate 미확인
 
 ## T12: 중단된 원본 파일 저장 복구
 

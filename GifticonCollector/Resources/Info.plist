@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.4</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -49,5 +49,15 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
+	<key>MoaconOperatorName</key>
+	<string></string>
+	<key>MoaconSupportEmail</key>
+	<string></string>
+	<key>MoaconPrivacyPolicyURL</key>
+	<string></string>
+	<key>MoaconSupportURL</key>
+	<string></string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
