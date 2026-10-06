@@ -8,7 +8,6 @@ struct GifticonParser: Sendable {
         let barcode = Self.normalizeBarcode(rawBarcode)
         guard !barcode.isEmpty else { return nil }
         let classification = classifier.classify(text: text, barcodeValues: barcodeValues)
-        guard classification.isLikelyGifticon else { return nil }
 
         let lines = text.split(whereSeparator: \.isNewline).map(String.init)
         let brand = parseBrand(from: lines)
@@ -22,7 +21,8 @@ struct GifticonParser: Sendable {
             barcodeNumber: barcode,
             expiryDate: expiryDate,
             amount: amount,
-            confidence: classification.confidence
+            confidence: classification.confidence,
+            needsReview: !classification.isLikelyGifticon
         )
     }
 
@@ -31,20 +31,23 @@ struct GifticonParser: Sendable {
     }
 
     private func parseBrand(from lines: [String]) -> String {
-        // TODO: Use a maintained issuer dictionary and OCR normalization rules.
-        return lines.first(where: { !$0.isEmpty }) ?? "브랜드 미상"
+        let brands = ["스타벅스", "투썸플레이스", "이디야", "메가커피", "컴포즈커피", "배스킨라빈스", "파리바게뜨", "뚜레쥬르", "올리브영", "교촌치킨", "BBQ", "BHC", "맥도날드", "CU", "GS25", "세븐일레븐"]
+        return brands.first { brand in lines.contains { $0.localizedCaseInsensitiveContains(brand) } }
+            ?? "브랜드 확인 필요"
     }
 
     private func parseTitle(from lines: [String], excluding brand: String) -> String {
-        let pricePattern = #"(?:₩|￦)?\s?[0-9,]+\s?원?"#
+        let pricePattern = #"^(?:₩|￦)?\s?[0-9,]+\s?원?$"#
         return lines.first {
             $0 != brand && $0.range(of: pricePattern, options: .regularExpression) == nil
                 && !$0.contains("유효기간") && !$0.contains("교환처")
+                && !$0.contains("사용기한") && !$0.contains("발행일")
+                && !$0.contains("쿠폰번호") && !$0.contains("선물하기")
         } ?? "상품명 미상"
     }
 
     private func parseAmount(from text: String) -> Double? {
-        let pattern = #"(?:₩|￦)?\s?([0-9]{1,3}(?:,[0-9]{3})*)\s?원"#
+        let pattern = #"(?:₩|￦)?\s?([0-9]+(?:,[0-9]{3})*)\s?원"#
         guard let match = text.range(of: pattern, options: .regularExpression) else { return nil }
         let raw = String(text[match]).filter { $0.isNumber }
         return Double(raw)
@@ -55,9 +58,12 @@ struct GifticonParser: Sendable {
             #"20\d{2}[.\-/년]\s?\d{1,2}[.\-/월]\s?\d{1,2}"#,
             #"20\d{2}\s?년\s?\d{1,2}\s?월\s?\d{1,2}\s?일"#
         ]
+        let lines = text.components(separatedBy: .newlines)
+        let expiryLines = lines.filter { $0.contains("유효기간") || $0.contains("사용기한") }
+        let source = expiryLines.isEmpty ? "" : expiryLines.joined(separator: "\n")
         for pattern in patterns {
-            guard let range = text.range(of: pattern, options: .regularExpression) else { continue }
-            let raw = String(text[range])
+            guard let range = source.range(of: pattern, options: .regularExpression) else { continue }
+            let raw = String(source[range])
                 .replacingOccurrences(of: "년", with: ".")
                 .replacingOccurrences(of: "월", with: ".")
                 .replacingOccurrences(of: "일", with: "")
@@ -70,7 +76,10 @@ struct GifticonParser: Sendable {
             date.year = components[0]
             date.month = components[1]
             date.day = components[2]
-            return date.date
+            guard let result = date.date else { continue }
+            let check = date.calendar!.dateComponents([.year, .month, .day], from: result)
+            guard check.year == date.year, check.month == date.month, check.day == date.day else { continue }
+            return result
         }
         return nil
     }

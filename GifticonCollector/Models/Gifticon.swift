@@ -4,6 +4,7 @@ import SwiftData
 @Model
 final class Gifticon {
     @Attribute(.unique) var barcodeNumber: String?
+    var needsReview: Bool = false
     var id: UUID
     var brand: String
     var title: String
@@ -39,5 +40,10 @@ final class Gifticon {
         self.remainingAmount = remainingAmount ?? originalAmount
         self.allowsPartialRedemption = allowsPartialRedemption
         self.createdAt = createdAt
+    }
+
+    func isExpired(on date: Date = .now) -> Bool {
+        guard let expiryDate else { return false }
+        return Calendar.current.startOfDay(for: expiryDate) < Calendar.current.startOfDay(for: date)
     }
 }

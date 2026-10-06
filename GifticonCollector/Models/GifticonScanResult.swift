@@ -14,4 +14,5 @@ struct ParsedGifticon: Sendable, Equatable {
     let expiryDate: Date?
     let amount: Double?
     let confidence: Double
+    var needsReview: Bool = false
 }

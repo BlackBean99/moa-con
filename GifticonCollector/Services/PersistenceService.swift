@@ -9,6 +9,11 @@ final class PersistenceService {
         self.modelContext = modelContext
     }
 
+    func contains(barcode: String) throws -> Bool {
+        let descriptor = FetchDescriptor<Gifticon>(predicate: #Predicate { $0.barcodeNumber == barcode })
+        return try !modelContext.fetch(descriptor).isEmpty
+    }
+
     func save(parsed: ParsedGifticon, assetLocalIdentifier: String) throws -> Gifticon {
         guard let barcode = parsed.barcodeNumber, !barcode.isEmpty else {
             throw PersistenceError.barcodeRequired
@@ -31,12 +36,15 @@ final class PersistenceService {
             originalAmount: parsed.amount,
             remainingAmount: parsed.amount
         )
+        gifticon.needsReview = parsed.needsReview
         modelContext.insert(gifticon)
         try modelContext.save()
         return gifticon
     }
 
     func toggleUsed(_ gifticon: Gifticon) throws {
+        guard !gifticon.needsReview else { throw PersistenceError.reviewRequired }
+        guard !(gifticon.isUsed && gifticon.remainingAmount == 0) else { throw PersistenceError.balanceExhausted }
         gifticon.isUsed.toggle()
         try modelContext.save()
     }
@@ -48,14 +56,11 @@ final class PersistenceService {
 
     func setPartialRedemption(_ enabled: Bool, for gifticon: Gifticon) throws {
         gifticon.allowsPartialRedemption = enabled
-        if !enabled, let originalAmount = gifticon.originalAmount {
-            gifticon.remainingAmount = gifticon.isUsed ? 0 : originalAmount
-        }
         try modelContext.save()
     }
 
     func setInitialAmount(_ amount: Double, for gifticon: Gifticon) throws {
-        guard amount > 0 else { throw PersistenceError.invalidDeduction }
+        guard amount.isFinite, amount > 0 else { throw PersistenceError.invalidDeduction }
         guard gifticon.originalAmount == nil || gifticon.isUsed == false else { return }
         gifticon.originalAmount = amount
         gifticon.remainingAmount = amount
@@ -64,7 +69,7 @@ final class PersistenceService {
 
     func deduct(_ amount: Double, from gifticon: Gifticon) throws {
         guard gifticon.allowsPartialRedemption else { throw PersistenceError.partialRedemptionDisabled }
-        guard amount > 0 else { throw PersistenceError.invalidDeduction }
+        guard amount.isFinite, amount > 0 else { throw PersistenceError.invalidDeduction }
         guard let remaining = gifticon.remainingAmount, amount <= remaining else { throw PersistenceError.insufficientBalance }
         gifticon.remainingAmount = remaining - amount
         if gifticon.remainingAmount == 0 { gifticon.isUsed = true }
@@ -73,6 +78,8 @@ final class PersistenceService {
 }
 
 enum PersistenceError: LocalizedError {
+    case reviewRequired
+    case balanceExhausted
     case barcodeRequired
     case partialRedemptionDisabled
     case invalidDeduction
@@ -80,6 +87,8 @@ enum PersistenceError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
+        case .reviewRequired: "기프티콘인지 먼저 확인해 주세요."
+        case .balanceExhausted: "잔액이 모두 차감된 쿠폰은 사용 취소할 수 없습니다."
         case .barcodeRequired: "바코드가 있는 기프트콘만 등록할 수 있습니다."
         case .partialRedemptionDisabled: "부분 차감을 먼저 허용해 주세요."
         case .invalidDeduction: "차감 금액은 0보다 커야 합니다."
