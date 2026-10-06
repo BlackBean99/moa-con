@@ -14,6 +14,7 @@ final class Gifticon {
     var originalAmount: Double?
     var remainingAmount: Double?
     var allowsPartialRedemption: Bool
+    var sourcePhotoIdentifier: String?
     var barcodeCandidates: [String] = []
     var couponKindRaw: String = ""
     var productPrice: Double?

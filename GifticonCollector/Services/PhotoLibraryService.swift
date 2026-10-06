@@ -1,5 +1,6 @@
 import Photos
 import UIKit
+import SwiftData
 
 @MainActor
 final class PhotoLibraryService: NSObject, ObservableObject {
@@ -51,6 +52,7 @@ final class PhotoLibraryService: NSObject, ObservableObject {
                 contentMode: .aspectFit,
                 options: options
             ) { image, info in
+                if (info?[PHImageResultIsDegradedKey] as? Bool) == true { return }
                 if let error = info?[PHImageErrorKey] as? Error {
                     continuation.resume(throwing: error)
                 } else if let image, let cgImage = image.cgImage {
@@ -60,6 +62,49 @@ final class PhotoLibraryService: NSObject, ObservableObject {
                 } else {
                     continuation.resume(throwing: PhotoLibraryError.imageUnavailable)
                 }
+            }
+        }
+    }
+
+    func loadOriginalData(for asset: PHAsset) async throws -> Data {
+        try await withCheckedThrowingContinuation { continuation in
+            let options = PHImageRequestOptions()
+            options.version = .current
+            options.deliveryMode = .highQualityFormat
+            options.isNetworkAccessAllowed = false
+            imageManager.requestImageDataAndOrientation(for: asset, options: options) { data, _, _, info in
+                if (info?[PHImageResultIsDegradedKey] as? Bool) == true { return }
+                if let error = info?[PHImageErrorKey] as? Error { continuation.resume(throwing: error) }
+                else if let data { continuation.resume(returning: data) }
+                else { continuation.resume(throwing: PhotoLibraryError.imageUnavailable) }
+            }
+        }
+    }
+
+    func preserveAccessibleOriginals(in context: ModelContext) async {
+        guard [.authorized, .limited].contains(authorizationStatus) else { return }
+        guard let items = try? context.fetch(FetchDescriptor<Gifticon>()) else { return }
+        for item in items where !item.assetLocalIdentifier.hasPrefix("shared:") {
+            if Task.isCancelled { return }
+            let source = item.assetLocalIdentifier
+            guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [source], options: nil).firstObject else { continue }
+            var copiedFilename: String?
+            do {
+                let data = try await loadOriginalData(for: asset)
+                try SharedImageInbox.validateImage(data)
+                let filename = try SharedImageInbox.enqueue(imageData: data)
+                copiedFilename = filename
+                try SharedImageInbox.archive(SharedImageInbox.url(for: filename)!)
+                // A concurrent refresh may have already preserved this original.
+                guard item.assetLocalIdentifier == source else {
+                    try SharedImageInbox.remove(SharedImageInbox.url(for: filename)!); continue
+                }
+                item.sourcePhotoIdentifier = source
+                item.assetLocalIdentifier = "shared:\(filename)"
+                try context.save()
+            } catch {
+                context.rollback()
+                if let filename = copiedFilename, let url = SharedImageInbox.url(for: filename) { try? SharedImageInbox.remove(url) }
             }
         }
     }

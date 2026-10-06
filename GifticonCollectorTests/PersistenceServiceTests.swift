@@ -1,5 +1,6 @@
 import SwiftData
 import XCTest
+import UIKit
 @testable import GifticonCollector
 
 @MainActor
@@ -72,6 +73,31 @@ final class PersistenceServiceTests: XCTestCase {
         try SharedImageInbox.retry(XCTUnwrap(SharedImageInbox.url(for: filename)))
         XCTAssertTrue(try SharedImageInbox.pendingFiles().contains { $0.lastPathComponent == filename })
         XCTAssertThrowsError(try SharedImageInbox.validateSize(SharedImageInbox.maximumBytes + 1))
+    }
+
+    func testCopiedPhotoSurvivesSourceLossAndDoesNotDuplicate() throws {
+        let container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let service = PersistenceService(modelContext: container.mainContext)
+        let image = UIGraphicsImageRenderer(size: CGSize(width: 100, height: 100)).image { ctx in
+            UIColor.white.setFill(); ctx.fill(CGRect(x: 0, y: 0, width: 100, height: 100))
+        }
+        let data = image.jpegData(compressionQuality: 0.9)!
+        let parsed = ParsedGifticon(brand: "카페", title: "쿠폰", barcodeNumber: "PHOTO-123", expiryDate: nil, amount: nil, confidence: 1)
+        let item = try service.saveWithOriginal(parsed: parsed, imageData: data, sourcePhotoIdentifier: "removed-photo")
+        let url = try XCTUnwrap(SharedImageInbox.url(for: String(item.assetLocalIdentifier.dropFirst(7))))
+        defer { try? SharedImageInbox.remove(url) }
+        XCTAssertEqual(try Data(contentsOf: url), data)
+        XCTAssertEqual(item.sourcePhotoIdentifier, "removed-photo")
+        XCTAssertEqual(try service.item(forPhoto: "removed-photo")?.id, item.id)
+        XCTAssertEqual(try service.saveWithOriginal(parsed: parsed, imageData: data, sourcePhotoIdentifier: "removed-photo").id, item.id)
+        XCTAssertTrue(item.assetLocalIdentifier.hasPrefix("shared:"))
+        let previousBarcodes = UserDefaults.standard.stringArray(forKey: "scan.ignoredBarcodes")
+        defer { UserDefaults.standard.set(previousBarcodes, forKey: "scan.ignoredBarcodes") }
+        let previous = UserDefaults.standard.stringArray(forKey: "scan.ignoredPhotoIdentifiers")
+        defer { UserDefaults.standard.set(previous, forKey: "scan.ignoredPhotoIdentifiers") }
+        try service.delete(item)
+        XCTAssertTrue(service.isSourcePhotoIgnored("removed-photo"))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
     }
 
     func testPartialRedemptionIsOffByDefault() throws {

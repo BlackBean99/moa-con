@@ -18,7 +18,8 @@ final class PersistenceService {
         return try !modelContext.fetch(descriptor).isEmpty
     }
 
-    func save(parsed: ParsedGifticon, assetLocalIdentifier: String) throws -> Gifticon {
+    func save(parsed: ParsedGifticon, assetLocalIdentifier: String, sourcePhotoIdentifier: String? = nil) throws -> Gifticon {
+        if let sourcePhotoIdentifier, let existing = try item(forPhoto: sourcePhotoIdentifier) { return existing }
         let barcode = parsed.barcodeNumber
         guard barcode?.isEmpty == false || (parsed.needsReview && parsed.barcodeCandidates.count > 1) else {
             throw PersistenceError.barcodeRequired
@@ -44,10 +45,43 @@ final class PersistenceService {
             productPrice: parsed.productPrice,
             discountAmount: parsed.discountAmount
         )
+        gifticon.sourcePhotoIdentifier = sourcePhotoIdentifier
         gifticon.needsReview = parsed.needsReview
+        if parsed.couponKind == .storedValue && gifticon.remainingAmount == 0 { gifticon.isUsed = true }
         modelContext.insert(gifticon)
         try saveChanges()
         return gifticon
+    }
+
+    func item(forPhoto identifier: String) throws -> Gifticon? {
+        try modelContext.fetch(FetchDescriptor<Gifticon>(predicate: #Predicate {
+            $0.sourcePhotoIdentifier == identifier || $0.assetLocalIdentifier == identifier
+        })).first
+    }
+
+    func saveWithOriginal(parsed: ParsedGifticon, imageData: Data, sourcePhotoIdentifier: String? = nil) throws -> Gifticon {
+        try SharedImageInbox.validateImage(imageData)
+        let filename = try SharedImageInbox.enqueue(imageData: imageData)
+        do {
+            let url = SharedImageInbox.url(for: filename)!
+            try SharedImageInbox.archive(url)
+            let item = try save(parsed: parsed, assetLocalIdentifier: "shared:\(filename)", sourcePhotoIdentifier: sourcePhotoIdentifier)
+            if item.assetLocalIdentifier != "shared:\(filename)", let url = SharedImageInbox.url(for: filename) { try SharedImageInbox.remove(url) }
+            return item
+        } catch {
+            if let url = SharedImageInbox.url(for: filename) { try? SharedImageInbox.remove(url) }
+            throw error
+        }
+    }
+
+    func migrateLegacyAmountReview() throws {
+        var changed = false
+        for item in try modelContext.fetch(FetchDescriptor<Gifticon>()) where item.couponKindRaw.isEmpty {
+            if item.originalAmount != nil && !item.allowsPartialRedemption { item.needsReview = true }
+            item.couponKindRaw = item.couponKind.rawValue
+            changed = true
+        }
+        if changed { try saveChanges() }
     }
 
     func update(_ item: Gifticon, brand: String, title: String, barcode: String, expiryDate: Date?, needsReview: Bool) throws {
@@ -105,6 +139,7 @@ final class PersistenceService {
     func delete(_ gifticon: Gifticon) throws {
         let barcode = gifticon.barcodeNumber
         let source = gifticon.assetLocalIdentifier
+        let sourcePhotoIdentifier = gifticon.sourcePhotoIdentifier
         modelContext.delete(gifticon)
         try saveChanges()
         if source.hasPrefix("shared:") {
@@ -114,11 +149,20 @@ final class PersistenceService {
                 try? SharedImageInbox.remove(url)
             }
         }
+        if let source = sourcePhotoIdentifier ?? (source.hasPrefix("shared:") ? nil : source) {
+            var ignored = Set(UserDefaults.standard.stringArray(forKey: "scan.ignoredPhotoIdentifiers") ?? [])
+            ignored.insert(source)
+            UserDefaults.standard.set(Array(ignored), forKey: "scan.ignoredPhotoIdentifiers")
+        }
         if let barcode {
             var ignored = Set(UserDefaults.standard.stringArray(forKey: "scan.ignoredBarcodes") ?? [])
             ignored.insert(barcode)
             UserDefaults.standard.set(Array(ignored), forKey: "scan.ignoredBarcodes")
         }
+    }
+
+    func isSourcePhotoIgnored(_ identifier: String) -> Bool {
+        (UserDefaults.standard.stringArray(forKey: "scan.ignoredPhotoIdentifiers") ?? []).contains(identifier)
     }
 
     func isIgnoredByAutomaticScan(_ barcode: String) -> Bool {

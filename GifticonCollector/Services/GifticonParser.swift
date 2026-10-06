@@ -78,7 +78,8 @@ struct GifticonParser: Sendable {
         let pattern = #"(?:₩|￦)?\s?([0-9]+(?:,[0-9]{3})*)\s?원"#
         guard let match = text.range(of: pattern, options: .regularExpression) else { return nil }
         let raw = String(text[match]).filter { $0.isNumber }
-        return Double(raw)
+        guard let amount = Double(raw), amount.isFinite, amount > 0 else { return nil }
+        return amount
     }
 
     private func parseExpiryDate(from text: String) -> Date? {

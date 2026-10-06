@@ -53,6 +53,8 @@ struct RootView: View {
 
     private func refresh() async {
         photoLibraryService.refreshAuthorizationStatus()
+        try? PersistenceService(modelContext: modelContext).migrateLegacyAmountReview()
+        await photoLibraryService.preserveAccessibleOriginals(in: modelContext)
         let result = await SharedImportService(modelContext: modelContext).processPending()
         if let message = result.message { importMessage = message }
     }

@@ -64,12 +64,12 @@
 
 ## T07: 자동 찾기와 기존 원본 보존
 
-**Status:** planned
+**Status:** done
 **Depends:** T02
 **Acceptance:** 새 쿠폰 원본 복사 후 등록; 기존 Photos 참조 복사; 권한 상실 시 원본 누락 복구
 **Verify:** archive persistence 테스트 + scan build
 **Files:** Services/PhotoLibraryService.swift, ViewModels/ScanViewModel.swift, Services/SharedImportService.swift
-**Evidence:** —
+**Evidence:** docs/qa/T07-originals.md
 **Reason:** —
 
 ## T08: 만료 알림 예약과 갱신

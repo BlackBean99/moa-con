@@ -52,12 +52,17 @@ final class ScanViewModel: ObservableObject {
             let candidate = candidates[index]
             let asset = candidate.asset
             do {
+                if persistenceService.isSourcePhotoIgnored(asset.localIdentifier) { processedCount = index + 1; continue }
+                if try persistenceService.item(forPhoto: asset.localIdentifier) != nil { duplicateCount += 1; processedCount = index + 1; continue }
                 let image = try await photoLibraryService.loadCGImage(for: asset)
                 let text = try await ocrService.recognizeText(from: image)
                 if let parsed = parser.parse(text: text, barcodeValues: candidate.barcodeValues) {
                     if persistenceService.isIgnoredByAutomaticScan(parsed.barcodeNumber ?? "") { processedCount = index + 1; continue }
                     let existing = try persistenceService.contains(barcode: parsed.barcodeNumber ?? "")
-                    _ = try persistenceService.save(parsed: parsed, assetLocalIdentifier: asset.localIdentifier)
+                    if !existing {
+                        let original = try await photoLibraryService.loadOriginalData(for: asset)
+                        _ = try persistenceService.saveWithOriginal(parsed: parsed, imageData: original, sourcePhotoIdentifier: asset.localIdentifier)
+                    }
                     if existing { duplicateCount += 1 }
                     else if parsed.needsReview { reviewCount += 1 }
                     else { savedCount += 1 }
