@@ -13,16 +13,27 @@ struct GifticonParser: Sendable {
         let brand = parseBrand(from: lines)
         let title = parseTitle(from: lines, excluding: brand)
         let expiryDate = parseExpiryDate(from: text)
-        let amount = parseAmount(from: text)
+        let kind: CouponKind = text.contains("금액권") || text.contains("잔액") || text.contains("권면금액") ? .storedValue : .exchange
+        let productPrice = labeledAmount(in: lines, labels: ["상품 가격", "상품가격", "판매가", "정가"])
+        let discount = labeledAmount(in: lines, labels: ["할인", "할인액"])
+        let balance = kind == .storedValue ? labeledAmount(in: lines, labels: ["잔액", "사용가능금액", "사용 가능 금액"]) : nil
+        let amount = kind == .storedValue ? (labeledAmount(in: lines, labels: ["권면금액", "금액권", "충전금액"]) ?? balance) : nil
+        var candidates: [String] = []
+        for value in barcodeValues.map(Self.normalizeBarcode) where !value.isEmpty && !candidates.contains(value) { candidates.append(value) }
 
         return ParsedGifticon(
             brand: brand,
             title: title,
-            barcodeNumber: barcode,
+            barcodeNumber: candidates.count == 1 ? barcode : nil,
             expiryDate: expiryDate,
             amount: amount,
             confidence: classification.confidence,
-            needsReview: !classification.isLikelyGifticon
+            needsReview: !classification.isLikelyGifticon || brand == "브랜드 확인 필요" || title == "상품명 미상" || expiryDate == nil || (balance != nil && amount != nil && balance! > amount!),
+            barcodeCandidates: candidates,
+            couponKind: kind,
+            remainingAmount: balance,
+            productPrice: productPrice,
+            discountAmount: discount
         )
     }
 
@@ -53,6 +64,14 @@ struct GifticonParser: Sendable {
                 && !$0.contains("사용기한") && !$0.contains("발행일")
                 && !$0.contains("쿠폰번호") && !$0.contains("선물하기")
         } ?? "상품명 미상"
+    }
+
+    private func labeledAmount(in lines: [String], labels: [String]) -> Double? {
+        for (index, line) in lines.enumerated() where labels.contains(where: line.contains) {
+            if let value = parseAmount(from: line) { return value }
+            if index + 1 < lines.count, let value = parseAmount(from: lines[index + 1]) { return value }
+        }
+        return nil
     }
 
     private func parseAmount(from text: String) -> Double? {

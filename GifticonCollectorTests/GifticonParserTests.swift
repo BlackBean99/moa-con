@@ -14,9 +14,23 @@ final class GifticonParserTests: XCTestCase {
         XCTAssertEqual(result?.brand, "스타벅스")
         XCTAssertFalse(result?.needsReview ?? true)
         XCTAssertEqual(result?.barcodeNumber, "8801234567890")
-        XCTAssertEqual(result?.amount, 5_000)
+        XCTAssertNil(result?.amount)
         XCTAssertNotNil(result?.expiryDate)
         XCTAssertGreaterThan(result?.confidence ?? 0, 0.45)
+    }
+
+    func testProductPriceAndDiscountDoNotBecomeStoredValue() {
+        let result = GifticonParser().parse(text: "스타벅스\n교환권\n상품 가격 5,000원\n할인 금액 500원", barcodeValues: ["123"])
+        XCTAssertNil(result?.amount)
+    }
+
+    func testStoredValueUsesExplicitFaceValueInsteadOfProductPrice() {
+        let result = GifticonParser().parse(text: "스타벅스\n상품 가격 3,000원\n금액권 20,000원\n잔액 15,000원\n할인 금액 500원", barcodeValues: ["123"])
+        XCTAssertEqual(result?.amount, 20_000)
+        XCTAssertEqual(result?.remainingAmount, 15_000)
+        XCTAssertEqual(result?.productPrice, 3_000)
+        XCTAssertEqual(result?.discountAmount, 500)
+        XCTAssertEqual(result?.couponKind, .storedValue)
     }
 
     func testRejectsUnrelatedImageText() {
@@ -51,13 +65,15 @@ final class GifticonParserTests: XCTestCase {
     func testMultipleBarcodesRequireReview() {
         let result = GifticonParser().parse(text: "스타벅스\n교환권", barcodeValues: ["123", "456"])
         XCTAssertTrue(result?.needsReview ?? false)
+        XCTAssertEqual(result?.barcodeCandidates, ["123", "456"])
+        XCTAssertNil(result?.barcodeNumber)
     }
 
     func testExpiryUsesLabelAndAmountWithoutComma() {
         let result = GifticonParser().parse(text: "선물하기\n스타벅스\n아메리카노 Tall\n발행일 2026.01.01\n유효기간 2026.12.31\n50000원\n교환권", barcodeValues: ["123"])
         XCTAssertEqual(result?.brand, "스타벅스")
         XCTAssertEqual(result?.title, "아메리카노 Tall")
-        XCTAssertEqual(result?.amount, 50000)
+        XCTAssertNil(result?.amount)
         XCTAssertEqual(Calendar.current.component(.month, from: result!.expiryDate!), 12)
     }
 
@@ -96,7 +112,7 @@ final class GifticonParserTests: XCTestCase {
         let parsed = try XCTUnwrap(GifticonParser().parse(text: result.text, barcodeValues: result.barcodeValues))
         XCTAssertFalse(parsed.needsReview)
         XCTAssertEqual(parsed.brand, "스타벅스")
-        XCTAssertEqual(parsed.amount, 5000)
+        XCTAssertNil(parsed.amount)
         XCTAssertNotNil(parsed.expiryDate)
     }
     func testExpiryRangeUsesLastDayAndFollowingLine() {

@@ -4,22 +4,22 @@
 
 ## T01: 저장소 과업 관리와 worktree
 
-**Status:** active
+**Status:** done
 **Depends:** None
 **Acceptance:** 상태 원본·CLI·Git 템플릿을 준비하고 브랜치를 원격에 등록
 **Verify:** task CLI check; git worktree list; remote branch 확인
 **Files:** scripts/tasks.py, tasks/*, .github/*
-**Evidence:** —
+**Evidence:** docs/qa/T01-tracker.md
 **Reason:** —
 
 ## T02: 금액 의미와 후보 데이터
 
-**Status:** planned
+**Status:** done
 **Depends:** T01
 **Acceptance:** 상품 가격/할인액/잔액 분리; 모든 번호 후보 보존; 기존 데이터 유지
 **Verify:** parser/persistence/migration 단위 테스트
 **Files:** Models/*, Services/GifticonParser.swift, Services/PersistenceService.swift
-**Evidence:** —
+**Evidence:** docs/qa/T02-models.md
 **Reason:** —
 
 ## T03: 인식 실패 직접 등록

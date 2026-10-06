@@ -14,7 +14,7 @@ final class PersistenceServiceTests: XCTestCase {
             barcodeNumber: "8801234567890",
             expiryDate: nil,
             amount: 10_000,
-            confidence: 0.9
+            confidence: 0.9, couponKind: .storedValue
         )
 
         let first = try service.save(parsed: parsed, assetLocalIdentifier: "asset-1")
@@ -27,6 +27,21 @@ final class PersistenceServiceTests: XCTestCase {
         XCTAssertFalse(first.isUsed)
     }
 
+    func testAmbiguousBarcodeDoesNotCollideWithExistingFirstCandidate() throws {
+        let container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let service = PersistenceService(modelContext: container.mainContext)
+        _ = try service.save(parsed: ParsedGifticon(brand: "기존", title: "쿠폰", barcodeNumber: "123", expiryDate: nil, amount: nil, confidence: 1), assetLocalIdentifier: "old")
+        let parsed = GifticonParser().parse(text: "스타벅스\n교환권", barcodeValues: ["123", "456"])!
+        let item = try service.save(parsed: parsed, assetLocalIdentifier: "new")
+        XCTAssertNil(item.barcodeNumber)
+        XCTAssertEqual(item.barcodeCandidates, ["123", "456"])
+        XCTAssertTrue(item.needsReview)
+        XCTAssertEqual(try service.save(parsed: parsed, assetLocalIdentifier: "new").id, item.id)
+        XCTAssertThrowsError(try service.update(item, brand: "스타벅스", title: "쿠폰", barcode: "123", expiryDate: nil, needsReview: false))
+        try service.update(item, brand: "스타벅스", title: "쿠폰", barcode: "456", expiryDate: nil, needsReview: false)
+        XCTAssertEqual(item.barcodeNumber, "456")
+    }
+
     func testPartialRedemptionIsOffByDefault() throws {
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: Gifticon.self, configurations: configuration)
@@ -37,7 +52,7 @@ final class PersistenceServiceTests: XCTestCase {
             barcodeNumber: "ABC123",
             expiryDate: nil,
             amount: 5_000,
-            confidence: 0.8
+            confidence: 0.8, couponKind: .storedValue
         )
 
         let gifticon = try service.save(parsed: parsed, assetLocalIdentifier: "asset-1")
@@ -47,7 +62,7 @@ final class PersistenceServiceTests: XCTestCase {
     func testSettingsNeverRestoreSpentBalance() throws {
         let container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
         let service = PersistenceService(modelContext: container.mainContext)
-        let gifticon = try service.save(parsed: ParsedGifticon(brand: "테스트", title: "상품권", barcodeNumber: "123", expiryDate: nil, amount: 10000, confidence: 0.9), assetLocalIdentifier: "test")
+        let gifticon = try service.save(parsed: ParsedGifticon(brand: "테스트", title: "상품권", barcodeNumber: "123", expiryDate: nil, amount: 10000, confidence: 0.9, couponKind: .storedValue), assetLocalIdentifier: "test")
         try service.setPartialRedemption(true, for: gifticon)
         try service.deduct(2500, from: gifticon)
         try service.setPartialRedemption(false, for: gifticon)
@@ -130,6 +145,7 @@ final class PersistenceServiceTests: XCTestCase {
         XCTAssertEqual(item.brand, "기존 쿠폰")
         XCTAssertEqual(item.remainingAmount, 7500)
         XCTAssertEqual(item.barcodeNumber, "LEGACY-123")
+        XCTAssertEqual(item.couponKind, .storedValue)
         XCTAssertTrue(item.needsReview, "이전 오분류 가능 항목은 데이터를 보존하며 확인 필요로 이동")
     }
 

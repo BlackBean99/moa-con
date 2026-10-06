@@ -15,4 +15,16 @@ struct ParsedGifticon: Sendable, Equatable {
     let amount: Double?
     let confidence: Double
     var needsReview: Bool = false
+    var barcodeCandidates: [String] = []
+    var couponKind: CouponKind = .exchange
+    var remainingAmount: Double? = nil
+    var productPrice: Double? = nil
+    var discountAmount: Double? = nil
+}
+
+
+enum CouponKind: String, Codable, CaseIterable, Sendable {
+    case exchange
+    case storedValue
+    var title: String { self == .exchange ? "상품 교환권" : "금액권" }
 }

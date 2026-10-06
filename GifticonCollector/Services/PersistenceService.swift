@@ -19,17 +19,17 @@ final class PersistenceService {
     }
 
     func save(parsed: ParsedGifticon, assetLocalIdentifier: String) throws -> Gifticon {
-        guard let barcode = parsed.barcodeNumber, !barcode.isEmpty else {
+        let barcode = parsed.barcodeNumber
+        guard barcode?.isEmpty == false || (parsed.needsReview && parsed.barcodeCandidates.count > 1) else {
             throw PersistenceError.barcodeRequired
         }
-        do {
-            let descriptor = FetchDescriptor<Gifticon>(predicate: #Predicate { $0.barcodeNumber == barcode })
-            if let existing = try modelContext.fetch(descriptor).first {
-                return existing
-            }
-        } catch {
-            throw error
+        let matches: [Gifticon]
+        if let barcode {
+            matches = try modelContext.fetch(FetchDescriptor<Gifticon>(predicate: #Predicate { $0.barcodeNumber == barcode }))
+        } else {
+            matches = try modelContext.fetch(FetchDescriptor<Gifticon>(predicate: #Predicate { $0.assetLocalIdentifier == assetLocalIdentifier }))
         }
+        if let existing = matches.first { return existing }
 
         let gifticon = Gifticon(
             brand: parsed.brand,
@@ -37,8 +37,12 @@ final class PersistenceService {
             barcodeNumber: parsed.barcodeNumber,
             expiryDate: parsed.expiryDate,
             assetLocalIdentifier: assetLocalIdentifier,
-            originalAmount: parsed.amount,
-            remainingAmount: parsed.amount
+            originalAmount: parsed.couponKind == .storedValue ? parsed.amount : nil,
+            remainingAmount: parsed.couponKind == .storedValue ? (parsed.remainingAmount ?? parsed.amount) : nil,
+            barcodeCandidates: parsed.barcodeCandidates,
+            couponKind: parsed.couponKind,
+            productPrice: parsed.productPrice,
+            discountAmount: parsed.discountAmount
         )
         gifticon.needsReview = parsed.needsReview
         modelContext.insert(gifticon)
@@ -92,12 +96,14 @@ final class PersistenceService {
     }
 
     func setPartialRedemption(_ enabled: Bool, for gifticon: Gifticon) throws {
+        guard !enabled || gifticon.couponKind == .storedValue else { throw PersistenceError.notStoredValue }
         gifticon.allowsPartialRedemption = enabled
         try saveChanges()
     }
 
     func setInitialAmount(_ amount: Double, for gifticon: Gifticon) throws {
         guard amount.isFinite, amount > 0 else { throw PersistenceError.invalidDeduction }
+        guard gifticon.couponKind == .storedValue else { throw PersistenceError.notStoredValue }
         guard gifticon.originalAmount == nil, !gifticon.isUsed else { throw PersistenceError.amountAlreadySet }
         gifticon.originalAmount = amount
         gifticon.remainingAmount = amount
@@ -106,6 +112,7 @@ final class PersistenceService {
 
     func deduct(_ amount: Double, from gifticon: Gifticon) throws {
         guard !gifticon.needsReview, !gifticon.isUsed else { throw PersistenceError.couponUnavailable }
+        guard gifticon.couponKind == .storedValue else { throw PersistenceError.notStoredValue }
         guard gifticon.allowsPartialRedemption else { throw PersistenceError.partialRedemptionDisabled }
         guard amount.isFinite, amount > 0 else { throw PersistenceError.invalidDeduction }
         guard let remaining = gifticon.remainingAmount, amount <= remaining else { throw PersistenceError.insufficientBalance }
@@ -116,6 +123,7 @@ final class PersistenceService {
 }
 
 enum PersistenceError: LocalizedError {
+    case notStoredValue
     case couponUnavailable
     case amountAlreadySet
     case incompleteInformation
@@ -129,6 +137,7 @@ enum PersistenceError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
+        case .notStoredValue: "금액권만 잔액을 차감할 수 있습니다."
         case .couponUnavailable: "사용 가능 상태의 쿠폰만 차감할 수 있습니다."
         case .amountAlreadySet: "설정된 금액을 덮어쓸 수 없습니다."
         case .incompleteInformation: "브랜드, 상품명과 바코드를 입력해 주세요."

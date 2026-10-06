@@ -14,6 +14,10 @@ final class Gifticon {
     var originalAmount: Double?
     var remainingAmount: Double?
     var allowsPartialRedemption: Bool
+    var barcodeCandidates: [String] = []
+    var couponKindRaw: String = ""
+    var productPrice: Double?
+    var discountAmount: Double?
     var createdAt: Date
 
     init(
@@ -28,7 +32,11 @@ final class Gifticon {
         originalAmount: Double? = nil,
         remainingAmount: Double? = nil,
         allowsPartialRedemption: Bool = false,
-        createdAt: Date = .now
+        createdAt: Date = .now,
+        barcodeCandidates: [String] = [],
+        couponKind: CouponKind? = nil,
+        productPrice: Double? = nil,
+        discountAmount: Double? = nil
     ) {
         self.needsReview = needsReview
         self.id = id
@@ -42,6 +50,15 @@ final class Gifticon {
         self.remainingAmount = remainingAmount ?? originalAmount
         self.allowsPartialRedemption = allowsPartialRedemption
         self.createdAt = createdAt
+        self.barcodeCandidates = barcodeCandidates
+        self.couponKindRaw = (couponKind ?? (originalAmount == nil ? .exchange : .storedValue)).rawValue
+        self.productPrice = productPrice
+        self.discountAmount = discountAmount
+    }
+
+    var couponKind: CouponKind {
+        get { CouponKind(rawValue: couponKindRaw) ?? (originalAmount == nil ? .exchange : .storedValue) }
+        set { couponKindRaw = newValue.rawValue }
     }
 
     func isExpired(on date: Date = .now) -> Bool {
