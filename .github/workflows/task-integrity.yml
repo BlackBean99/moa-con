@@ -23,6 +23,10 @@ jobs:
       - name: Validate task dependencies and evidence
         run: python3 scripts/tasks.py check
       - name: Compile repository management scripts
-        run: python3 -m py_compile scripts/tasks.py scripts/configure-release.py scripts/release-check.py
+        run: python3 -m py_compile scripts/tasks.py scripts/configure-release.py scripts/release-check.py scripts/advertising_config.py scripts/ads-check.py
+      - name: Validate ad configuration counterexamples
+        run: python3 scripts/test_advertising_config.py
+      - name: Report ad revenue blockers
+        run: python3 scripts/ads-check.py >> "$GITHUB_STEP_SUMMARY"
       - name: Report submission blockers (not an app test or submission approval)
         run: python3 scripts/release-check.py >> "$GITHUB_STEP_SUMMARY"

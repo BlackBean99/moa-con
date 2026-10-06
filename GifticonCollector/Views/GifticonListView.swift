@@ -19,6 +19,9 @@ struct GifticonListView: View {
     }
 
     @State private var scanTask: Task<Void, Never>?
+    @StateObject private var advertising = AdvertisingService()
+    @State private var navigationPath: [Gifticon] = []
+    @State private var isSearchPresented = false
     @State private var searchText = ""
     @State private var filter = WalletFilter.available
     @State private var showImport = false
@@ -41,7 +44,7 @@ struct GifticonListView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             List {
                 if pendingImportCount > 0 {
                     Button("가져오기 확인 \(pendingImportCount)개", systemImage: "tray") { showImportQueue = true }
@@ -105,7 +108,15 @@ struct GifticonListView: View {
             .navigationDestination(for: Gifticon.self) { gifticon in
                 GifticonDetailView(gifticon: gifticon, photoLibraryService: photoLibraryService)
             }
-            .searchable(text: $searchText, prompt: "브랜드·상품 검색")
+            .searchable(text: $searchText, isPresented: $isSearchPresented, prompt: "브랜드·상품 검색")
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if isAdvertisementEligible && advertising.canShowAds {
+                    WalletAdvertisement(configuration: advertising.configuration).id(advertising.revision)
+                }
+            }
+            .task(id: isAdvertisementEligible) {
+                if isAdvertisementEligible { await advertising.prepare() }
+            }
             .tint(MoaconTheme.accent)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -122,6 +133,11 @@ struct GifticonListView: View {
                            let url = URL(string: "mailto:" + email) {
                             Link("문의", destination: url)
                         }
+                        if advertising.privacyOptionsRequired {
+                            Button("광고 개인정보 설정", systemImage: "slider.horizontal.3") {
+                                Task { await advertising.changePrivacyOptions() }
+                            }.disabled(advertising.isUpdatingPrivacy)
+                        }
                         Button("개인정보 처리", systemImage: "hand.raised") { showPrivacy = true }
                     } label: { Label("더 보기", systemImage: "ellipsis") }
                 }
@@ -134,7 +150,7 @@ struct GifticonListView: View {
             .onChange(of: importMessage) { _, _ in refreshImportCount() }
             .sheet(isPresented: $showImportQueue, onDismiss: refreshImportCount) { ImportQueueView() }
             .sheet(isPresented: $showReminderSettings) { ReminderSettingsView() }
-            .sheet(isPresented: $showPrivacy) { PrivacyPolicyView() }
+            .sheet(isPresented: $showPrivacy) { PrivacyPolicyView(advertising: advertising) }
             .sheet(isPresented: $showImport) {
                 NavigationStack {
                     ManualImportView(photoLibraryService: photoLibraryService)
@@ -155,6 +171,13 @@ struct GifticonListView: View {
                 Button("확인", role: .cancel) { errorMessage = nil }
             } message: { Text(errorMessage ?? "") }
         }
+    }
+
+    private var isAdvertisementEligible: Bool {
+        AdPlacement.isEligible(hasCoupons: filter == .available && !visibleGifticons.isEmpty,
+            isSearchPresented: isSearchPresented || !searchText.isEmpty,
+            isBusy: scanViewModel.isScanning || showImport || showPrivacy || showReminderSettings || showImportQueue || deletion != nil || errorMessage != nil,
+            isDetail: !navigationPath.isEmpty)
     }
 
     private func refreshImportCount() {
@@ -332,6 +355,7 @@ private struct GifticonPhotoView: View {
 
 
 private struct PrivacyPolicyView: View {
+    @ObservedObject var advertising: AdvertisingService
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -355,6 +379,24 @@ private struct PrivacyPolicyView: View {
                     Text("쿠폰 정보, 온보딩 완료 여부, 알림 설정과 자동 찾기 제외 목록을 기기에 저장합니다. 삭제한 바코드는 자동 찾기에 다시 나타나지 않도록 제외 목록에 남습니다.")
                     Text("쿠폰 삭제 시 다른 쿠폰이 쓰지 않는 복사본도 삭제합니다. 사진 보관함의 원본은 삭제하지 않습니다. 가져오기 실패 사진은 대기 목록에서 다시 입력하거나 삭제할 수 있습니다. 파일 정리에 실패한 복사본은 남을 수 있습니다.")
                     Text("앱 삭제 시 앱의 로컬 데이터도 제거됩니다. 기기 설정에 따라 앱 데이터가 시스템 백업에 포함될 수 있습니다. 앱 자체의 클라우드 동기화는 제공하지 않습니다.")
+                }
+                Section("광고") {
+                    Text("쿠폰 사진·번호·상품 정보는 광고 요청에 포함하지 않습니다.")
+                    if advertising.configuration.mode == .disabled {
+                        Text("현재 버전의 광고는 꺼져 있습니다.")
+                    } else {
+                        Text("배너 광고는 Google AdMob에서 제공합니다. 광고 제공과 부정 사용 방지를 위해 IP 주소, 기기 정보, 광고 상호작용과 진단 정보 등이 처리될 수 있습니다. 개인화 광고를 요청하지 않으며 추적 권한을 요청하지 않습니다.")
+                        Link("Google 개인정보처리방침", destination: URL(string: "https://policies.google.com/privacy")!)
+                    }
+                    if advertising.privacyOptionsRequired {
+                        Button("광고 개인정보 설정") { Task { await advertising.changePrivacyOptions() } }
+                            .disabled(advertising.isUpdatingPrivacy)
+                    }
+                    if let error = advertising.privacyError {
+                        Text(error).foregroundStyle(.secondary)
+                        Button("광고 설정 다시 시도") { Task { await advertising.retryConsent() } }
+                            .disabled(advertising.isUpdatingPrivacy)
+                    }
                 }
                 Section("기준일") { Text("2026년 10월 6일") }
             }

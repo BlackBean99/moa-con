@@ -26,3 +26,14 @@
 - 2026-10-06T14:29:35+09:00 T10: blocked; docs/release/RELEASE_RUNBOOK.md
 - 2026-10-06T14:29:35+09:00 T11: blocked; docs/APP_STORE_READINESS.md
 - 2026-10-06T15:18:59+09:00 T11: blocked; docs/APP_STORE_READINESS.md
+- 2026-10-06T17:40:12+09:00 T13: active; 광고 수익화 명세와 과업
+- 2026-10-06T17:40:12+09:00 T13: done; docs/AD_MONETIZATION.md
+- 2026-10-06T17:40:12+09:00 T14: active; 광고 SDK와 동의·설정 안전장치
+- 2026-10-07T01:03:18+09:00 T14: done; docs/qa/T14-ad-consent.md
+- 2026-10-07T01:03:18+09:00 T15: active; 보관함 배너와 실패 시 기능 유지
+- 2026-10-07T01:03:18+09:00 T16: active; 광고 개인정보와 출시 검사
+- 2026-10-07T01:03:18+09:00 T16: done; docs/qa/T16-ad-release-gates.md
+- 2026-10-07T01:30:00+09:00 T15: done; docs/qa/T15-wallet-ad.md
+- 2026-10-07T01:30:00+09:00 T17: active; 광고 후보 네이티브 검증과 로컬 배포
+- 2026-10-07T01:31:42+09:00 T17: blocked; docs/qa/T17-ads.md
+- 2026-10-07T01:31:42+09:00 T18: blocked; docs/qa/T16-ad-release-gates.md

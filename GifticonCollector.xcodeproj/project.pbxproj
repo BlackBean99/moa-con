@@ -8,16 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		07A74A1007034CE024C58334 /* WalletFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */; };
+		11E575972F562356E81C4C69 /* AdsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423FD70BD69767A2C1827698 /* AdsConfiguration.swift */; };
 		146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1F30FE164C0E67E6FCC59746 /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1192DCAD8E9F68D183B79292 /* ReminderSettingsView.swift */; };
+		20AF35ADF571D8713C7D5927 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 995C38068C7C40A201E971B6 /* GoogleUserMessagingPlatform */; };
 		2B006CF9E9F7C5FE1F34D55D /* ZoomableCouponImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */; };
+		2B82E6DE077C83F93C9200AC /* AdvertisingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965368ECB76D09A172B89BD6 /* AdvertisingService.swift */; };
 		3BABF370C02CCE6066187B5B /* ExpiryReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5973588B6AD6FBC535B45E /* ExpiryReminderTests.swift */; };
+		4C9E5797E68DFBC509AE6C5D /* AdvertisingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15957CEC6820C4F46628BF4E /* AdvertisingTests.swift */; };
 		4DC15A4F1E7CBF434741235F /* CouponForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7291D48EA7E65FC989E21181 /* CouponForm.swift */; };
 		52AB8C350750AB47E7F9FC62 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
+		52BD6819F62A0BC072F6C811 /* WalletAdvertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CFBBE0B207D85CCE607F83 /* WalletAdvertisement.swift */; };
 		55A592E15B559B51DF078BE2 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
 		5D180D983FBB6747AE8960F5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094395273C8D67873CF7C96C /* ShareViewController.swift */; };
 		5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */; };
 		60AB8EBA203C44EFAE5D440B /* ExpiryReminderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D84A7B1563CB471AEAD23B3 /* ExpiryReminderPlan.swift */; };
+		699B241AAC9AFDDF5D523800 /* AdSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA0AEC0B2906945488F4828 /* AdSDKIntegrationTests.swift */; };
 		6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */; };
 		6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76E830C949E75CD825CA9FE /* ScanView.swift */; };
 		6E821464DC04DF9969943D46 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E00DE3333CDEA1380226E2 /* OnboardingView.swift */; };
@@ -42,6 +48,7 @@
 		D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */; };
 		DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */; };
 		E43750D18182F895A28F377A /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AE6FDBF8010523D57E0A /* OCRService.swift */; };
+		EAE953E49A95FCA7F1190C47 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 950579FCF5395620FE17EA36 /* GoogleMobileAds */; };
 		ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */; };
 		F52844AF34EFD16E92F40719 /* GifticonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -93,6 +100,7 @@
 		0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeCandidateService.swift; sourceTree = "<group>"; };
 		1192DCAD8E9F68D183B79292 /* ReminderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsView.swift; sourceTree = "<group>"; };
 		126A2C16EA9A55158170C6B1 /* GifticonCollectorShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GifticonCollectorShare.entitlements; sourceTree = "<group>"; };
+		15957CEC6820C4F46628BF4E /* AdvertisingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingTests.swift; sourceTree = "<group>"; };
 		186BA66C88E206FA187653C5 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedImageInbox.swift; sourceTree = "<group>"; };
 		27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParserTests.swift; sourceTree = "<group>"; };
@@ -100,15 +108,19 @@
 		2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		30E00DE3333CDEA1380226E2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		31DD09168115BD34F51FA92D /* ImportQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportQueueView.swift; sourceTree = "<group>"; };
+		423FD70BD69767A2C1827698 /* AdsConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsConfiguration.swift; sourceTree = "<group>"; };
 		4B8BE3222307D08BACF3805F /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParser.swift; sourceTree = "<group>"; };
 		5912A0AF3C58423CDE40C371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		59CFBBE0B207D85CCE607F83 /* WalletAdvertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdvertisement.swift; sourceTree = "<group>"; };
 		6F3D718BA1374A70A74C1F87 /* GifticonCollectorTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7291D48EA7E65FC989E21181 /* CouponForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponForm.swift; sourceTree = "<group>"; };
 		751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFlowTests.swift; sourceTree = "<group>"; };
+		7CA0AEC0B2906945488F4828 /* AdSDKIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSDKIntegrationTests.swift; sourceTree = "<group>"; };
 		7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoaconDesignSystem.swift; sourceTree = "<group>"; };
 		7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceServiceTests.swift; sourceTree = "<group>"; };
 		8B5973588B6AD6FBC535B45E /* ExpiryReminderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryReminderTests.swift; sourceTree = "<group>"; };
+		965368ECB76D09A172B89BD6 /* AdvertisingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingService.swift; sourceTree = "<group>"; };
 		9732AE6FDBF8010523D57E0A /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableCouponImage.swift; sourceTree = "<group>"; };
 		977774149CCAD1F707AD8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -130,6 +142,18 @@
 		FDD5FA03B2E081507074A7C5 /* SharedImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedImportService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		CA5C87B1EEF9031C527B583D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EAE953E49A95FCA7F1190C47 /* GoogleMobileAds in Frameworks */,
+				20AF35ADF571D8713C7D5927 /* GoogleUserMessagingPlatform in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		0328E51A0AB582AA69138E2F /* Resources */ = {
 			isa = PBXGroup;
@@ -143,9 +167,19 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		20647FCA843A0FD7EE5A0CD8 /* Advertising */ = {
+			isa = PBXGroup;
+			children = (
+				423FD70BD69767A2C1827698 /* AdsConfiguration.swift */,
+				965368ECB76D09A172B89BD6 /* AdvertisingService.swift */,
+			);
+			path = Advertising;
+			sourceTree = "<group>";
+		};
 		225D2529E4E3FC56150AFBF4 /* GifticonCollectorUITests */ = {
 			isa = PBXGroup;
 			children = (
+				7CA0AEC0B2906945488F4828 /* AdSDKIntegrationTests.swift */,
 				751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */,
 			);
 			path = GifticonCollectorUITests;
@@ -154,6 +188,7 @@
 		287CD71458704D65876E6F51 /* GifticonCollectorTests */ = {
 			isa = PBXGroup;
 			children = (
+				15957CEC6820C4F46628BF4E /* AdvertisingTests.swift */,
 				8B5973588B6AD6FBC535B45E /* ExpiryReminderTests.swift */,
 				27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */,
 				7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */,
@@ -184,6 +219,7 @@
 				1192DCAD8E9F68D183B79292 /* ReminderSettingsView.swift */,
 				2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */,
 				F76E830C949E75CD825CA9FE /* ScanView.swift */,
+				59CFBBE0B207D85CCE607F83 /* WalletAdvertisement.swift */,
 				9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */,
 			);
 			path = Views;
@@ -242,6 +278,7 @@
 				0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */,
 				20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */,
 				FDD5FA03B2E081507074A7C5 /* SharedImportService.swift */,
+				20647FCA843A0FD7EE5A0CD8 /* Advertising */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -330,6 +367,7 @@
 			buildPhases = (
 				6FCF587369E706B3314D2A5F /* Sources */,
 				29A9EA6CD11C2E6A066DDB5B /* Resources */,
+				CA5C87B1EEF9031C527B583D /* Frameworks */,
 				5E5274DBA5880F48AF4CFA2D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -339,6 +377,8 @@
 			);
 			name = GifticonCollector;
 			packageProductDependencies = (
+				950579FCF5395620FE17EA36 /* GoogleMobileAds */,
+				995C38068C7C40A201E971B6 /* GoogleUserMessagingPlatform */,
 			);
 			productName = GifticonCollector;
 			productReference = 9DFAFC65C12D591D9163EACE /* GifticonCollector.app */;
@@ -378,6 +418,10 @@
 			);
 			mainGroup = CABA252BCAE7897748E5FDD4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3933FEE41A8646208B6E31D9 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				CD351EC6153BCBCB37958636 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
+			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
@@ -416,6 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				699B241AAC9AFDDF5D523800 /* AdSDKIntegrationTests.swift in Sources */,
 				07A74A1007034CE024C58334 /* WalletFlowTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,6 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C9E5797E68DFBC509AE6C5D /* AdvertisingTests.swift in Sources */,
 				3BABF370C02CCE6066187B5B /* ExpiryReminderTests.swift in Sources */,
 				9932CE142B101A65394DDD04 /* GifticonParserTests.swift in Sources */,
 				C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */,
@@ -434,6 +480,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E575972F562356E81C4C69 /* AdsConfiguration.swift in Sources */,
+				2B82E6DE077C83F93C9200AC /* AdvertisingService.swift in Sources */,
 				A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */,
 				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
 				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
@@ -461,6 +509,7 @@
 				B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */,
 				52AB8C350750AB47E7F9FC62 /* SharedImageInbox.swift in Sources */,
 				902BF725BC5FA12170C5043F /* SharedImportService.swift in Sources */,
+				52BD6819F62A0BC072F6C811 /* WalletAdvertisement.swift in Sources */,
 				2B006CF9E9F7C5FE1F34D55D /* ZoomableCouponImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,6 +672,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited) -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector;
 				PRODUCT_NAME = GifticonCollector;
 				SDKROOT = iphoneos;
@@ -635,7 +685,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -681,6 +731,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited) -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector;
 				PRODUCT_NAME = GifticonCollector;
 				SDKROOT = iphoneos;
@@ -710,7 +761,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -810,6 +861,38 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3933FEE41A8646208B6E31D9 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = exactVersion;
+				version = 13.11.0;
+			};
+		};
+		CD351EC6153BCBCB37958636 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git";
+			requirement = {
+				kind = exactVersion;
+				version = 3.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		950579FCF5395620FE17EA36 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3933FEE41A8646208B6E31D9 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		995C38068C7C40A201E971B6 /* GoogleUserMessagingPlatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD351EC6153BCBCB37958636 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */;
+			productName = GoogleUserMessagingPlatform;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BF200EB0CC1B3D80A2EC75A5 /* Project object */;
 }

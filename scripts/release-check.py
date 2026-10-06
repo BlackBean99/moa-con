@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Read-only submission gate; never uploads or submits an app."""
 import argparse
-import json
 import plistlib
 import re
 import subprocess
@@ -10,9 +9,8 @@ from pathlib import Path
 from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 p = argparse.ArgumentParser(); p.add_argument('--strict', action='store_true'); args = p.parse_args()
-metadata = json.loads((ROOT / 'docs/release/metadata.json').read_text())
-local_metadata = ROOT / 'docs/release/metadata.local.json'
-if local_metadata.exists(): metadata.update(json.loads(local_metadata.read_text()))
+from advertising_config import activation_checks, load_metadata
+metadata = load_metadata()
 info = plistlib.loads((ROOT / 'GifticonCollector/Resources/Info.plist').read_bytes())
 manifest = plistlib.loads((ROOT / 'GifticonCollector/Resources/PrivacyInfo.xcprivacy').read_bytes())
 failures = []
@@ -20,7 +18,14 @@ def require(condition, reason):
     print(('PASS ' if condition else 'BLOCK ') + reason)
     if not condition: failures.append(reason)
 require(info['CFBundleShortVersionString'] == metadata['version'] and info['CFBundleVersion'] == metadata['build'], 'App version matches release metadata')
-require(not manifest['NSPrivacyTracking'] and bool(manifest['NSPrivacyAccessedAPITypes']), 'Privacy manifest present')
+require(not manifest['NSPrivacyTracking'] and bool(manifest['NSPrivacyAccessedAPITypes']), 'App-owned privacy manifest present (SDK manifests need separate review)')
+require(metadata.get('ads', {}).get('privacyDisclosureReviewed') is True,
+        'Bundled Google Ads/UMP privacy report reviewed even if advertising is disabled')
+require(info.get('MoaconAdsEnabled') == (metadata.get('ads', {}).get('enabled') is True), 'App advertising mode matches metadata')
+if metadata.get('ads', {}).get('enabled') is True:
+    for passed, reason in activation_checks(metadata): require(passed, reason)
+    require(info.get('GADApplicationIdentifier') == metadata['ads']['appID'] and
+            info.get('MoaconBannerAdUnitID') == metadata['ads']['bannerUnitID'], 'Live ad identifiers applied to app')
 for field in ['operatorName', 'supportEmail', 'reviewContactName', 'reviewContactEmail', 'reviewContactPhone']:
     require(bool(metadata[field].strip()), field + ' configured')
 for field, key in [('privacyPolicyURL', 'MoaconPrivacyPolicyURL'), ('supportURL', 'MoaconSupportURL')]:

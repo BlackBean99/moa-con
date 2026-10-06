@@ -2,7 +2,7 @@
   "name": "모아콘",
   "subtitle": "쿠폰을 한곳에",
   "version": "1.0",
-  "build": "5",
+  "build": "6",
   "category": "Utilities",
   "territories": [
     "KR"
@@ -22,5 +22,17 @@
   "screenshots": {
     "iPhone": [],
     "iPad": []
+  },
+  "ads": {
+    "enabled": false,
+    "appID": "",
+    "bannerUnitID": "",
+    "publisherID": "",
+    "developerWebsiteURL": "",
+    "consentConfigured": false,
+    "privacyDisclosureReviewed": false,
+    "appAdsTxtVerified": false,
+    "appReadinessApproved": false,
+    "paymentAccountReady": false
   }
 }

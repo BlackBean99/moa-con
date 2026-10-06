@@ -224,6 +224,80 @@ final class WalletFlowTests: XCTestCase {
     }
 
     @MainActor
+    func testWalletBannerDisappearsDuringSearchRegistrationAndBarcodePresentation() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--ads-ui-testing", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["ads.label"].waitForExistence(timeout: 10))
+        capture("14-wallet-ad-placement")
+        app.buttons["확인 필요"].tap()
+        XCTAssertTrue(app.staticTexts["ads.label"].waitForNonExistence(timeout: 5))
+        app.buttons["사용 가능"].tap()
+        XCTAssertTrue(app.staticTexts["ads.label"].waitForExistence(timeout: 5))
+        app.buttons["wallet.add"].tap()
+        XCTAssertTrue(app.buttons["사진 한 장 선택"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+        app.buttons["닫기"].tap()
+        XCTAssertTrue(app.staticTexts["ads.label"].waitForExistence(timeout: 5))
+        app.searchFields.firstMatch.tap()
+        XCTAssertTrue(app.staticTexts["ads.label"].waitForNonExistence(timeout: 5))
+        app.searchFields.firstMatch.typeText("스타벅스")
+        app.staticTexts["아메리카노 Tall"].tap()
+        XCTAssertTrue(app.buttons["원본 크게 보기"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+        app.buttons["원본 크게 보기"].tap()
+        XCTAssertTrue(app.navigationBars["원본"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+        capture("15-original-without-ad")
+    }
+
+    @MainActor
+    func testAdFailureDoesNotBlockCouponOrLeaveAdPlaceholder() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--ads-ui-testing", "--ads-failure-testing", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+        XCTAssertFalse(app.staticTexts["ads.test-preview"].exists)
+        app.staticTexts["아메리카노 Tall"].tap()
+        XCTAssertTrue(app.buttons["사용 완료"].waitForExistence(timeout: 5))
+        app.buttons["사용 완료"].tap()
+        XCTAssertTrue(app.buttons["사용 취소"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testOnboardingAndEmptyWalletNeverDisplayAd() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--ads-ui-testing", "--onboarding-testing", "--reset-onboarding", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+        app.buttons["onboarding.start"].tap()
+        XCTAssertTrue(app.staticTexts["쿠폰 없음"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+    }
+
+    @MainActor
+    func testLargeTextBannerKeepsCouponActionsAccessible() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--ads-ui-testing", "--dark-appearance", "-AppleLanguages", "(ko)",
+                               "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["ads.label"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["wallet.add"].isHittable)
+        capture("16-wallet-ad-large-dark")
+        app.buttons["wallet.add"].tap()
+        XCTAssertTrue(app.buttons["사진 한 장 선택"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+        app.buttons["닫기"].tap()
+        app.collectionViews.firstMatch.swipeUp()
+        XCTAssertTrue(app.staticTexts["아메리카노 Tall"].isHittable)
+        app.staticTexts["아메리카노 Tall"].tap()
+        XCTAssertTrue(app.buttons["원본 크게 보기"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ads.label"].exists)
+    }
+
+    @MainActor
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name

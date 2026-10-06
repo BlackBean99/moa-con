@@ -85,7 +85,7 @@
 ## T09: 출시 후보 회귀와 네이티브 배포
 
 **Status:** blocked
-**Depends:** T04,T06,T07,T08,T12
+**Depends:** T04,T06,T07,T08,T12,T17
 **Acceptance:** 전체 자동 테스트 통과; iPhone/iPad QA 증거; Release Archive와 로컬 설치
 **Verify:** xcodebuild test/archive; deploy-local; 결과 bundle
 **Files:** Tests/*, UITests/*, scripts/*, project.yml
@@ -121,3 +121,63 @@
 **Files:** Services/SharedImageInbox.swift, Services/SharedImportService.swift, Services/PersistenceService.swift
 **Evidence:** docs/qa/T12-interrupted-save.md
 **Reason:** —
+
+## T13: 광고 수익화 명세와 과업
+
+**Status:** done
+**Depends:** T01
+**Acceptance:** 로그인 없는 무료 앱의 AdMob 구조·위치·동의·출시와 수익 gate 구분
+**Verify:** 공식 문서 확인; 명세 반증 검토
+**Files:** docs/AD_MONETIZATION.md, tasks/*
+**Evidence:** docs/AD_MONETIZATION.md
+**Reason:** —
+
+## T14: 광고 SDK와 동의·설정 안전장치
+
+**Status:** done
+**Depends:** T13
+**Acceptance:** 정확한 SDK 버전 고정; UMP 이전 요청 없음; 기본 광고 꺼짐; 개인정보 설정과 오래된 완료 방지
+**Verify:** 정책·설정·동의 반례 단위 테스트; 빌드
+**Files:** Services/Advertising/*, project.yml
+**Evidence:** docs/qa/T14-ad-consent.md
+**Reason:** —
+
+## T15: 보관함 배너와 실패 시 기능 유지
+
+**Status:** done
+**Depends:** T14
+**Acceptance:** 보관함에서만 배너; 등록/검색/상세/스캔에서 제거; 실패 공간 없음
+**Verify:** UI 회귀; Google 테스트 배너 렌더링
+**Files:** Views/*, UITests/*
+**Evidence:** docs/qa/T15-wallet-ad.md
+**Reason:** —
+
+## T16: 광고 개인정보와 출시 검사
+
+**Status:** done
+**Depends:** T14
+**Acceptance:** SDK 데이터 고지; 실광고 ID·정책·동의·app-ads.txt 검사; 계정 없는 활성화 방지
+**Verify:** 설정 검사 반례; release-check; 문서 검토
+**Files:** scripts/*, PrivacyPolicy.md, docs/release/*
+**Evidence:** docs/qa/T16-ad-release-gates.md
+**Reason:** —
+
+## T17: 광고 후보 네이티브 검증과 로컬 배포
+
+**Status:** blocked
+**Depends:** T15,T16
+**Acceptance:** 전체 자동 회귀; Release Archive; 연결 기기 로컬 설치·실행과 결과 기록
+**Verify:** xcodebuild test/archive; devicectl
+**Files:** docs/qa/T17-ads.md, scripts/*
+**Evidence:** docs/qa/T17-ads.md
+**Reason:** 회귀·실제 테스트 배너·Release Archive·Simulator 설치 완료; iPhone 1.0(6) 설치 중 CoreDevice 연결 reset, 기기 재연결 필요
+
+## T18: AdMob 실제 계정과 수익 개시
+
+**Status:** blocked
+**Depends:** T17
+**Acceptance:** 게시자 지급 정보; 실제 앱/배너 ID; UMP; 공개 정책; app-ads.txt; Store 연결과 AdMob 준비 승인
+**Verify:** 공개 파일과 실제 계정 상태 확인; 실광고 활성 후보 검증
+**Files:** 운영 계정, docs/release/metadata.local.json
+**Evidence:** docs/qa/T16-ad-release-gates.md
+**Reason:** 실제 AdMob 앱/배너/게시자·지급 정보 미제공; UMP 실제 계정·공개 정책/웹사이트·app-ads.txt·Store 연결과 광고 준비 승인 미확인

@@ -3,6 +3,7 @@ set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 mode="${1:---simulator}"
+version_label="$(python3 -c 'import json; m=json.load(open("docs/release/metadata.json")); print(m["version"]+"-"+m["build"])')"
 mkdir -p artifacts/usability
 case "$mode" in
   --simulator)
@@ -16,7 +17,7 @@ case "$mode" in
     product="$build_path/Build/Products/Release-iphonesimulator/GifticonCollector.app"
     xcrun simctl install "$simulator_id" "$product"
     xcrun simctl launch "$simulator_id" com.yourteam.gifticoncollector
-    ditto -c -k --keepParent "$product" artifacts/usability/Moacon-Simulator-1.0.zip
+    ditto -c -k --keepParent "$product" "artifacts/usability/Moacon-Simulator-${version_label}.zip"
     ;;
   --device)
     device_id="${2:-00008140-001809CA18A2201C}"
