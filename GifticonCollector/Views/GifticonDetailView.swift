@@ -8,19 +8,42 @@ struct GifticonDetailView: View {
     @Environment(\.dismiss) private var dismiss
     let gifticon: Gifticon
     let photoLibraryService: PhotoLibraryService
+    @State private var expandedImage: UIImage?
+    @State private var showEditor = false
+    @State private var showDeleteConfirmation = false
     @State private var initialAmountText = ""
     @State private var deductionText = ""
     @State private var errorMessage: String?
 
     var body: some View {
         Form {
+            if gifticon.needsReview {
+                Section {
+                    Label("기프티콘인지 확인해 주세요", systemImage: "questionmark.circle")
+                    Text("일반 바코드일 수도 있어요. 원본과 정보를 확인한 뒤 보관함으로 옮길 수 있습니다.").font(.footnote)
+                    Button("정보 확인하고 보관하기") { showEditor = true }
+                }
+            }
             Section {
-                GifticonHeroImage(gifticon: gifticon, photoLibraryService: photoLibraryService)
+                Button(gifticon.isUsed ? "사용 처리 취소" : "사용 완료 처리") {
+                    do {
+                        try PersistenceService(modelContext: modelContext).toggleUsed(gifticon)
+                    } catch {
+                        errorMessage = error.localizedDescription
+                    }
+                }
+                .foregroundStyle(ClayTheme.ink)
+                .disabled(gifticon.needsReview)
+            }
+
+            Section {
+                GifticonHeroImage(gifticon: gifticon, photoLibraryService: photoLibraryService) { expandedImage = $0 }
                     .frame(maxWidth: .infinity)
                     .listRowInsets(EdgeInsets())
+                    .accessibilityIdentifier("coupon.original")
                     .clayCard(ClayTheme.lilac, radius: 28)
             }
-            Section("기프트콘 정보") {
+            Section("기프티콘 정보") {
                 infoRow("브랜드", gifticon.brand)
                 infoRow("상품", gifticon.title)
                 infoRow("바코드", gifticon.barcodeNumber ?? "-")
@@ -29,56 +52,40 @@ struct GifticonDetailView: View {
                 }
             }
 
-            Section("금액") {
-                if let remainingAmount = gifticon.remainingAmount {
-                    infoRow("남은 금액", formatAmount(remainingAmount))
-                    if let originalAmount = gifticon.originalAmount {
-                        infoRow("처음 금액", formatAmount(originalAmount))
-                    }
-                    Button(gifticon.allowsPartialRedemption ? "부분 차감 끄기" : "부분 차감 허용") {
-                        updatePartialRedemption(!gifticon.allowsPartialRedemption)
-                    }
-                    if gifticon.allowsPartialRedemption && !gifticon.isUsed {
+            if !gifticon.needsReview {
+                Section("금액") {
+                    if let remainingAmount = gifticon.remainingAmount {
+                        infoRow("남은 금액", formatAmount(remainingAmount))
+                        if let originalAmount = gifticon.originalAmount {
+                            infoRow("처음 금액", formatAmount(originalAmount))
+                        }
+                        Button(gifticon.allowsPartialRedemption ? "부분 차감 끄기" : "부분 차감 허용") {
+                            updatePartialRedemption(!gifticon.allowsPartialRedemption)
+                        }
+                        if gifticon.allowsPartialRedemption && !gifticon.isUsed {
+                            HStack {
+                                TextField("차감할 금액", text: $deductionText)
+                                    .keyboardType(.decimalPad)
+                                Button("차감") { deduct() }
+                                    .buttonStyle(.borderedProminent)
+                            }
+                        }
+                    } else {
+                        Text("금액이 인식되지 않았습니다. 직접 입력하면 차감 기능을 사용할 수 있습니다.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
                         HStack {
-                            TextField("차감할 금액", text: $deductionText)
+                            TextField("처음 금액", text: $initialAmountText)
                                 .keyboardType(.decimalPad)
-                            Button("차감") { deduct() }
+                            Button("저장") { setInitialAmount() }
                                 .buttonStyle(.borderedProminent)
                         }
                     }
-                } else {
-                    Text("금액이 인식되지 않았습니다. 직접 입력하면 차감 기능을 사용할 수 있습니다.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                    HStack {
-                        TextField("처음 금액", text: $initialAmountText)
-                            .keyboardType(.decimalPad)
-                        Button("저장") { setInitialAmount() }
-                            .buttonStyle(.borderedProminent)
-                    }
                 }
             }
 
             Section {
-                Button(gifticon.isUsed ? "사용 처리 취소" : "사용 완료 처리") {
-                    do {
-                        try PersistenceService(modelContext: modelContext).toggleUsed(gifticon)
-                    } catch {
-                        errorMessage = "사용 상태를 저장하지 못했습니다."
-                    }
-                }
-                .foregroundStyle(gifticon.isUsed ? .orange : .green)
-            }
-
-            Section {
-                Button("기프트콘 삭제", role: .destructive) {
-                    do {
-                        try PersistenceService(modelContext: modelContext).delete(gifticon)
-                        dismiss()
-                    } catch {
-                        errorMessage = "기프트콘을 삭제하지 못했습니다."
-                    }
-                }
+                Button("보관함에서 삭제", role: .destructive) { showDeleteConfirmation = true }
             }
 
             if let errorMessage {
@@ -87,16 +94,32 @@ struct GifticonDetailView: View {
         }
         .scrollContentBackground(.hidden)
         .background(ClayTheme.canvas)
-        .tint(ClayTheme.coral)
+        .tint(ClayTheme.ink)
         .navigationTitle(gifticon.brand)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("수정") { showEditor = true } } }
+        .sheet(isPresented: $showEditor) { GifticonEditor(gifticon: gifticon) }
+        .fullScreenCover(isPresented: Binding(get: { expandedImage != nil }, set: { if !$0 { expandedImage = nil } })) {
+            NavigationStack {
+                ZoomableCouponImage(image: expandedImage).background(.white)
+                    .navigationTitle("매장에 보여주세요").navigationBarTitleDisplayMode(.inline)
+                    .toolbar { ToolbarItem(placement: .confirmationAction) { Button("닫기") { expandedImage = nil } } }
+            }
+        }
+        .alert("이 항목을 보관함에서 삭제할까요?", isPresented: $showDeleteConfirmation) {
+            Button("삭제", role: .destructive) {
+                do { try PersistenceService(modelContext: modelContext).delete(gifticon); dismiss() }
+                catch { errorMessage = "삭제하지 못했어요. 다시 시도해 주세요." }
+            }
+            Button("취소", role: .cancel) {}
+        }
     }
 
     private func infoRow(_ title: String, _ value: String) -> some View {
         HStack {
             Text(title)
             Spacer()
-            Text(value).foregroundStyle(.secondary)
+            Text(value).foregroundStyle(.secondary).multilineTextAlignment(.trailing).textSelection(.enabled)
         }
     }
 
@@ -114,7 +137,7 @@ struct GifticonDetailView: View {
     }
 
     private func setInitialAmount() {
-        guard let amount = Double(initialAmountText), amount > 0 else {
+        guard let amount = Double(initialAmountText.replacingOccurrences(of: ",", with: "").trimmingCharacters(in: .whitespaces)), amount > 0 else {
             errorMessage = "처음 금액을 숫자로 입력해 주세요."
             return
         }
@@ -128,7 +151,7 @@ struct GifticonDetailView: View {
     }
 
     private func deduct() {
-        guard let amount = Double(deductionText), amount > 0 else {
+        guard let amount = Double(deductionText.replacingOccurrences(of: ",", with: "").trimmingCharacters(in: .whitespaces)), amount > 0 else {
             errorMessage = "차감 금액을 숫자로 입력해 주세요."
             return
         }
@@ -146,25 +169,36 @@ private struct GifticonHeroImage: View {
     let gifticon: Gifticon
     let photoLibraryService: PhotoLibraryService
     @State private var image: UIImage?
+    let onExpand: (UIImage) -> Void
+    @State private var loadFailed = false
 
     var body: some View {
         Group {
             if let image {
-                Image(uiImage: image).resizable().scaledToFit()
+                Button { onExpand(image) } label: {
+                    VStack(spacing: 8) {
+                        Image(uiImage: image).resizable().scaledToFit()
+                        Label("원본 크게 보기", systemImage: "arrow.up.left.and.arrow.down.right").font(.caption)
+                    }
+                }.buttonStyle(.plain)
             } else {
-                ContentUnavailableView("사진을 불러오는 중", systemImage: "photo")
+                ContentUnavailableView(loadFailed ? "원본 사진을 찾을 수 없어요" : "사진을 불러오는 중", systemImage: "photo", description: Text(loadFailed ? "사진 접근 권한 또는 원본 삭제 여부를 확인해 주세요." : ""))
             }
         }
-        .frame(maxWidth: .infinity, minHeight: 220, maxHeight: 360)
+        .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 260)
         .background(Color(uiColor: .secondarySystemBackground))
         .task {
             if gifticon.assetLocalIdentifier.hasPrefix("shared:") {
                 image = try? photoLibraryService.loadSharedUIImage(filename: String(gifticon.assetLocalIdentifier.dropFirst("shared:".count)))
+                loadFailed = image == nil
                 return
             }
-            guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [gifticon.assetLocalIdentifier], options: nil).firstObject else { return }
-            image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: 1_200, height: 1_200))
+            guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [gifticon.assetLocalIdentifier], options: nil).firstObject else { loadFailed = true; return }
+            image = try? await photoLibraryService.loadUIImage(for: asset, targetSize: CGSize(width: 2_048, height: 2_048))
+            loadFailed = image == nil
         }
-        .accessibilityLabel("\(gifticon.brand) 기프트콘 원본 사진")
+        .accessibilityLabel("원본 크게 보기")
+        .accessibilityHint("\(gifticon.brand) 기프티콘 원본 사진을 확대합니다")
+
     }
 }

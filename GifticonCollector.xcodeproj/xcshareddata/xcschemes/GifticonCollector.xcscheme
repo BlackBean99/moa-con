@@ -50,6 +50,17 @@
                ReferencedContainer = "container:GifticonCollector.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33637494309B806F491392E5"
+               BuildableName = "GifticonCollectorUITests.xctest"
+               BlueprintName = "GifticonCollectorUITests"
+               ReferencedContainer = "container:GifticonCollector.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>
