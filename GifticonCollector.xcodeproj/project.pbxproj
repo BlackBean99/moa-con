@@ -7,30 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A10400000000000000000001 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A10400000000000000000002 /* PrivacyInfo.xcprivacy */; };
-		111C81740A5244E7A3D92611 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111C81740A5244E7A3D92610 /* OnboardingView.swift */; };
 		07A74A1007034CE024C58334 /* WalletFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */; };
 		146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2B006CF9E9F7C5FE1F34D55D /* ZoomableCouponImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */; };
+		4DC15A4F1E7CBF434741235F /* CouponForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7291D48EA7E65FC989E21181 /* CouponForm.swift */; };
 		52AB8C350750AB47E7F9FC62 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
 		55A592E15B559B51DF078BE2 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
 		5D180D983FBB6747AE8960F5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094395273C8D67873CF7C96C /* ShareViewController.swift */; };
 		5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */; };
 		6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */; };
 		6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76E830C949E75CD825CA9FE /* ScanView.swift */; };
+		6E821464DC04DF9969943D46 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E00DE3333CDEA1380226E2 /* OnboardingView.swift */; };
 		73A19E9B0D96CC37296C8D5B /* GifticonEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8E3435B0EBB387251A489B /* GifticonEditor.swift */; };
+		743A0474E460B9FF92EF47BC /* MoaconDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */; };
 		7DEF808C9B685081765FC140 /* ManualImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */; };
 		8937B11D83EF6DEEBB147FF1 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8BE3222307D08BACF3805F /* PersistenceService.swift */; };
 		902BF725BC5FA12170C5043F /* SharedImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD5FA03B2E081507074A7C5 /* SharedImportService.swift */; };
 		9932CE142B101A65394DDD04 /* GifticonParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */; };
 		9E77E665D01106D665431898 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BA66C88E206FA187653C5 /* NotificationService.swift */; };
 		A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6DCD723D19633CA221238B /* AppDelegate.swift */; };
+		A8C30C900FAA98D436D8165C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B5C9EF9E2FC6785EAFA9CB84 /* PrivacyInfo.xcprivacy */; };
 		AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */; };
 		AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */; };
 		AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C352498F8FF331235689437E /* GifticonScanResult.swift */; };
 		B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */; };
 		B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF0DFA3A74621034ED948A3 /* Gifticon.swift */; };
-		BD3CE4FAAFF7DFD5104C7B8B /* MoaconDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB19E590961065596AD63B /* MoaconDesignSystem.swift */; };
 		C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */; };
 		C635043BC48B47A576E9892B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4B3510AA4F94EE6A71F4CC /* Assets.xcassets */; };
 		CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7412033B11880B1F583F9DB /* GifticonListView.swift */; };
@@ -80,8 +81,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A10400000000000000000002 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		111C81740A5244E7A3D92610 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		02CD008814EC588B16D927C8 /* GifticonCollectorUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualImportView.swift; sourceTree = "<group>"; };
 		094395273C8D67873CF7C96C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -93,21 +92,24 @@
 		20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedImageInbox.swift; sourceTree = "<group>"; };
 		27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParserTests.swift; sourceTree = "<group>"; };
 		2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		30E00DE3333CDEA1380226E2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		4B8BE3222307D08BACF3805F /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParser.swift; sourceTree = "<group>"; };
 		5912A0AF3C58423CDE40C371 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6F3D718BA1374A70A74C1F87 /* GifticonCollectorTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7291D48EA7E65FC989E21181 /* CouponForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponForm.swift; sourceTree = "<group>"; };
 		751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFlowTests.swift; sourceTree = "<group>"; };
+		7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoaconDesignSystem.swift; sourceTree = "<group>"; };
 		7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceServiceTests.swift; sourceTree = "<group>"; };
 		9732AE6FDBF8010523D57E0A /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableCouponImage.swift; sourceTree = "<group>"; };
 		977774149CCAD1F707AD8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9A8E3435B0EBB387251A489B /* GifticonEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonEditor.swift; sourceTree = "<group>"; };
 		9DFAFC65C12D591D9163EACE /* GifticonCollector.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GifticonCollector.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5BB19E590961065596AD63B /* MoaconDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoaconDesignSystem.swift; sourceTree = "<group>"; };
 		A7412033B11880B1F583F9DB /* GifticonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonListView.swift; sourceTree = "<group>"; };
 		AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = GifticonCollectorShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonClassifier.swift; sourceTree = "<group>"; };
+		B5C9EF9E2FC6785EAFA9CB84 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C352498F8FF331235689437E /* GifticonScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonScanResult.swift; sourceTree = "<group>"; };
 		CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		D3A9493631F5A0AD6F775330 /* GifticonCollectorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonCollectorApp.swift; sourceTree = "<group>"; };
@@ -124,11 +126,11 @@
 		0328E51A0AB582AA69138E2F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A10400000000000000000002 /* PrivacyInfo.xcprivacy */,
 				EC4B3510AA4F94EE6A71F4CC /* Assets.xcassets */,
 				0A46BB7805092E24433C319F /* GifticonCollector.entitlements */,
 				126A2C16EA9A55158170C6B1 /* GifticonCollectorShare.entitlements */,
 				5912A0AF3C58423CDE40C371 /* Info.plist */,
+				B5C9EF9E2FC6785EAFA9CB84 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -162,12 +164,13 @@
 		6E4AED3AB4CCE9B289180FB3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A5BB19E590961065596AD63B /* MoaconDesignSystem.swift */,
+				7291D48EA7E65FC989E21181 /* CouponForm.swift */,
 				E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */,
 				9A8E3435B0EBB387251A489B /* GifticonEditor.swift */,
 				A7412033B11880B1F583F9DB /* GifticonListView.swift */,
 				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
-				111C81740A5244E7A3D92610 /* OnboardingView.swift */,
+				7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */,
+				30E00DE3333CDEA1380226E2 /* OnboardingView.swift */,
 				2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */,
 				F76E830C949E75CD825CA9FE /* ScanView.swift */,
 				9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */,
@@ -380,8 +383,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10400000000000000000001 /* PrivacyInfo.xcprivacy in Resources */,
 				C635043BC48B47A576E9892B /* Assets.xcassets in Resources */,
+				A8C30C900FAA98D436D8165C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,7 +424,7 @@
 				A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */,
 				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
 				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
-				BD3CE4FAAFF7DFD5104C7B8B /* MoaconDesignSystem.swift in Sources */,
+				4DC15A4F1E7CBF434741235F /* CouponForm.swift in Sources */,
 				B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */,
 				6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */,
 				AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */,
@@ -431,10 +434,11 @@
 				AAC0F024DE3972AECC17B7E3 /* GifticonParser.swift in Sources */,
 				AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */,
 				7DEF808C9B685081765FC140 /* ManualImportView.swift in Sources */,
+				743A0474E460B9FF92EF47BC /* MoaconDesignSystem.swift in Sources */,
 				9E77E665D01106D665431898 /* NotificationService.swift in Sources */,
 				E43750D18182F895A28F377A /* OCRService.swift in Sources */,
+				6E821464DC04DF9969943D46 /* OnboardingView.swift in Sources */,
 				8937B11D83EF6DEEBB147FF1 /* PersistenceService.swift in Sources */,
-				111C81740A5244E7A3D92611 /* OnboardingView.swift in Sources */,
 				D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */,
 				ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */,
 				6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */,

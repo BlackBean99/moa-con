@@ -9,6 +9,7 @@ struct ManualImportView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var isImporting = false
     @State private var message: String?
+    @State private var draft: CouponImportDraft?
 
     private let ocrService = OCRService()
     private let parser = GifticonParser()
@@ -44,6 +45,22 @@ struct ManualImportView: View {
         .navigationTitle("사진 추가")
         .navigationBarTitleDisplayMode(.inline)
         .tint(MoaconTheme.accent)
+        .sheet(item: $draft) { source in
+            CouponImportEditor(source: source) { message = "보관함에 추가했어요." }
+        }
+        .task {
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("--import-draft-testing") {
+                let image = UIGraphicsImageRenderer(size: CGSize(width: 400, height: 500)).image { ctx in
+                    UIColor.white.setFill(); ctx.fill(CGRect(x: 0, y: 0, width: 400, height: 500))
+                    ("테스트 원본 · 사용 불가" as NSString).draw(at: CGPoint(x: 20, y: 40), withAttributes: [.font: UIFont.systemFont(ofSize: 20)])
+                }
+                let multiple = ProcessInfo.processInfo.arguments.contains("--multiple-code-testing")
+                draft = CouponImportDraft(data: image.jpegData(compressionQuality: 0.9)!,
+                    parsed: multiple ? parser.parse(text: "스타벅스\n테스트 교환권", barcodeValues: ["CANDIDATE-A", "CANDIDATE-B"]) : nil)
+            }
+            #endif
+        }
     }
 
     private func importSinglePhoto(_ item: PhotosPickerItem) async {
@@ -62,30 +79,14 @@ struct ManualImportView: View {
                 return
             }
 
-            let barcodes = try await ocrService.detectBarcodes(from: cgImage)
-            guard !barcodes.isEmpty else {
-                message = "바코드를 찾지 못했어요."
-                return
-            }
-            let text = try await ocrService.recognizeText(from: cgImage)
-            guard let parsed = parser.parse(text: text, barcodeValues: barcodes) else {
-                message = "쿠폰 정보를 찾지 못했어요."
-                return
-            }
+            let parsed: ParsedGifticon?
+            do {
+                let barcodes = try await ocrService.detectBarcodes(from: cgImage)
+                let text = try await ocrService.recognizeText(from: cgImage)
+                parsed = parser.parse(text: text, barcodeValues: barcodes)
+            } catch { parsed = nil }
+            draft = CouponImportDraft(data: data, parsed: parsed)
 
-            let persistenceService = PersistenceService(modelContext: modelContext)
-            if try persistenceService.contains(barcode: parsed.barcodeNumber ?? "") {
-                message = "이미 보관한 쿠폰입니다."
-                return
-            }
-            let filename = try SharedImageInbox.enqueue(imageData: data)
-            guard let storedURL = SharedImageInbox.url(for: filename) else { throw SharedImageInbox.InboxError.unavailable }
-            try SharedImageInbox.archive(storedURL)
-            _ = try persistenceService.save(
-                parsed: parsed,
-                assetLocalIdentifier: "shared:\(filename)"
-            )
-            message = parsed.needsReview ? "확인 필요에 추가했어요." : "보관함에 추가했어요."
         } catch {
             message = "사진을 추가하지 못했어요. 다시 시도해 주세요."
         }

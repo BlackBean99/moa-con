@@ -137,6 +137,46 @@ final class WalletFlowTests: XCTestCase {
     }
 
     @MainActor
+    func testRecognitionFailureCanBeRegisteredManually() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--import-draft-testing", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 10))
+        app.buttons["wallet.add"].tap()
+        XCTAssertTrue(app.navigationBars["쿠폰 등록"].waitForExistence(timeout: 5))
+        app.textFields["브랜드"].tap(); app.textFields["브랜드"].typeText("수동카페")
+        app.textFields["상품명"].tap(); app.textFields["상품명"].typeText("직접 등록 쿠폰")
+        app.textFields["바코드 번호"].tap(); app.textFields["바코드 번호"].typeText("MANUAL-123")
+        app.buttons["import.save"].tap()
+        XCTAssertTrue(app.navigationBars["사진 추가"].waitForExistence(timeout: 5))
+        app.buttons["닫기"].tap()
+        XCTAssertTrue(app.staticTexts["직접 등록 쿠폰"].waitForExistence(timeout: 5))
+        app.staticTexts["직접 등록 쿠폰"].tap()
+        XCTAssertTrue(app.buttons["원본 크게 보기"].waitForExistence(timeout: 5))
+        capture("10-manual-recovery")
+    }
+
+    @MainActor
+    func testMultipleBarcodeRequiresExplicitSelection() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--import-draft-testing", "--multiple-code-testing", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 10))
+        app.buttons["wallet.add"].tap()
+        XCTAssertTrue(app.navigationBars["쿠폰 등록"].waitForExistence(timeout: 5))
+        app.buttons["import.save"].tap()
+        XCTAssertTrue(app.staticTexts["브랜드, 상품명과 바코드를 입력해 주세요."].waitForExistence(timeout: 3))
+        app.alerts.buttons["확인"].tap()
+        app.buttons["CANDIDATE-B"].tap()
+        app.buttons["import.save"].tap()
+        XCTAssertTrue(app.navigationBars["사진 추가"].waitForExistence(timeout: 5))
+        app.buttons["닫기"].tap()
+        app.staticTexts["테스트 교환권"].tap()
+        XCTAssertTrue(app.staticTexts["CANDIDATE-B"].waitForExistence(timeout: 5))
+        capture("11-selected-barcode")
+    }
+
+    @MainActor
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name

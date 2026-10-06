@@ -24,12 +24,12 @@
 
 ## T03: 인식 실패 직접 등록
 
-**Status:** planned
+**Status:** done
 **Depends:** T02
 **Acceptance:** 바코드 실패에도 원본+직접 입력; 선택 후보와 번호 중복 검증; 취소 시 고아 파일 없음
 **Verify:** manual import UI + persistence 테스트
 **Files:** Views/ManualImportView.swift, Views/GifticonEditor.swift
-**Evidence:** —
+**Evidence:** docs/qa/T03-registration.md
 **Reason:** —
 
 ## T04: 기존 쿠폰 후보와 금액 수정
