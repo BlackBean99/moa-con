@@ -34,12 +34,12 @@
 
 ## T04: 기존 쿠폰 후보와 금액 수정
 
-**Status:** active
+**Status:** done
 **Depends:** T03
 **Acceptance:** 후보 선택 가능; 교환권 가격과 잔액 분리; 차감 후 원금 수정 제한
 **Verify:** editor/detail UI + balance 회귀 테스트
 **Files:** Views/GifticonEditor.swift, Views/GifticonDetailView.swift
-**Evidence:** —
+**Evidence:** docs/qa/T04-editor.md
 **Reason:** —
 
 ## T05: 공유 저장 결과와 실패 큐
@@ -54,12 +54,12 @@
 
 ## T06: 실패 큐 복구 화면
 
-**Status:** active
+**Status:** done
 **Depends:** T05,T03
 **Acceptance:** 대기 항목 재시도/직접 입력/삭제; 앱 재진입 결과 표시; 중복 파일 정리
 **Verify:** queue UI + duplicate/retry 테스트
 **Files:** Views/RootView.swift, Views/GifticonListView.swift, Views/ManualImportView.swift
-**Evidence:** —
+**Evidence:** docs/qa/T06-queue.md
 **Reason:** —
 
 ## T07: 자동 찾기와 기존 원본 보존

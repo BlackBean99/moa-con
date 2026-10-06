@@ -65,6 +65,36 @@ final class PersistenceService {
         try saveChanges()
     }
 
+    func update(_ item: Gifticon, from parsed: ParsedGifticon) throws {
+        // Once a balance has been spent, editing metadata must not reset the ledger.
+        if let original = item.originalAmount, let remaining = item.remainingAmount,
+           remaining < original || item.isUsed {
+            guard parsed.couponKind == item.couponKind, parsed.amount == original,
+                  parsed.remainingAmount == remaining else { throw PersistenceError.amountAlreadySet }
+        }
+        guard parsed.amount == nil || (parsed.amount!.isFinite && parsed.amount! > 0),
+              parsed.remainingAmount == nil || (parsed.amount != nil && parsed.remainingAmount!.isFinite && parsed.remainingAmount! >= 0 && parsed.remainingAmount! <= parsed.amount!) else {
+            throw PersistenceError.insufficientBalance
+        }
+        let barcode = GifticonParser.normalizeBarcode(parsed.barcodeNumber ?? "")
+        guard !parsed.brand.isEmpty, !parsed.title.isEmpty, !barcode.isEmpty else { throw PersistenceError.incompleteInformation }
+        let matches = try modelContext.fetch(FetchDescriptor<Gifticon>(predicate: #Predicate { $0.barcodeNumber == barcode }))
+        guard !matches.contains(where: { $0.id != item.id }) else { throw PersistenceError.duplicateBarcode }
+        item.brand = parsed.brand
+        item.title = parsed.title
+        item.barcodeNumber = barcode
+        item.expiryDate = parsed.expiryDate
+        item.needsReview = parsed.needsReview
+        item.couponKind = parsed.couponKind
+        item.originalAmount = parsed.couponKind == .storedValue ? parsed.amount : nil
+        item.remainingAmount = parsed.couponKind == .storedValue ? parsed.remainingAmount : nil
+        item.productPrice = parsed.productPrice
+        item.discountAmount = parsed.discountAmount
+        if parsed.couponKind == .exchange { item.allowsPartialRedemption = false }
+        if parsed.couponKind == .storedValue && item.remainingAmount == 0 { item.isUsed = true }
+        try saveChanges()
+    }
+
     func toggleUsed(_ gifticon: Gifticon) throws {
         guard !gifticon.needsReview else { throw PersistenceError.reviewRequired }
         guard !(gifticon.isUsed && gifticon.remainingAmount == 0) else { throw PersistenceError.balanceExhausted }

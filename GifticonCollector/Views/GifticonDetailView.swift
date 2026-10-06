@@ -43,14 +43,15 @@ struct GifticonDetailView: View {
             Section("쿠폰 정보") {
                 infoRow("브랜드", gifticon.brand)
                 infoRow("상품", gifticon.title)
+                infoRow("종류", gifticon.couponKind.title)
                 infoRow("바코드", gifticon.barcodeNumber ?? "-")
                 if let expiryDate = gifticon.expiryDate {
                     infoRow("유효기간", expiryDate.formatted(date: .numeric, time: .omitted))
                 }
             }
 
-            if !gifticon.needsReview {
-                Section("금액") {
+            if !gifticon.needsReview && gifticon.couponKind == .storedValue {
+                Section("금액권 잔액") {
                     if let remainingAmount = gifticon.remainingAmount {
                         infoRow("남은 금액", formatAmount(remainingAmount))
                         if let originalAmount = gifticon.originalAmount {
@@ -78,6 +79,12 @@ struct GifticonDetailView: View {
                 }
             }
 
+            if gifticon.productPrice != nil || gifticon.discountAmount != nil {
+                Section("가격 정보") {
+                    if let price = gifticon.productPrice { infoRow("상품 가격", formatAmount(price)) }
+                    if let discount = gifticon.discountAmount { infoRow("할인 금액", formatAmount(discount)) }
+                }
+            }
             Section {
                 Button("보관함에서 삭제", role: .destructive) { showDeleteConfirmation = true }
             }

@@ -42,6 +42,38 @@ final class PersistenceServiceTests: XCTestCase {
         XCTAssertEqual(item.barcodeNumber, "456")
     }
 
+    func testEditingAmountsNeverRestoresSpentBalance() throws {
+        let container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let service = PersistenceService(modelContext: container.mainContext)
+        var parsed = ParsedGifticon(brand: "카페", title: "금액권", barcodeNumber: "LEDGER", expiryDate: nil, amount: 10000, confidence: 1, couponKind: .storedValue, remainingAmount: 10000)
+        let item = try service.save(parsed: parsed, assetLocalIdentifier: "test")
+        try service.setPartialRedemption(true, for: item)
+        try service.deduct(2500, from: item)
+        XCTAssertThrowsError(try service.update(item, from: parsed))
+        XCTAssertEqual(item.remainingAmount, 7500)
+        parsed.remainingAmount = 7500
+        try service.update(item, from: parsed)
+        XCTAssertEqual(item.remainingAmount, 7500)
+        let exchange = Gifticon(brand: "카페", title: "교환권", assetLocalIdentifier: "test", productPrice: 5000)
+        XCTAssertThrowsError(try service.setPartialRedemption(true, for: exchange))
+        XCTAssertNil(exchange.remainingAmount)
+    }
+
+    func testUnreadableSharedFileLeavesAutomaticRetryQueue() async throws {
+        let filename = try SharedImageInbox.enqueue(imageData: Data([1, 2, 3]))
+        defer { if let url = SharedImageInbox.url(for: filename) { try? SharedImageInbox.remove(url) } }
+        let container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        await SharedImportService(modelContext: container.mainContext).processPending()
+        XCTAssertFalse(try SharedImageInbox.pendingFiles().contains { $0.lastPathComponent == filename })
+        XCTAssertNotNil(SharedImageInbox.url(for: filename), "실패해도 원본 보존")
+        XCTAssertTrue(try SharedImageInbox.failedFiles().contains { $0.lastPathComponent == filename })
+        let second = await SharedImportService(modelContext: container.mainContext).processPending()
+        XCTAssertEqual(second.failed, 0, "명시적 재시도 전에는 무한 재인식하지 않음")
+        try SharedImageInbox.retry(XCTUnwrap(SharedImageInbox.url(for: filename)))
+        XCTAssertTrue(try SharedImageInbox.pendingFiles().contains { $0.lastPathComponent == filename })
+        XCTAssertThrowsError(try SharedImageInbox.validateSize(SharedImageInbox.maximumBytes + 1))
+    }
+
     func testPartialRedemptionIsOffByDefault() throws {
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: Gifticon.self, configurations: configuration)
