@@ -5,14 +5,49 @@ import SwiftUI
 struct RootView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
+    @AppStorage("onboarding.completed") private var hasCompletedOnboarding = false
     @StateObject private var photoLibraryService = PhotoLibraryService()
 
+    init() {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
+            _hasCompletedOnboarding = AppStorage(wrappedValue: false, "onboarding.uiTest.completed")
+        }
+        #endif
+    }
+
+    private var bypassOnboarding: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.arguments.contains("--ui-testing")
+            && !ProcessInfo.processInfo.arguments.contains("--onboarding-testing")
+        #else
+        false
+        #endif
+    }
+
+    private var testingColorScheme: ColorScheme? {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        return arguments.contains("--ui-testing") && arguments.contains("--dark-appearance") ? .dark : nil
+        #else
+        return nil
+        #endif
+    }
+
     var body: some View {
-        GifticonListView(photoLibraryService: photoLibraryService, modelContext: modelContext)
-            .task { await refresh() }
-            .onChange(of: scenePhase) { _, phase in
-                if phase == .active { Task { await refresh() } }
+        Group {
+            if hasCompletedOnboarding || bypassOnboarding {
+                GifticonListView(photoLibraryService: photoLibraryService, modelContext: modelContext)
+            } else {
+                OnboardingView { hasCompletedOnboarding = true }
             }
+        }
+        .tint(MoaconTheme.accent)
+        .preferredColorScheme(testingColorScheme)
+        .task { await refresh() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await refresh() } }
+        }
     }
 
     private func refresh() async {

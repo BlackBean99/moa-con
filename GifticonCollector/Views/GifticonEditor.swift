@@ -25,7 +25,7 @@ struct GifticonEditor: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("원본과 비교해 주세요") {
+                Section("쿠폰 정보") {
                     TextField("브랜드", text: $brand)
                     TextField("상품명", text: $title)
                     TextField("바코드 번호", text: $barcode).textInputAutocapitalization(.never).autocorrectionDisabled()
@@ -35,13 +35,13 @@ struct GifticonEditor: View {
                 Section {
                     Toggle("확인 필요에 보관", isOn: $needsReview)
                     if gifticon.needsReview {
-                        Button("기프티콘으로 확인하고 저장") { save(needsReview: false) }
+                        Button("쿠폰으로 보관") { save(needsReview: false) }
                     }
-                    Text("기프티콘이 맞으면 이 설정을 꺼주세요. 일반 바코드는 확인 필요에 남기거나 삭제할 수 있어요.").font(.footnote)
                 }
                 if let error { Section { Text(error).foregroundStyle(.red) } }
             }
-            .navigationTitle("쿠폰 정보 수정").navigationBarTitleDisplayMode(.inline)
+            .tint(MoaconTheme.accent)
+            .navigationTitle("정보 수정").navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("취소") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {

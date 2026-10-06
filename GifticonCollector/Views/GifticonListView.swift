@@ -1,6 +1,7 @@
 import Photos
 import SwiftData
 import SwiftUI
+import UserNotifications
 
 struct GifticonListView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -20,6 +21,8 @@ struct GifticonListView: View {
     @State private var showImport = false
     @State private var deletion: Gifticon?
     @State private var errorMessage: String?
+    @State private var offerSettings = false
+    @Environment(\.openURL) private var openURL
 
     private var visibleGifticons: [Gifticon] {
         gifticons.filter { filter.includes($0) }
@@ -33,58 +36,28 @@ struct GifticonListView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("모아두고, 제때 쓰세요.").font(.title2.bold()).foregroundStyle(ClayTheme.ink)
-                        Text("쓸 수 있는 쿠폰 \(gifticons.filter { WalletFilter.available.includes($0) }.count)개 · 만료 가까운 순")
-                            .font(.subheadline).foregroundStyle(ClayTheme.mutedInk)
-                        let actionsLayout = dynamicTypeSize.isAccessibilitySize
-                            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
-                            : AnyLayout(HStackLayout(spacing: 12))
-                        actionsLayout {
-                            Button { showImport = true } label: { Label("사진 추가", systemImage: "plus") }
-                                .buttonStyle(ClayPrimaryButtonStyle())
-                            Button {
-                                scanTask = Task {
-                                    if photoLibraryService.authorizationStatus == .notDetermined {
-                                        _ = await photoLibraryService.requestReadWriteAuthorization()
-                                    }
-                                    if [.authorized, .limited].contains(photoLibraryService.authorizationStatus) {
-                                        await scanViewModel.scanAll()
-                                    } else {
-                                        errorMessage = "자동 찾기는 사진 접근 권한이 필요해요. 사진 추가는 권한 없이 사용할 수 있습니다."
-                                    }
-                                }
-                            } label: { Label("자동 찾기", systemImage: "sparkle.magnifyingglass") }
-                                .buttonStyle(.bordered).disabled(scanViewModel.isScanning)
-                        }
-                        Text("사진은 이 기기에서 분석해요. 선택한 원본은 쿠폰과 함께 보관합니다.")
-                            .font(.caption).foregroundStyle(ClayTheme.mutedInk)
-                    }
-                    .padding(.vertical, 8)
-                }.listRowBackground(Color.clear)
                 if filter != .review {
                     let reviewCount = gifticons.filter(\.needsReview).count
                     if reviewCount > 0 {
                         Button { filter = .review } label: {
-                            Label("확인할 바코드 \(reviewCount)개 · 원본 확인하기", systemImage: "questionmark.circle")
-                        }.listRowBackground(ClayTheme.butter.opacity(0.25))
+                            Label("확인 필요 \(reviewCount)개", systemImage: "questionmark.circle")
+                        }
                     }
                 }
                 if scanViewModel.isScanning {
-                    ScanProgressBanner(viewModel: scanViewModel).listRowBackground(Color.clear)
-                    Button("중단") { scanTask?.cancel() }.listRowBackground(Color.clear)
+                    ScanProgressBanner(viewModel: scanViewModel)
+                    Button("중단") { scanTask?.cancel() }
                 }
                 if let result = scanViewModel.resultMessage {
                     Label(result, systemImage: "checkmark.circle").font(.subheadline)
-                        .listRowBackground(ClayTheme.mint.opacity(0.3))
+
                 }
                 if let error = scanViewModel.errorMessage {
                     Text(error).foregroundStyle(.red)
                 }
                 if photoLibraryService.authorizationStatus == .limited {
                     LimitedAccessBanner(photoLibraryService: photoLibraryService)
-                        .listRowInsets(EdgeInsets()).listRowBackground(Color.clear)
+
                 }
                 Section {
                     if dynamicTypeSize.isAccessibilitySize {
@@ -96,54 +69,96 @@ struct GifticonListView: View {
                             ForEach(WalletFilter.allCases) { value in Text(value.rawValue).tag(value) }
                         }.pickerStyle(.segmented).listRowBackground(Color.clear)
                     }
-                    if filter == .review {
-                        Text("일반 바코드일 수도 있어요. 원본을 보고 기프티콘인지 확인해 주세요.")
-                            .font(.footnote).foregroundStyle(ClayTheme.mutedInk).listRowBackground(Color.clear)
-                    }
+                }
+                Section {
                     if visibleGifticons.isEmpty {
-                        ContentUnavailableView(searchText.isEmpty ? filter.emptyTitle : "검색 결과가 없어요",
+                        ContentUnavailableView(searchText.isEmpty ? filter.emptyTitle : "검색 결과 없음",
                             systemImage: searchText.isEmpty ? "gift" : "magnifyingglass",
-                            description: Text(searchText.isEmpty ? filter.emptyDescription : "브랜드나 상품명을 바꿔 검색해 보세요."))
+                            description: Text(searchText.isEmpty ? filter.emptyDescription : ""))
                             .listRowBackground(Color.clear)
                     }
                     ForEach(visibleGifticons) { gifticon in
                         NavigationLink(value: gifticon) {
                             GifticonRow(gifticon: gifticon, photoLibraryService: photoLibraryService)
                         }
-                        .listRowSeparator(.hidden).listRowBackground(Color.clear)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button(role: .destructive) { deletion = gifticon } label: { Label("삭제", systemImage: "trash") }
                         }
                     }
+                } header: {
+                    Text("\(visibleGifticons.count)개" + (filter == .available ? " · 만료일순" : ""))
                 }
             }
-            .listStyle(.plain).scrollContentBackground(.hidden).background(ClayTheme.canvas)
+            .listStyle(.insetGrouped).scrollContentBackground(.hidden).background(MoaconTheme.canvas)
             .navigationTitle("모아콘").navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: Gifticon.self) { gifticon in
                 GifticonDetailView(gifticon: gifticon, photoLibraryService: photoLibraryService)
             }
             .searchable(text: $searchText, prompt: "브랜드·상품 검색")
-            .tint(ClayTheme.ink)
+            .tint(MoaconTheme.accent)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button("자동 찾기", systemImage: "photo.badge.magnifyingglass", action: startScan)
+                            .disabled(scanViewModel.isScanning)
+                        Button("알림 설정", systemImage: "bell") {
+                            Task {
+                                let settings = await UNUserNotificationCenter.current().notificationSettings()
+                                if settings.authorizationStatus == .notDetermined {
+                                    await NotificationService.requestAuthorization()
+                                } else {
+                                    openSettings()
+                                }
+                            }
+                        }
+                    } label: { Label("더 보기", systemImage: "ellipsis") }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showImport = true } label: { Label("사진 추가", systemImage: "plus") }
+                        .accessibilityIdentifier("wallet.add")
+                }
+            }
             .sheet(isPresented: $showImport) {
                 NavigationStack {
                     ManualImportView(photoLibraryService: photoLibraryService)
                         .toolbar { ToolbarItem(placement: .confirmationAction) { Button("닫기") { showImport = false } } }
                 }
             }
-            .confirmationDialog("이 항목을 보관함에서 삭제할까요?", isPresented: Binding(get: { deletion != nil }, set: { if !$0 { deletion = nil } }), titleVisibility: .visible) {
+            .confirmationDialog("보관함에서 삭제할까요?", isPresented: Binding(get: { deletion != nil }, set: { if !$0 { deletion = nil } }), titleVisibility: .visible) {
                 Button("삭제", role: .destructive) {
                     guard let item = deletion else { return }
                     do { try PersistenceService(modelContext: modelContext).delete(item) }
-                    catch { modelContext.rollback(); errorMessage = "삭제하지 못했어요. 다시 시도해 주세요." }
+                    catch { modelContext.rollback(); offerSettings = false; errorMessage = "삭제하지 못했어요. 다시 시도해 주세요." }
                     deletion = nil
                 }
                 Button("취소", role: .cancel) { deletion = nil }
             }
-            .alert("확인해 주세요", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+            .alert("작업을 완료하지 못했어요", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+                if offerSettings { Button("설정 열기") { openSettings() } }
                 Button("확인", role: .cancel) { errorMessage = nil }
             } message: { Text(errorMessage ?? "") }
         }
     }
+
+    private func startScan() {
+        offerSettings = false
+        scanTask = Task {
+            if photoLibraryService.authorizationStatus == .notDetermined {
+                _ = await photoLibraryService.requestReadWriteAuthorization()
+            }
+            if [.authorized, .limited].contains(photoLibraryService.authorizationStatus) {
+                await scanViewModel.scanAll()
+            } else {
+                offerSettings = true
+                errorMessage = "자동 찾기에 사진 접근이 필요합니다."
+            }
+        }
+    }
+
+    private func openSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+    }
+
 }
 
 enum WalletFilter: String, CaseIterable, Identifiable {
@@ -158,16 +173,16 @@ enum WalletFilter: String, CaseIterable, Identifiable {
     }
     var emptyTitle: String {
         switch self {
-        case .available: "쓸 쿠폰을 모아볼까요?"
-        case .review: "확인할 항목이 없어요"
-        case .archived: "지난 쿠폰이 없어요"
+        case .available: "쿠폰 없음"
+        case .review: "확인할 항목 없음"
+        case .archived: "지난 쿠폰 없음"
         }
     }
     var emptyDescription: String {
         switch self {
-        case .available: "사진 추가나 자동 찾기로 시작하세요."
-        case .review: "확실하지 않은 바코드는 여기에 따로 보관해요."
-        case .archived: "사용 완료하거나 만료된 쿠폰을 모아둡니다."
+        case .available: "+ 버튼으로 사진 추가"
+        case .review: ""
+        case .archived: ""
         }
     }
 }
@@ -180,13 +195,10 @@ private struct ScanProgressBanner: View {
             Label(viewModel.phaseTitle, systemImage: "sparkle.magnifyingglass")
                 .font(.subheadline.weight(.semibold))
             ProgressView(value: Double(viewModel.processedCount), total: Double(max(viewModel.totalCount, 1)))
-            Text("화면을 계속 사용할 수 있어요 · \(viewModel.processedCount)/\(viewModel.totalCount)")
+            Text("\(viewModel.processedCount)/\(viewModel.totalCount)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
-        .padding()
-        .clayCard(ClayTheme.butter, radius: 22)
-        .padding(.horizontal)
     }
 }
 
@@ -199,19 +211,13 @@ private struct LimitedAccessBanner: View {
             Image(systemName: "photo.badge.plus")
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 6) {
-                Text("선택한 사진만 보고 있어요").font(.headline)
-                Text("더 많은 기프티콘을 자동으로 찾으려면 사진을 추가로 선택해 주세요.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Button("더 많은 사진 선택") {
+                Text("선택한 사진에서 검색").font(.headline)
+                Button("사진 선택 변경") {
                     isPresentingLimitedPicker = true
                 }
                 .buttonStyle(.bordered)
             }
         }
-        .padding()
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
-        .padding()
         .accessibilityElement(children: .contain)
         .background {
             LimitedLibraryPickerPresenter(
@@ -244,38 +250,36 @@ private struct LimitedLibraryPickerPresenter: UIViewControllerRepresentable {
 }
 
 private struct GifticonRow: View {
-    @Environment(\.modelContext) private var modelContext
     let gifticon: Gifticon
     let photoLibraryService: PhotoLibraryService
 
     var body: some View {
-        HStack(spacing: 12) {
-            GifticonPhotoView(gifticon: gifticon, photoLibraryService: photoLibraryService, size: 72)
-            VStack(alignment: .leading, spacing: 4) {
+        HStack(alignment: .top, spacing: MoaconTheme.Space.medium) {
+            GifticonPhotoView(gifticon: gifticon, photoLibraryService: photoLibraryService, size: 56)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: MoaconTheme.Space.small) {
                 Text(gifticon.brand).font(.headline)
-                Text(gifticon.title).foregroundStyle(.secondary)
-                if let expiryDate = gifticon.expiryDate {
-                    Text("유효기간 \(expiryDate, format: .dateTime.year().month().day())")
-                        .font(.caption)
-                        .foregroundStyle(gifticon.isExpired() ? .red : .secondary)
+                Text(gifticon.title).font(.subheadline).foregroundStyle(.secondary)
+                if gifticon.needsReview {
+                    CouponStatus(title: "확인 필요", symbol: "questionmark.circle")
+                } else if gifticon.isUsed {
+                    CouponStatus(title: "사용 완료", symbol: "checkmark.circle")
+                } else if gifticon.isExpired() {
+                    CouponStatus(title: "만료", symbol: "calendar.badge.exclamationmark")
+                } else if let expiry = gifticon.expiryDate {
+                    let days = Calendar.current.dateComponents([.day], from: Calendar.current.startOfDay(for: .now), to: Calendar.current.startOfDay(for: expiry)).day ?? 0
+                    if days <= 7 {
+                        CouponStatus(title: days == 0 ? "오늘까지" : "D-\(days)")
+                    } else {
+                        Text(expiry, format: .dateTime.year().month().day()).font(.caption).foregroundStyle(.secondary)
+                    }
                 }
             }
-            Spacer()
-            if gifticon.needsReview {
-                ClayPill(title: "확인 필요", color: ClayTheme.butter)
-            } else if gifticon.isUsed {
-                ClayPill(title: "사용 완료", color: ClayTheme.mint)
-            } else if gifticon.isExpired() {
-                ClayPill(title: "만료", color: ClayTheme.butter)
-            } else if let expiry = gifticon.expiryDate {
-                let days = Calendar.current.dateComponents([.day], from: Calendar.current.startOfDay(for: .now), to: Calendar.current.startOfDay(for: expiry)).day ?? 0
-                if days <= 7 { ClayPill(title: days == 0 ? "오늘까지" : "D-\(days)", color: ClayTheme.butter) }
-            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(12)
-        .clayCard(gifticon.isUsed ? ClayTheme.mint.opacity(0.55) : .white, radius: 22)
-        .padding(.vertical, 5)
+        .padding(.vertical, MoaconTheme.Space.small)
     }
+
 }
 
 private struct GifticonPhotoView: View {

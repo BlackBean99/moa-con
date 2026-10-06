@@ -14,41 +14,36 @@ struct ManualImportView: View {
     private let parser = GifticonParser()
 
     var body: some View {
-        VStack(spacing: 20) {
-            ClayIcon(systemName: "photo.badge.exclamationmark", color: ClayTheme.butter, size: 74)
-            Text("사진으로 쿠폰 추가")
-                .font(.title2.bold())
-                .foregroundStyle(ClayTheme.ink)
-            Text("한 장을 선택하면 이 기기에서 인식해요. 확실하지 않은 바코드는 확인 필요에 보관합니다.")
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-            PhotosPicker(selection: $selectedItem, matching: .images) {
-                Label("사진 한 장 선택", systemImage: "photo")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(ClayPrimaryButtonStyle(color: ClayTheme.coral))
-            .disabled(isImporting)
-            .onChange(of: selectedItem) { _, newItem in
-                guard let newItem else { return }
-                Task { await importSinglePhoto(newItem) }
-            }
-            if isImporting {
-                ProgressView("사진 인식 중…")
-            }
-            if let message {
-                Text(message)
-                    .font(.footnote)
+        ScrollView {
+            VStack(spacing: MoaconTheme.Space.large) {
+                Image(systemName: "photo.on.rectangle")
+                    .font(.largeTitle)
                     .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
+                    .accessibilityHidden(true)
+                PhotosPicker(selection: $selectedItem, matching: .images) {
+                    Label("사진 한 장 선택", systemImage: "plus")
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(MoaconPrimaryButtonStyle())
+                .disabled(isImporting)
+                .onChange(of: selectedItem) { _, newItem in
+                    guard let newItem else { return }
+                    Task { await importSinglePhoto(newItem) }
+                }
+                if isImporting { ProgressView("인식 중") }
+                if let message {
+                    Text(message).font(.subheadline).multilineTextAlignment(.center)
+                        .accessibilityIdentifier("import.result")
+                }
             }
-            if photoLibraryService.authorizationStatus == .denied {
-                Text("자동 스캔을 사용하려면 설정에서 사진 접근 권한을 변경할 수 있습니다.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
+            .frame(maxWidth: 440)
+            .padding(MoaconTheme.Space.page)
+            .frame(maxWidth: .infinity)
         }
-        .padding(24)
-        .background(ClayTheme.canvas.ignoresSafeArea())
+        .background(MoaconTheme.canvas)
+        .navigationTitle("사진 추가")
+        .navigationBarTitleDisplayMode(.inline)
+        .tint(MoaconTheme.accent)
     }
 
     private func importSinglePhoto(_ item: PhotosPickerItem) async {
@@ -69,16 +64,20 @@ struct ManualImportView: View {
 
             let barcodes = try await ocrService.detectBarcodes(from: cgImage)
             guard !barcodes.isEmpty else {
-                message = "바코드가 있는 기프트콘 사진만 등록할 수 있습니다."
+                message = "바코드를 찾지 못했어요."
                 return
             }
             let text = try await ocrService.recognizeText(from: cgImage)
             guard let parsed = parser.parse(text: text, barcodeValues: barcodes) else {
-                message = "기프트콘으로 인식할 수 있는 정보를 찾지 못했습니다."
+                message = "쿠폰 정보를 찾지 못했어요."
                 return
             }
 
             let persistenceService = PersistenceService(modelContext: modelContext)
+            if try persistenceService.contains(barcode: parsed.barcodeNumber ?? "") {
+                message = "이미 보관한 쿠폰입니다."
+                return
+            }
             let filename = try SharedImageInbox.enqueue(imageData: data)
             guard let storedURL = SharedImageInbox.url(for: filename) else { throw SharedImageInbox.InboxError.unavailable }
             try SharedImageInbox.archive(storedURL)
@@ -86,9 +85,9 @@ struct ManualImportView: View {
                 parsed: parsed,
                 assetLocalIdentifier: "shared:\(filename)"
             )
-            message = parsed.needsReview ? "확인 필요에 보관했어요. 보관함에서 원본을 확인해 주세요." : "보관함에 추가했어요. 같은 바코드는 중복 저장하지 않습니다."
+            message = parsed.needsReview ? "확인 필요에 추가했어요." : "보관함에 추가했어요."
         } catch {
-            message = "사진 인식에 실패했습니다. 다시 시도해 주세요."
+            message = "사진을 추가하지 못했어요. 다시 시도해 주세요."
         }
     }
 }

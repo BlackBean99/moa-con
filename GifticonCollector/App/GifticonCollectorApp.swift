@@ -15,8 +15,13 @@ struct GifticonCollectorApp: App {
             let container: ModelContainer
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
+                if ProcessInfo.processInfo.arguments.contains("--reset-onboarding") {
+                    UserDefaults.standard.removeObject(forKey: "onboarding.uiTest.completed")
+                }
                 container = try ModelContainer(for: Gifticon.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-                try Self.seedPreview(container)
+                if !ProcessInfo.processInfo.arguments.contains("--onboarding-testing") {
+                    try Self.seedPreview(container)
+                }
             } else { container = try ModelContainer(for: Gifticon.self) }
             #else
             container = try ModelContainer(for: Gifticon.self)
@@ -77,13 +82,15 @@ private struct StoreUnavailableView: View {
 
     var body: some View {
         ContentUnavailableView {
-            Label("기프트콘 저장소를 열 수 없습니다", systemImage: "externaldrive.badge.exclamationmark")
+            Label("보관함을 열 수 없어요", systemImage: "externaldrive.badge.exclamationmark")
         } description: {
-            Text("앱을 종료한 후 다시 실행해 주세요. 문제가 계속되면 앱을 재설치하기 전에 저장된 기프트콘 데이터를 백업할 수 있는지 확인해 주세요.")
-            Text(message)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .textSelection(.enabled)
+            Text("앱을 다시 실행해 주세요. 저장된 쿠폰을 지우지 않으려면 앱 삭제는 피해주세요.")
+            DisclosureGroup("오류 정보") {
+                Text(message)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
+            }
         }
     }
 }

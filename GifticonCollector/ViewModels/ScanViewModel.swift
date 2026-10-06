@@ -9,7 +9,7 @@ final class ScanViewModel: ObservableObject {
     @Published private(set) var totalCount = 0
     @Published private(set) var candidateCount = 0
     @Published private(set) var resultMessage: String?
-    @Published private(set) var phaseTitle = "사진에서 바코드 찾는 중"
+    @Published private(set) var phaseTitle = "바코드 찾는 중"
     @Published var errorMessage: String?
 
     private let photoLibraryService: PhotoLibraryService
@@ -31,7 +31,7 @@ final class ScanViewModel: ObservableObject {
         defer { isScanning = false }
         errorMessage = nil
         resultMessage = nil
-        phaseTitle = "사진에서 바코드 찾는 중"
+        phaseTitle = "바코드 찾는 중"
         processedCount = 0
         let assets = photoLibraryService.fetchImageAssets()
         totalCount = assets.count
@@ -39,7 +39,7 @@ final class ScanViewModel: ObservableObject {
         let candidates = await candidateService.findCandidates(in: assets) { [weak self] processed in
             self?.processedCount = processed
         }
-        phaseTitle = "쿠폰 정보 확인 중"
+        phaseTitle = "쿠폰 확인 중"
         candidateCount = candidates.count
         processedCount = 0
         totalCount = candidates.count

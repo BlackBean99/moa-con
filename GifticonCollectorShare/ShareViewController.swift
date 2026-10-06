@@ -19,7 +19,7 @@ final class ShareViewController: UIViewController {
             provider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, _ in
                 defer { group.leave() }
                 guard let data else { return }
-                try? SharedImageInbox.enqueue(imageData: data)
+                _ = try? SharedImageInbox.enqueue(imageData: data)
             }
         }
         group.notify(queue: .main) { self.finish() }

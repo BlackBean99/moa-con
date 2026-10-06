@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111C81740A5244E7A3D92611 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111C81740A5244E7A3D92610 /* OnboardingView.swift */; };
 		07A74A1007034CE024C58334 /* WalletFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */; };
 		146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2B006CF9E9F7C5FE1F34D55D /* ZoomableCouponImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */; };
@@ -28,7 +29,7 @@
 		AE8CF3E561BB91DFB762B210 /* GifticonScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C352498F8FF331235689437E /* GifticonScanResult.swift */; };
 		B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6F0D0664F6409AC6C445B6 /* ScanViewModel.swift */; };
 		B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF0DFA3A74621034ED948A3 /* Gifticon.swift */; };
-		BD3CE4FAAFF7DFD5104C7B8B /* ClayDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB19E590961065596AD63B /* ClayDesignSystem.swift */; };
+		BD3CE4FAAFF7DFD5104C7B8B /* MoaconDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BB19E590961065596AD63B /* MoaconDesignSystem.swift */; };
 		C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */; };
 		C635043BC48B47A576E9892B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC4B3510AA4F94EE6A71F4CC /* Assets.xcassets */; };
 		CC8FAA24B54E80270396BB05 /* GifticonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7412033B11880B1F583F9DB /* GifticonListView.swift */; };
@@ -78,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		111C81740A5244E7A3D92610 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		02CD008814EC588B16D927C8 /* GifticonCollectorUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GifticonCollectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualImportView.swift; sourceTree = "<group>"; };
 		094395273C8D67873CF7C96C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -100,7 +102,7 @@
 		977774149CCAD1F707AD8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9A8E3435B0EBB387251A489B /* GifticonEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonEditor.swift; sourceTree = "<group>"; };
 		9DFAFC65C12D591D9163EACE /* GifticonCollector.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GifticonCollector.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5BB19E590961065596AD63B /* ClayDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClayDesignSystem.swift; sourceTree = "<group>"; };
+		A5BB19E590961065596AD63B /* MoaconDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoaconDesignSystem.swift; sourceTree = "<group>"; };
 		A7412033B11880B1F583F9DB /* GifticonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonListView.swift; sourceTree = "<group>"; };
 		AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = GifticonCollectorShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonClassifier.swift; sourceTree = "<group>"; };
@@ -157,11 +159,12 @@
 		6E4AED3AB4CCE9B289180FB3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A5BB19E590961065596AD63B /* ClayDesignSystem.swift */,
+				A5BB19E590961065596AD63B /* MoaconDesignSystem.swift */,
 				E88C5C65E3FAED46010EC514 /* GifticonDetailView.swift */,
 				9A8E3435B0EBB387251A489B /* GifticonEditor.swift */,
 				A7412033B11880B1F583F9DB /* GifticonListView.swift */,
 				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
+				111C81740A5244E7A3D92610 /* OnboardingView.swift */,
 				2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */,
 				F76E830C949E75CD825CA9FE /* ScanView.swift */,
 				9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */,
@@ -414,7 +417,7 @@
 				A7BA6B50C5EE0001E32AF557 /* AppDelegate.swift in Sources */,
 				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
 				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
-				BD3CE4FAAFF7DFD5104C7B8B /* ClayDesignSystem.swift in Sources */,
+				BD3CE4FAAFF7DFD5104C7B8B /* MoaconDesignSystem.swift in Sources */,
 				B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */,
 				6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */,
 				AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */,
@@ -427,6 +430,7 @@
 				9E77E665D01106D665431898 /* NotificationService.swift in Sources */,
 				E43750D18182F895A28F377A /* OCRService.swift in Sources */,
 				8937B11D83EF6DEEBB147FF1 /* PersistenceService.swift in Sources */,
+				111C81740A5244E7A3D92611 /* OnboardingView.swift in Sources */,
 				D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */,
 				ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */,
 				6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */,
@@ -607,7 +611,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -615,7 +619,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
 				PRODUCT_NAME = GifticonCollectorShare;
 				SDKROOT = iphoneos;
@@ -682,7 +686,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GifticonCollector/Resources/GifticonCollectorShare.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				INFOPLIST_FILE = GifticonCollectorShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -690,7 +694,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourteam.gifticoncollector.share;
 				PRODUCT_NAME = GifticonCollectorShare;
 				SDKROOT = iphoneos;

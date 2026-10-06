@@ -4,57 +4,46 @@ import SwiftUI
 
 struct ScanView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var photoLibraryService: PhotoLibraryService
     @StateObject private var viewModel: ScanViewModel
+    @State private var task: Task<Void, Never>?
 
     init(photoLibraryService: PhotoLibraryService, modelContext: ModelContext) {
+        self.photoLibraryService = photoLibraryService
         _viewModel = StateObject(wrappedValue: ScanViewModel(
-            photoLibraryService: photoLibraryService,
-            modelContext: modelContext
+            photoLibraryService: photoLibraryService, modelContext: modelContext
         ))
     }
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
+            Form {
                 if viewModel.isScanning {
-                    ProgressView(value: Double(viewModel.processedCount), total: Double(max(viewModel.totalCount, 1)))
-                        .padding(.horizontal)
-                    ClayIcon(systemName: "sparkle.magnifyingglass", color: ClayTheme.butter, size: 76)
-                    Text("사진을 살펴보고 있어요")
-                        .font(.title2.bold())
-                        .foregroundStyle(ClayTheme.ink)
-                    Text("바코드 후보를 찾거나 OCR 중이에요… \(viewModel.processedCount)/\(viewModel.totalCount)")
-                        .foregroundStyle(.secondary)
-                    if viewModel.candidateCount > 0 {
-                        Text("OCR 대상 후보 \(viewModel.candidateCount)장")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                    Section(viewModel.phaseTitle) {
+                        ProgressView(value: Double(viewModel.processedCount), total: Double(max(viewModel.totalCount, 1)))
+                        Text("\(viewModel.processedCount)/\(viewModel.totalCount)").monospacedDigit()
+                        Button("중단") { task?.cancel() }
                     }
                 } else {
-                    ClayIcon(systemName: "wand.and.stars", color: ClayTheme.lilac, size: 86)
-                    Text("사진 라이브러리에서 기프티콘을 찾아 등록합니다.")
-                        .multilineTextAlignment(.center)
-                    Button("전체 사진 스캔 시작") {
-                        Task { await viewModel.scanAll() }
+                    Button("자동 찾기", systemImage: "photo.badge.magnifyingglass") {
+                        task = Task {
+                            if photoLibraryService.authorizationStatus == .notDetermined {
+                                _ = await photoLibraryService.requestReadWriteAuthorization()
+                            }
+                            await viewModel.scanAll()
+                        }
                     }
-                    .buttonStyle(ClayPrimaryButtonStyle())
                 }
-                if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                Spacer()
+                if let result = viewModel.resultMessage { Text(result) }
+                if let error = viewModel.errorMessage { Text(error).foregroundStyle(.red) }
             }
-            .padding(24)
-            .background(ClayTheme.canvas.ignoresSafeArea())
-            .navigationTitle("기프티콘 스캔")
+            .navigationTitle("자동 찾기")
             .navigationBarTitleDisplayMode(.inline)
+            .tint(MoaconTheme.accent)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("닫기") { dismiss() }
-                }
+                ToolbarItem(placement: .cancellationAction) { Button("닫기") { dismiss() } }
             }
+            .onDisappear { task?.cancel() }
         }
     }
 }

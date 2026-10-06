@@ -17,33 +17,30 @@ struct GifticonDetailView: View {
 
     var body: some View {
         Form {
+            Section {
+                GifticonHeroImage(gifticon: gifticon, photoLibraryService: photoLibraryService) { expandedImage = $0 }
+                    .frame(maxWidth: .infinity)
+                    .listRowInsets(EdgeInsets())
+                    .accessibilityIdentifier("coupon.original")
+            }
             if gifticon.needsReview {
                 Section {
-                    Label("기프티콘인지 확인해 주세요", systemImage: "questionmark.circle")
-                    Text("일반 바코드일 수도 있어요. 원본과 정보를 확인한 뒤 보관함으로 옮길 수 있습니다.").font(.footnote)
-                    Button("정보 확인하고 보관하기") { showEditor = true }
+                    Label("쿠폰 확인", systemImage: "questionmark.circle")
+                    Button("정보 확인") { showEditor = true }
                 }
             }
             Section {
-                Button(gifticon.isUsed ? "사용 처리 취소" : "사용 완료 처리") {
+                Button(gifticon.isUsed ? "사용 취소" : "사용 완료") {
                     do {
                         try PersistenceService(modelContext: modelContext).toggleUsed(gifticon)
                     } catch {
                         errorMessage = error.localizedDescription
                     }
                 }
-                .foregroundStyle(ClayTheme.ink)
                 .disabled(gifticon.needsReview)
             }
 
-            Section {
-                GifticonHeroImage(gifticon: gifticon, photoLibraryService: photoLibraryService) { expandedImage = $0 }
-                    .frame(maxWidth: .infinity)
-                    .listRowInsets(EdgeInsets())
-                    .accessibilityIdentifier("coupon.original")
-                    .clayCard(ClayTheme.lilac, radius: 28)
-            }
-            Section("기프티콘 정보") {
+            Section("쿠폰 정보") {
                 infoRow("브랜드", gifticon.brand)
                 infoRow("상품", gifticon.title)
                 infoRow("바코드", gifticon.barcodeNumber ?? "-")
@@ -67,18 +64,15 @@ struct GifticonDetailView: View {
                                 TextField("차감할 금액", text: $deductionText)
                                     .keyboardType(.decimalPad)
                                 Button("차감") { deduct() }
-                                    .buttonStyle(.borderedProminent)
+                                    .buttonStyle(MoaconPrimaryButtonStyle())
                             }
                         }
                     } else {
-                        Text("금액이 인식되지 않았습니다. 직접 입력하면 차감 기능을 사용할 수 있습니다.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
                         HStack {
                             TextField("처음 금액", text: $initialAmountText)
                                 .keyboardType(.decimalPad)
                             Button("저장") { setInitialAmount() }
-                                .buttonStyle(.borderedProminent)
+                                .buttonStyle(MoaconPrimaryButtonStyle())
                         }
                     }
                 }
@@ -93,8 +87,8 @@ struct GifticonDetailView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .background(ClayTheme.canvas)
-        .tint(ClayTheme.ink)
+        .background(MoaconTheme.canvas)
+        .tint(MoaconTheme.accent)
         .navigationTitle(gifticon.brand)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("수정") { showEditor = true } } }
@@ -102,11 +96,11 @@ struct GifticonDetailView: View {
         .fullScreenCover(isPresented: Binding(get: { expandedImage != nil }, set: { if !$0 { expandedImage = nil } })) {
             NavigationStack {
                 ZoomableCouponImage(image: expandedImage).background(.white)
-                    .navigationTitle("매장에 보여주세요").navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("원본").navigationBarTitleDisplayMode(.inline)
                     .toolbar { ToolbarItem(placement: .confirmationAction) { Button("닫기") { expandedImage = nil } } }
             }
         }
-        .alert("이 항목을 보관함에서 삭제할까요?", isPresented: $showDeleteConfirmation) {
+        .alert("보관함에서 삭제할까요?", isPresented: $showDeleteConfirmation) {
             Button("삭제", role: .destructive) {
                 do { try PersistenceService(modelContext: modelContext).delete(gifticon); dismiss() }
                 catch { errorMessage = "삭제하지 못했어요. 다시 시도해 주세요." }
@@ -182,11 +176,11 @@ private struct GifticonHeroImage: View {
                     }
                 }.buttonStyle(.plain)
             } else {
-                ContentUnavailableView(loadFailed ? "원본 사진을 찾을 수 없어요" : "사진을 불러오는 중", systemImage: "photo", description: Text(loadFailed ? "사진 접근 권한 또는 원본 삭제 여부를 확인해 주세요." : ""))
+                ContentUnavailableView(loadFailed ? "원본 없음" : "불러오는 중", systemImage: "photo", description: Text(loadFailed ? "사진 권한 또는 원본을 확인해 주세요." : ""))
             }
         }
         .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 260)
-        .background(Color(uiColor: .secondarySystemBackground))
+        .background(MoaconTheme.surface)
         .task {
             if gifticon.assetLocalIdentifier.hasPrefix("shared:") {
                 image = try? photoLibraryService.loadSharedUIImage(filename: String(gifticon.assetLocalIdentifier.dropFirst("shared:".count)))

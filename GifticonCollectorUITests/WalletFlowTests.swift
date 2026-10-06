@@ -12,14 +12,15 @@ final class WalletFlowTests: XCTestCase {
         capture("01-wallet")
         app.buttons["확인 필요"].tap()
         app.staticTexts["멤버십 카드"].tap()
-        XCTAssertTrue(app.buttons["사용 완료 처리"].exists)
-        XCTAssertFalse(app.buttons["사용 완료 처리"].isEnabled)
-        app.buttons["정보 확인하고 보관하기"].tap()
-        app.buttons["기프티콘으로 확인하고 저장"].tap()
-        XCTAssertTrue(app.buttons["사용 완료 처리"].isEnabled)
+        XCTAssertTrue(app.buttons["사용 완료"].exists)
+        XCTAssertFalse(app.buttons["사용 완료"].isEnabled)
+        app.buttons["정보 확인"].tap()
+        app.buttons["쿠폰으로 보관"].tap()
+        XCTAssertTrue(app.buttons["사용 완료"].isEnabled)
+        XCTAssertTrue(app.navigationBars["정보 수정"].waitForNonExistence(timeout: 3))
         capture("02-approved-detail")
-        app.buttons["사용 완료 처리"].tap()
-        XCTAssertTrue(app.buttons["사용 처리 취소"].exists)
+        app.buttons["사용 완료"].tap()
+        XCTAssertTrue(app.buttons["사용 취소"].exists)
     }
 
     @MainActor
@@ -34,7 +35,7 @@ final class WalletFlowTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["아메리카노 Tall"].exists)
         app.staticTexts["아메리카노 Tall"].tap()
         app.buttons["원본 크게 보기"].tap()
-        XCTAssertTrue(app.navigationBars["매장에 보여주세요"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.navigationBars["원본"].waitForExistence(timeout: 3))
         capture("03-original")
         app.buttons["닫기"].tap()
         app.buttons["수정"].tap()
@@ -65,6 +66,59 @@ final class WalletFlowTests: XCTestCase {
         app.buttons["삭제"].tap()
         XCTAssertTrue(app.navigationBars["모아콘"].waitForExistence(timeout: 3))
         XCTAssertFalse(app.staticTexts["아메리카노 Tall"].exists)
+    }
+
+    @MainActor
+    func testOnboardingCompletesOnceWithoutPermissionPrompt() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--onboarding-testing", "--reset-onboarding", "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
+        app.launch()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 10))
+        XCTAssertEqual(XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.count, 0)
+        capture("04-onboarding")
+        app.buttons["onboarding.start"].tap()
+        XCTAssertTrue(app.navigationBars["모아콘"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["쿠폰 없음"].exists)
+        XCTAssertEqual(XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.count, 0)
+        app.terminate()
+        app.launchArguments.removeAll { $0 == "--reset-onboarding" }
+        app.launch()
+        XCTAssertTrue(app.navigationBars["모아콘"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["onboarding.start"].exists)
+    }
+
+    @MainActor
+    func testLargeTextAndDarkAppearanceKeepCoreActionsAccessible() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR",
+                               "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL", "--dark-appearance"]
+        app.launch()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["아메리카노 Tall"].exists)
+        app.collectionViews.firstMatch.swipeUp()
+        capture("05-wallet-large-dark")
+        app.buttons["wallet.add"].tap()
+        XCTAssertTrue(app.buttons["사진 한 장 선택"].waitForExistence(timeout: 5))
+        capture("06-import-large-dark")
+        app.buttons["닫기"].tap()
+        app.staticTexts["아메리카노 Tall"].tap()
+        XCTAssertTrue(app.buttons["원본 크게 보기"].waitForExistence(timeout: 5))
+        capture("07-detail-large-dark")
+    }
+
+    @MainActor
+    func testOnboardingAtLargestTextSize() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--onboarding-testing", "--reset-onboarding", "--dark-appearance",
+                               "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR",
+                               "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
+        app.launch()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 10))
+        if !app.buttons["onboarding.start"].isHittable { app.scrollViews.firstMatch.swipeUp() }
+        XCTAssertTrue(app.buttons["onboarding.start"].isHittable)
+        capture("08-onboarding-large-dark")
+        app.buttons["onboarding.start"].tap()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 5))
     }
 
     @MainActor
