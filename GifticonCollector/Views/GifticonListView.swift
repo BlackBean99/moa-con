@@ -23,6 +23,7 @@ struct GifticonListView: View {
     @State private var filter = WalletFilter.available
     @State private var showImport = false
     @State private var showPrivacy = false
+    @State private var showReminderSettings = false
     @State private var showImportQueue = false
     @State private var pendingImportCount = 0
     @State private var deletion: Gifticon?
@@ -111,16 +112,7 @@ struct GifticonListView: View {
                     Menu {
                         Button("자동 찾기", systemImage: "photo.badge.magnifyingglass", action: startScan)
                             .disabled(scanViewModel.isScanning)
-                        Button("알림 설정", systemImage: "bell") {
-                            Task {
-                                let settings = await UNUserNotificationCenter.current().notificationSettings()
-                                if settings.authorizationStatus == .notDetermined {
-                                    await NotificationService.requestAuthorization()
-                                } else {
-                                    openSettings()
-                                }
-                            }
-                        }
+                        Button("알림 설정", systemImage: "bell") { showReminderSettings = true }
                         Button("가져오기 대기", systemImage: "tray") { showImportQueue = true }
                         Button("개인정보 처리", systemImage: "hand.raised") { showPrivacy = true }
                     } label: { Label("더 보기", systemImage: "ellipsis") }
@@ -133,6 +125,7 @@ struct GifticonListView: View {
             .task { refreshImportCount() }
             .onChange(of: importMessage) { _, _ in refreshImportCount() }
             .sheet(isPresented: $showImportQueue, onDismiss: refreshImportCount) { ImportQueueView() }
+            .sheet(isPresented: $showReminderSettings) { ReminderSettingsView() }
             .sheet(isPresented: $showPrivacy) { PrivacyPolicyView() }
             .sheet(isPresented: $showImport) {
                 NavigationStack {

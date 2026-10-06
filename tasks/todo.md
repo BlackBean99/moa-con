@@ -74,12 +74,12 @@
 
 ## T08: 만료 알림 예약과 갱신
 
-**Status:** planned
+**Status:** done
 **Depends:** T04
 **Acceptance:** 명시적 권한과 설정; 승인된 미사용 쿠폰만 예약; 수정/사용/삭제와 날짜 경계에서 갱신
 **Verify:** notification plan 단위 테스트 + settings UI
 **Files:** Services/NotificationService.swift, Services/PersistenceService.swift, Views/RootView.swift, Views/GifticonListView.swift
-**Evidence:** —
+**Evidence:** docs/qa/T08-reminders.md
 **Reason:** —
 
 ## T09: 출시 후보 회귀와 네이티브 배포

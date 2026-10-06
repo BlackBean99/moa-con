@@ -7,6 +7,7 @@ struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("onboarding.completed") private var hasCompletedOnboarding = false
     @State private var importMessage: String?
+    @State private var reminderTask: Task<Void, Never>?
     @StateObject private var photoLibraryService = PhotoLibraryService()
 
     init() {
@@ -46,8 +47,19 @@ struct RootView: View {
         .tint(MoaconTheme.accent)
         .preferredColorScheme(testingColorScheme)
         .task { await refresh() }
+        .onReceive(NotificationCenter.default.publisher(for: .couponStoreDidChange)) { _ in refreshReminders() }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in refreshReminders() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { Task { await refresh() } }
+        }
+    }
+
+    private func refreshReminders() {
+        reminderTask?.cancel()
+        reminderTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(300))
+            guard !Task.isCancelled else { return }
+            if let error = await NotificationService.synchronize(in: modelContext) { importMessage = error }
         }
     }
 
@@ -57,5 +69,6 @@ struct RootView: View {
         await photoLibraryService.preserveAccessibleOriginals(in: modelContext)
         let result = await SharedImportService(modelContext: modelContext).processPending()
         if let message = result.message { importMessage = message }
+        refreshReminders()
     }
 }

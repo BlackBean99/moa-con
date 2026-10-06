@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		07A74A1007034CE024C58334 /* WalletFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */; };
 		146D3DD8079799D15576C2C2 /* GifticonCollectorShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA6A5ACCEFB9E10F38B5CE1D /* GifticonCollectorShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1F30FE164C0E67E6FCC59746 /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1192DCAD8E9F68D183B79292 /* ReminderSettingsView.swift */; };
 		2B006CF9E9F7C5FE1F34D55D /* ZoomableCouponImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */; };
+		3BABF370C02CCE6066187B5B /* ExpiryReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5973588B6AD6FBC535B45E /* ExpiryReminderTests.swift */; };
 		4DC15A4F1E7CBF434741235F /* CouponForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7291D48EA7E65FC989E21181 /* CouponForm.swift */; };
 		52AB8C350750AB47E7F9FC62 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
 		55A592E15B559B51DF078BE2 /* SharedImageInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */; };
 		5D180D983FBB6747AE8960F5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094395273C8D67873CF7C96C /* ShareViewController.swift */; };
 		5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */; };
+		60AB8EBA203C44EFAE5D440B /* ExpiryReminderPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D84A7B1563CB471AEAD23B3 /* ExpiryReminderPlan.swift */; };
 		6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */; };
 		6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76E830C949E75CD825CA9FE /* ScanView.swift */; };
 		6E821464DC04DF9969943D46 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E00DE3333CDEA1380226E2 /* OnboardingView.swift */; };
@@ -88,10 +91,12 @@
 		0A46BB7805092E24433C319F /* GifticonCollector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GifticonCollector.entitlements; sourceTree = "<group>"; };
 		0CCF0DA0FE9DD52CBC86B4F8 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
 		0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeCandidateService.swift; sourceTree = "<group>"; };
+		1192DCAD8E9F68D183B79292 /* ReminderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsView.swift; sourceTree = "<group>"; };
 		126A2C16EA9A55158170C6B1 /* GifticonCollectorShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GifticonCollectorShare.entitlements; sourceTree = "<group>"; };
 		186BA66C88E206FA187653C5 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		20D1E16546BF157360F1CF10 /* SharedImageInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedImageInbox.swift; sourceTree = "<group>"; };
 		27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifticonParserTests.swift; sourceTree = "<group>"; };
+		2D84A7B1563CB471AEAD23B3 /* ExpiryReminderPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryReminderPlan.swift; sourceTree = "<group>"; };
 		2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		30E00DE3333CDEA1380226E2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		31DD09168115BD34F51FA92D /* ImportQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportQueueView.swift; sourceTree = "<group>"; };
@@ -103,6 +108,7 @@
 		751C5A42C163A8D7BC4A546E /* WalletFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFlowTests.swift; sourceTree = "<group>"; };
 		7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoaconDesignSystem.swift; sourceTree = "<group>"; };
 		7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceServiceTests.swift; sourceTree = "<group>"; };
+		8B5973588B6AD6FBC535B45E /* ExpiryReminderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryReminderTests.swift; sourceTree = "<group>"; };
 		9732AE6FDBF8010523D57E0A /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableCouponImage.swift; sourceTree = "<group>"; };
 		977774149CCAD1F707AD8DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 		287CD71458704D65876E6F51 /* GifticonCollectorTests */ = {
 			isa = PBXGroup;
 			children = (
+				8B5973588B6AD6FBC535B45E /* ExpiryReminderTests.swift */,
 				27080EF1448E3F69C46F17DD /* GifticonParserTests.swift */,
 				7FAACC211CF227C521EB9CB8 /* PersistenceServiceTests.swift */,
 			);
@@ -174,6 +181,7 @@
 				04D296BFFDAA3FD6F5DE3002 /* ManualImportView.swift */,
 				7DFBDF28861C2DFC8545589D /* MoaconDesignSystem.swift */,
 				30E00DE3333CDEA1380226E2 /* OnboardingView.swift */,
+				1192DCAD8E9F68D183B79292 /* ReminderSettingsView.swift */,
 				2DA6F4C0BE7CA95DDD9C11DC /* RootView.swift */,
 				F76E830C949E75CD825CA9FE /* ScanView.swift */,
 				9758194DC50524C850F6A649 /* ZoomableCouponImage.swift */,
@@ -225,6 +233,7 @@
 			children = (
 				FBB98F26A38C11946DC7C311 /* BackgroundScanCoordinator.swift */,
 				0E8FCF1762F5953E4463BCF8 /* BarcodeCandidateService.swift */,
+				2D84A7B1563CB471AEAD23B3 /* ExpiryReminderPlan.swift */,
 				AF5E8B66F419F0A32F1429AD /* GifticonClassifier.swift */,
 				4DF04452D5E89AE48D1533A2 /* GifticonParser.swift */,
 				186BA66C88E206FA187653C5 /* NotificationService.swift */,
@@ -415,6 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BABF370C02CCE6066187B5B /* ExpiryReminderTests.swift in Sources */,
 				9932CE142B101A65394DDD04 /* GifticonParserTests.swift in Sources */,
 				C489C63CECBE8FB656316C06 /* PersistenceServiceTests.swift in Sources */,
 			);
@@ -428,6 +438,7 @@
 				DDCAB0DC36B814B869E1443B /* BackgroundScanCoordinator.swift in Sources */,
 				5FC7388AEA9CE5A7B3F8164B /* BarcodeCandidateService.swift in Sources */,
 				4DC15A4F1E7CBF434741235F /* CouponForm.swift in Sources */,
+				60AB8EBA203C44EFAE5D440B /* ExpiryReminderPlan.swift in Sources */,
 				B5745F91F75839A5A8AD5EAD /* Gifticon.swift in Sources */,
 				6B2E4A615BE898ABD0027995 /* GifticonClassifier.swift in Sources */,
 				AADA9F0E23BFDE3D075018AF /* GifticonCollectorApp.swift in Sources */,
@@ -444,6 +455,7 @@
 				6E821464DC04DF9969943D46 /* OnboardingView.swift in Sources */,
 				8937B11D83EF6DEEBB147FF1 /* PersistenceService.swift in Sources */,
 				D0435E23E1D6D435A1FB692D /* PhotoLibraryService.swift in Sources */,
+				1F30FE164C0E67E6FCC59746 /* ReminderSettingsView.swift in Sources */,
 				ED0974CF0FDBA3E6C227903A /* RootView.swift in Sources */,
 				6CBE44A79C57B19F1C94DE18 /* ScanView.swift in Sources */,
 				B465CCB07F7F87EC6D7EBE38 /* ScanViewModel.swift in Sources */,

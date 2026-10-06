@@ -197,6 +197,30 @@ final class WalletFlowTests: XCTestCase {
     }
 
     @MainActor
+    func testExpiryNotificationsScheduleAndCancel() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "-AppleLanguages", "(ko)"]
+        app.launch()
+        XCTAssertTrue(app.buttons["wallet.add"].waitForExistence(timeout: 10))
+        app.buttons["더 보기"].tap(); app.buttons["알림 설정"].tap()
+        XCTAssertTrue(app.navigationBars["알림 설정"].waitForExistence(timeout: 5))
+        let toggle = app.switches["만료 알림"]
+        if toggle.value as? String == "1" { toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap() }
+        XCTAssertTrue(app.staticTexts["예약된 알림 0개"].waitForExistence(timeout: 5))
+        let monitor = addUIInterruptionMonitor(withDescription: "알림 권한") { alert in
+            for name in ["허용", "Allow"] where alert.buttons[name].exists { alert.buttons[name].tap(); return true }
+            return false
+        }
+        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
+        app.tap()
+        XCTAssertTrue(app.staticTexts["예약된 알림 1개"].waitForExistence(timeout: 10))
+        capture("13-expiry-scheduled")
+        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
+        XCTAssertTrue(app.staticTexts["예약된 알림 0개"].waitForExistence(timeout: 5))
+        removeUIInterruptionMonitor(monitor)
+    }
+
+    @MainActor
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name

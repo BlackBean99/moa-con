@@ -10,7 +10,7 @@ final class PersistenceService {
     }
 
     private func saveChanges() throws {
-        do { try modelContext.save() } catch { modelContext.rollback(); throw error }
+        do { try modelContext.save(); NotificationCenter.default.post(name: .couponStoreDidChange, object: nil) } catch { modelContext.rollback(); throw error }
     }
 
     func contains(barcode: String) throws -> Bool {
