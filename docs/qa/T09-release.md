@@ -32,3 +32,5 @@ Implement: T02–T08 구현과 각 증거 기록, 전체 회귀 및 네이티브
 
 - 최종 Simulator Release 설치·실행 성공(com.yourteam.gifticoncollector 프로세스 23067). actual-release-wallet.png에서 실제 Release 보관함 표시 확인. 기존 테스트 잔여 파일 14개가 복구 목록에 노출됐으며 실제 쿠폰은 없는 QA 상태다. 이 iPhone 17 Pro 화면은 제출 대표 규격 스크린샷으로 사용하지 않는다.
 - Photos에 합성 입력을 넣고 Library 표시까지 확인했지만 CUA 클릭은 windowNotFound/noWindowsAvailable 오류로 완료하지 못했다. 확장의 실제 공유 진입/재시도 통과로 기록하지 않는다.
+
+- 마지막 공유 실패 문구 보완 후 Archive/Simulator Release 빌드 재성공. 최종 실기기 설치와 Simulator 실행(23910) 확인. delivery-archive.log, delivery-simulator-build.log, delivery-device-install.log, delivery-simulator-launch.log. 실기기 최종 화면 과업은 여전히 미확인.

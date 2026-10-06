@@ -35,4 +35,4 @@ T01 5e82854, T02 6668505, T03 5c771a5, T05 bd9f9da, T04 d6d21a6, T06 01a1c30, T0
 
 9개 기능/관리 과업 done, T09–T11은 blocked. 정상 iPad/최소 OS/Photos 공유 호스트/원본 삭제·권한 변경/디스크 부족/iCloud 실제 과업과 제출 규격 화면이 남았다. 운영자/실제 지원·공개 정책 URL/심사 연락처, 유료 배포 팀 권한, Connect 등록·App Privacy·연령 응답·Validate가 필요하다. 실제 매장 판독/정확도/재방문을 자동 QA로 입증하지 않는다. 이미 삭제된 미복사 사진은 복구할 수 없다.
 
-최종 공유 확장 문구: 파일 저장 전 실패는 앱 복구 대기열에 있는 것으로 안내하지 않고 미저장/재시도/원본 재공유를 명시했다. 문구 수정 이후 네이티브 Release 빌드를 다시 검증한다.
+최종 공유 확장 문구: 파일 저장 전 실패는 앱 복구 대기열에 있는 것으로 안내하지 않고 미저장/재시도/원본 재공유를 명시했다. 문구 수정 이후 네이티브 Release Archive와 Simulator Release 빌드 모두 다시 성공. 최종 실기기 설치 완료(delivery-device-install.log), Simulator 실행 성공(프로세스 23910, delivery-simulator-launch.log). 최종 공유 문구 커밋 b2b4f14도 원격 전달 및 Task integrity CI 성공.
